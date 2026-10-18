@@ -23,6 +23,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const [isLight, setIsLight] = useState(() => {
+    if (typeof document === "undefined") return false;
+
     try {
       return (
         document.documentElement.dataset.theme === "light" ||
@@ -33,32 +35,28 @@ export default function Navbar() {
     }
   });
 
-  // Synchronize the selected theme across the portfolio.
+  // Theme synchronization
   useEffect(() => {
     const root = document.documentElement;
+    const theme = isLight ? "light" : "dark";
 
-    root.dataset.theme = isLight ? "light" : "dark";
+    root.dataset.theme = theme;
     root.classList.toggle("light-mode", isLight);
 
     try {
-      localStorage.setItem(
-        "portfolio-theme",
-        isLight ? "light" : "dark"
-      );
+      localStorage.setItem("portfolio-theme", theme);
     } catch {
-      // Theme still works when localStorage is unavailable.
+      // Theme works without localStorage.
     }
 
     window.dispatchEvent(
       new CustomEvent("portfolio-theme-change", {
-        detail: {
-          theme: isLight ? "light" : "dark",
-        },
+        detail: { theme },
       })
     );
   }, [isLight]);
 
-  // Listen for theme changes initiated elsewhere in the app.
+  // Listen for theme changes from other components
   useEffect(() => {
     const updateTheme = (event) => {
       const theme =
@@ -73,13 +71,13 @@ export default function Navbar() {
       updateTheme
     );
 
-    const themeObserver = new MutationObserver(() => {
+    const observer = new MutationObserver(() => {
       setIsLight(
         document.documentElement.dataset.theme === "light"
       );
     });
 
-    themeObserver.observe(document.documentElement, {
+    observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["data-theme"],
     });
@@ -89,7 +87,7 @@ export default function Navbar() {
         "portfolio-theme-change",
         updateTheme
       );
-      themeObserver.disconnect();
+      observer.disconnect();
     };
   }, []);
 
@@ -97,17 +95,21 @@ export default function Navbar() {
     setIsLight((previous) => !previous);
   };
 
-  // Track scrolling and the active section.
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
+  // Active section and navbar scroll effect
   useEffect(() => {
     let ticking = false;
-    let animationFrameId;
+    let frameId;
 
     const handleScroll = () => {
       if (ticking) return;
 
       ticking = true;
 
-      animationFrameId = window.requestAnimationFrame(() => {
+      frameId = window.requestAnimationFrame(() => {
         setScrolled(window.scrollY > 24);
 
         const marker = 170;
@@ -140,23 +142,23 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
 
-      if (animationFrameId) {
-        window.cancelAnimationFrame(animationFrameId);
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
       }
     };
   }, []);
 
-  // Close the mobile menu on Escape or desktop resize.
+  // Close on Escape or desktop breakpoint
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
-        setMenuOpen(false);
+        closeMenu();
       }
     };
 
     const handleResize = () => {
       if (window.innerWidth >= 768) {
-        setMenuOpen(false);
+        closeMenu();
       }
     };
 
@@ -169,7 +171,7 @@ export default function Navbar() {
     };
   }, []);
 
-  // Prevent background scrolling while the mobile menu is open.
+  // Prevent background scrolling when mobile menu is open
   useEffect(() => {
     if (!menuOpen) return;
 
@@ -181,9 +183,7 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  const closeMenu = () => setMenuOpen(false);
-
-  // Theme toggle matching the logo's purple-cyan branding.
+  // Theme toggle
   const ThemeToggle = ({ mobile = false }) => (
     <button
       type="button"
@@ -193,13 +193,20 @@ export default function Navbar() {
       }
       aria-pressed={isLight}
       title={isLight ? "Switch to dark mode" : "Switch to light mode"}
-      className={`group relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-xl border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
-        mobile ? "h-11 w-11" : "h-10 w-10"
-      } ${
-        isLight
-          ? "border-indigo-200 bg-white text-indigo-600 shadow-sm shadow-indigo-100 hover:border-purple-300 hover:bg-indigo-50"
-          : "border-indigo-400/20 bg-[#080b1b] text-cyan-300 shadow-[0_0_16px_rgba(139,92,246,0.10)] hover:border-cyan-400/50 hover:bg-indigo-500/10 hover:shadow-[0_0_18px_rgba(139,92,246,0.18)]"
-      }`}
+      className={`group relative inline-flex shrink-0 items-center justify-center
+        overflow-hidden rounded-xl border
+        transition-[background-color,border-color,color,box-shadow]
+        duration-300 ease-out
+        focus-visible:outline-none focus-visible:ring-2
+        focus-visible:ring-cyan-400
+        ${
+          mobile ? "h-11 w-11" : "h-10 w-10"
+        }
+        ${
+          isLight
+            ? "border-indigo-200 bg-white text-indigo-600 shadow-sm shadow-indigo-100 hover:border-purple-300 hover:bg-indigo-50"
+            : "border-indigo-400/20 bg-[#080b1b] text-cyan-300 shadow-[0_0_16px_rgba(139,92,246,0.10)] hover:border-cyan-400/50 hover:bg-indigo-500/10 hover:shadow-[0_0_18px_rgba(139,92,246,0.18)]"
+        }`}
     >
       <span className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-purple-500/[0.08] via-transparent to-cyan-400/[0.08] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
@@ -207,7 +214,7 @@ export default function Navbar() {
         <Sun
           size={19}
           strokeWidth={1.8}
-          className={`absolute transition-all duration-500 ease-in-out ${
+          className={`absolute transition-all duration-300 ease-out ${
             isLight
               ? "rotate-0 scale-100 opacity-100"
               : "-rotate-90 scale-50 opacity-0"
@@ -217,55 +224,55 @@ export default function Navbar() {
         <Moon
           size={19}
           strokeWidth={1.8}
-          className={`absolute transition-all duration-500 ease-in-out ${
+          className={`absolute transition-all duration-300 ease-out ${
             isLight
               ? "rotate-90 scale-50 opacity-0"
               : "rotate-0 scale-100 opacity-100"
           }`}
         />
       </span>
-
-      <span className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/[0.04] transition-colors duration-300 group-hover:ring-purple-400/20" />
     </button>
   );
 
   return (
     <>
+      {/* Navbar */}
       <header
-        className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ${
-          isLight
-            ? scrolled
-              ? "border-slate-200 bg-white/95 shadow-lg shadow-slate-200/40 backdrop-blur-2xl"
-              : "border-slate-200/70 bg-white/80 backdrop-blur-xl"
-            : scrolled
-              ? "border-white/[0.09] bg-[#050816]/95 shadow-lg shadow-black/20 backdrop-blur-2xl"
-              : "border-white/[0.05] bg-[#050816]/70 backdrop-blur-xl"
-        }`}
+        className={`fixed inset-x-0 top-0 z-50 border-b
+          transition-[background-color,border-color,box-shadow,backdrop-filter]
+          duration-300 ease-out ${
+            isLight
+              ? scrolled
+                ? "border-slate-200 bg-white/95 shadow-lg shadow-slate-200/40 backdrop-blur-2xl"
+                : "border-slate-200/70 bg-white/80 backdrop-blur-xl"
+              : scrolled
+                ? "border-white/[0.09] bg-[#050816]/95 shadow-lg shadow-black/20 backdrop-blur-2xl"
+                : "border-white/[0.05] bg-[#050816]/70 backdrop-blur-xl"
+          }`}
       >
         <div
-          className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent transition-opacity duration-500 ${
-            scrolled ? "opacity-100" : "opacity-0"
-          }`}
+          className={`pointer-events-none absolute inset-x-0 bottom-0 h-px
+            bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent
+            transition-opacity duration-300 ${
+              scrolled ? "opacity-100" : "opacity-0"
+            }`}
         />
 
-        <div className="mx-auto flex min-h-[76px] max-w-[1250px] items-center justify-between gap-3 px-5 sm:px-8">
-          {/* Logo and Brand */}
+        <div className="mx-auto flex min-h-[76px] max-w-[1250px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+          {/* Logo */}
           <a
             href="#home"
             onClick={closeMenu}
             aria-label="Hassan Ali home"
-            className="group relative z-50 flex shrink-0 items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+            className="group relative z-[60] flex min-w-0 shrink-0 items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
           >
-            
-
-            {/* Brand Name */}
-            <span className="flex flex-col justify-center leading-none">
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-[25px] font-bold tracking-tight text-transparent transition-all duration-300 group-hover:brightness-125">
+            <span className="flex min-w-0 flex-col justify-center leading-none">
+              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-[23px] font-bold tracking-tight text-transparent transition-all duration-300 group-hover:brightness-125 sm:text-[25px]">
                 Hassan
               </span>
 
               <span
-                className={`mt-[7px] whitespace-nowrap text-[9px] font-semibold uppercase tracking-[2px] transition-colors duration-300 group-hover:text-cyan-400 ${
+                className={`mt-[7px] whitespace-nowrap text-[8px] font-semibold uppercase tracking-[1.5px] transition-colors duration-300 sm:text-[9px] sm:tracking-[2px] ${
                   isLight ? "text-slate-500" : "text-slate-400"
                 }`}
               >
@@ -287,9 +294,8 @@ export default function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={closeMenu}
                   aria-current={isActive ? "location" : undefined}
-                  className={`group relative rounded-lg px-2.5 py-2.5 text-[12px] font-medium transition-colors duration-300 lg:px-3 lg:text-[13px] ${
+                  className={`group relative whitespace-nowrap rounded-lg px-2 py-2.5 text-[12px] font-medium transition-colors duration-200 lg:px-3 lg:text-[13px] ${
                     isActive
                       ? "text-cyan-500"
                       : isLight
@@ -302,7 +308,7 @@ export default function Navbar() {
                   </span>
 
                   <span
-                    className={`absolute inset-x-2.5 bottom-1 h-[2px] origin-center rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400 transition-all duration-300 lg:inset-x-3 ${
+                    className={`absolute inset-x-2 bottom-1 h-[2px] origin-center rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400 transition-transform duration-300 lg:inset-x-3 ${
                       isActive
                         ? "scale-x-100 opacity-100"
                         : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70"
@@ -314,38 +320,41 @@ export default function Navbar() {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden shrink-0 items-center gap-3 md:flex">
+          <div className="hidden shrink-0 items-center gap-2 lg:gap-3 md:flex">
             <ThemeToggle />
 
             <a
               href="#contact"
-              className={`group inline-flex items-center gap-2 rounded-xl border px-3.5 py-2.5 text-xs font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-400/40 hover:text-cyan-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 lg:px-4 ${
+              className={`group inline-flex items-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 lg:px-4 ${
                 isLight
-                  ? "border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-cyan-50"
-                  : "border-indigo-400/25 bg-indigo-500/[0.08] text-indigo-200 hover:bg-cyan-400/10 hover:text-cyan-200"
+                  ? "border-indigo-200 bg-indigo-50 text-indigo-700 hover:border-cyan-300 hover:bg-cyan-50 hover:text-cyan-700"
+                  : "border-indigo-400/25 bg-indigo-500/[0.08] text-indigo-200 hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-200"
               }`}
             >
               Let's Talk
 
               <ArrowUpRight
                 size={15}
-                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               />
             </a>
           </div>
 
-          {/* Mobile Actions */}
+          {/* Mobile / Tablet Actions */}
           <div className="flex shrink-0 items-center gap-2 md:hidden">
             <ThemeToggle mobile />
 
             <button
               type="button"
               onClick={() => setMenuOpen((prev) => !prev)}
-              className={`relative z-50 flex h-10 w-10 items-center justify-center rounded-xl border transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
-                isLight
-                  ? "border-slate-300 bg-white text-slate-800 hover:bg-slate-100"
-                  : "border-white/10 bg-white/[0.04] text-white hover:border-indigo-400/40 hover:bg-indigo-500/10"
-              }`}
+              className={`group relative z-[60] flex h-11 w-11 items-center justify-center rounded-xl border
+                transition-[background-color,border-color,color]
+                duration-300 focus-visible:outline-none
+                focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+                  isLight
+                    ? "border-slate-300 bg-white text-slate-800 hover:border-indigo-300 hover:bg-indigo-50"
+                    : "border-white/10 bg-white/[0.04] text-white hover:border-indigo-400/40 hover:bg-indigo-500/10"
+                }`}
               aria-label={
                 menuOpen
                   ? "Close navigation menu"
@@ -354,10 +363,11 @@ export default function Navbar() {
               aria-expanded={menuOpen}
               aria-controls="mobile-navigation"
             >
-              <span className="relative flex items-center justify-center">
+              <span className="relative flex h-6 w-6 items-center justify-center">
                 <Menu
-                  size={21}
-                  className={`absolute transition-all duration-300 ${
+                  size={22}
+                  strokeWidth={1.8}
+                  className={`absolute transition-[transform,opacity] duration-300 ease-out ${
                     menuOpen
                       ? "rotate-90 scale-75 opacity-0"
                       : "rotate-0 scale-100 opacity-100"
@@ -365,8 +375,9 @@ export default function Navbar() {
                 />
 
                 <X
-                  size={21}
-                  className={`transition-all duration-300 ${
+                  size={22}
+                  strokeWidth={1.8}
+                  className={`absolute transition-[transform,opacity] duration-300 ease-out ${
                     menuOpen
                       ? "rotate-0 scale-100 opacity-100"
                       : "-rotate-90 scale-75 opacity-0"
@@ -378,20 +389,20 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Backdrop */}
+      {/* Mobile backdrop */}
       <button
         type="button"
         onClick={closeMenu}
         tabIndex={menuOpen ? 0 : -1}
         aria-label="Close navigation menu"
         aria-hidden={!menuOpen}
-        className={`fixed inset-0 z-40 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 md:hidden ${
           isLight ? "bg-slate-900/30" : "bg-black/60"
         } ${
           menuOpen
-            ? "pointer-events-auto opacity-100 backdrop-blur-sm"
-            : "pointer-events-none opacity-0"
-        }`}
+            ? "pointer-events-auto visible opacity-100 backdrop-blur-sm"
+            : "pointer-events-none invisible opacity-0"
+        } transition-[opacity,visibility,background-color] duration-300 ease-out motion-reduce:transition-none`}
       />
 
       {/* Mobile Navigation Panel */}
@@ -399,18 +410,19 @@ export default function Navbar() {
         id="mobile-navigation"
         aria-label="Mobile navigation"
         aria-hidden={!menuOpen}
-        className={`fixed inset-x-0 top-[76px] z-40 border-b px-5 pb-7 pt-5 shadow-2xl backdrop-blur-2xl transition-[transform,opacity,visibility,background-color,border-color] duration-300 ease-out motion-reduce:transition-none md:hidden ${
+        className={`fixed inset-x-0 top-[76px] z-40 max-h-[calc(100dvh-76px)] overflow-y-auto overscroll-contain border-b px-4 pb-6 pt-4 shadow-2xl backdrop-blur-2xl sm:px-6 sm:pb-7 sm:pt-5 md:hidden ${
           isLight
             ? "border-slate-200 bg-white/95 shadow-slate-300/30"
             : "border-white/10 bg-[#080b19]/[0.98] shadow-black/30"
         } ${
           menuOpen
-            ? "visible translate-y-0 opacity-100"
-            : "invisible pointer-events-none -translate-y-3 opacity-0"
-        }`}
+            ? "visible translate-y-0 scale-100 opacity-100"
+            : "invisible pointer-events-none -translate-y-3 scale-[0.99] opacity-0"
+        } origin-top transition-[transform,opacity,visibility,background-color,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none`}
       >
         <div className="mx-auto max-w-[500px]">
-          <div className="space-y-1">
+          {/* Navigation links */}
+          <div className="space-y-1.5">
             {navLinks.map((link, index) => {
               const isActive =
                 activeSection === link.href.slice(1);
@@ -424,22 +436,32 @@ export default function Navbar() {
                   aria-current={isActive ? "location" : undefined}
                   style={{
                     transitionDelay: menuOpen
-                      ? `${index * 30}ms`
+                      ? `${70 + index * 35}ms`
                       : "0ms",
+                    transform: menuOpen
+                      ? "translate3d(0, 0, 0)"
+                      : "translate3d(0, 8px, 0)",
                   }}
-                  className={`group flex items-center justify-between rounded-xl border px-4 py-3.5 text-sm font-medium transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
-                    isActive
-                      ? isLight
-                        ? "border-indigo-200 bg-indigo-50 text-indigo-700"
-                        : "border-indigo-400/20 bg-indigo-500/10 text-cyan-300"
-                      : isLight
-                        ? "border-transparent text-slate-700 hover:border-slate-200 hover:bg-slate-50 hover:text-indigo-600"
-                        : "border-transparent text-slate-300 hover:border-white/10 hover:bg-white/[0.04] hover:text-white"
-                  }`}
+                  className={`group flex min-h-[49px] items-center justify-between rounded-xl border px-4 py-3 text-sm font-medium
+                    transition-[transform,opacity,background-color,border-color,color]
+                    duration-300 ease-out focus-visible:outline-none
+                    focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+                      menuOpen
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-2 opacity-0"
+                    } ${
+                      isActive
+                        ? isLight
+                          ? "border-indigo-200 bg-indigo-50 text-indigo-700"
+                          : "border-indigo-400/20 bg-indigo-500/10 text-cyan-300"
+                        : isLight
+                          ? "border-transparent text-slate-700 hover:border-slate-200 hover:bg-slate-50 hover:text-indigo-600"
+                          : "border-transparent text-slate-300 hover:border-white/10 hover:bg-white/[0.04] hover:text-white"
+                    }`}
                 >
                   <span className="flex items-center gap-3">
                     <span
-                      className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                      className={`h-1.5 w-1.5 shrink-0 rounded-full transition-[background-color,box-shadow] duration-300 ${
                         isActive
                           ? "bg-cyan-400 shadow-[0_0_10px_rgba(103,232,249,0.7)]"
                           : isLight
@@ -452,8 +474,8 @@ export default function Navbar() {
                   </span>
 
                   <ArrowUpRight
-                    size={15}
-                    className={`transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 ${
+                    size={16}
+                    className={`transition-[transform,color] duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 ${
                       isActive
                         ? "text-cyan-500"
                         : isLight
@@ -471,13 +493,22 @@ export default function Navbar() {
             href="#contact"
             tabIndex={menuOpen ? 0 : -1}
             onClick={closeMenu}
-            className="group mt-5 flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+            style={{
+              transitionDelay: menuOpen
+                ? `${70 + navLinks.length * 35}ms`
+                : "0ms",
+            }}
+            className={`group mt-4 flex min-h-[49px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition-[transform,opacity,box-shadow] duration-300 ease-out hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 motion-reduce:transition-none ${
+              menuOpen
+                ? "translate-y-0 opacity-100"
+                : "translate-y-2 opacity-0"
+            }`}
           >
             Let's Talk
 
             <ArrowUpRight
               size={17}
-              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
           </a>
         </div>

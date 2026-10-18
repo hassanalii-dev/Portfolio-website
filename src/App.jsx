@@ -73,7 +73,10 @@ export default function App() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+        .matches
+        ? "auto"
+        : "smooth",
     });
   };
 
@@ -87,12 +90,39 @@ export default function App() {
         html,
         body,
         #root {
+          width: 100%;
           min-height: 100%;
           background-color: #080b14;
+          overflow-x: clip;
+        }
+
+        html {
+          scroll-behavior: smooth;
+          scroll-padding-top: 80px;
         }
 
         body {
           margin: 0;
+        }
+
+        /* Responsive layout handling. */
+        .portfolio-app {
+          width: 100%;
+          min-width: 0;
+          overflow-x: clip;
+        }
+
+        .portfolio-page-content,
+        .portfolio-page-content main,
+        .portfolio-page-content footer {
+          min-width: 0;
+          max-width: 100%;
+        }
+
+        img,
+        video,
+        canvas {
+          max-width: 100%;
         }
 
         /* Main application reveal. */
@@ -134,7 +164,7 @@ export default function App() {
         .portfolio-page-content--visible {
           visibility: visible;
           pointer-events: auto;
-          animation: portfolioPageReveal 950ms
+          animation: portfolioPageReveal 800ms
             cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
@@ -176,7 +206,25 @@ export default function App() {
           transform: translate3d(0, 0, 0) scale(1);
         }
 
+        @media (max-width: 640px) {
+          html {
+            scroll-padding-top: 68px;
+          }
+
+          .portfolio-shell--visible {
+            animation-duration: 400ms;
+          }
+
+          .portfolio-page-content--visible {
+            animation-duration: 650ms;
+          }
+        }
+
         @media (prefers-reduced-motion: reduce) {
+          html {
+            scroll-behavior: auto;
+          }
+
           .portfolio-shell,
           .portfolio-shell--visible,
           .portfolio-page-content,
@@ -264,36 +312,34 @@ export default function App() {
           <Footer />
         </div>
 
-        
-{/* Back To Top */}
-<button
-  type="button"
-  onClick={scrollToTop}
-  aria-label="Scroll back to top"
-  title="Back to top"
-  tabIndex={showBackToTop ? 0 : -1}
-  className={`group fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transition-none sm:bottom-7 sm:right-7 ${
-    isLight
-      ? "border-slate-200 bg-white/90 text-indigo-700 shadow-lg shadow-slate-300/40 hover:border-indigo-400/50 hover:bg-indigo-600 hover:text-white hover:shadow-[0_8px_30px_-8px_rgba(99,102,241,0.45)] focus-visible:ring-offset-slate-50"
-      : "border-white/10 bg-slate-900/85 text-white shadow-lg shadow-black/20 hover:border-indigo-400/50 hover:bg-indigo-600 hover:shadow-[0_8px_30px_-8px_rgba(99,102,241,0.65)] focus-visible:ring-offset-[#080b14]"
-  } ${
-    showBackToTop
-      ? "translate-y-0 scale-100 opacity-100"
-      : "pointer-events-none translate-y-5 scale-75 opacity-0"
-  }`}
->
-  <span
-    aria-hidden="true"
-    className="absolute inset-0 -translate-y-full bg-gradient-to-b from-violet-500/30 to-transparent transition-transform duration-500 group-hover:translate-y-0"
-  />
+        {/* Back To Top */}
+        <button
+          type="button"
+          onClick={scrollToTop}
+          aria-label="Scroll back to top"
+          title="Back to top"
+          tabIndex={showBackToTop ? 0 : -1}
+          className={`group fixed bottom-8 right-5 z-50 flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transition-none sm:bottom-10 sm:right-7 ${
+            isLight
+              ? "border-slate-200 bg-white/90 text-indigo-700 shadow-lg shadow-slate-300/40 hover:border-indigo-400/50 hover:bg-indigo-600 hover:text-white hover:shadow-[0_8px_30px_-8px_rgba(99,102,241,0.45)] focus-visible:ring-offset-slate-50"
+              : "border-white/10 bg-slate-900/85 text-white shadow-lg shadow-black/20 hover:border-indigo-400/50 hover:bg-indigo-600 hover:shadow-[0_8px_30px_-8px_rgba(99,102,241,0.65)] focus-visible:ring-offset-[#080b14]"
+          } ${
+            showBackToTop
+              ? "translate-y-0 scale-100 opacity-100"
+              : "pointer-events-none translate-y-5 scale-75 opacity-0"
+          }`}
+        >
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 -translate-y-full bg-gradient-to-b from-violet-500/30 to-transparent transition-transform duration-500 group-hover:translate-y-0"
+          />
 
-  <ArrowUp
-    size={20}
-    strokeWidth={2}
-    className="relative transition-transform duration-300 group-hover:-translate-y-1"
-  />
-</button>
-
+          <ArrowUp
+            size={19}
+            strokeWidth={2}
+            className="relative transition-transform duration-300 group-hover:-translate-y-1"
+          />
+        </button>
       </div>
     </>
   );
