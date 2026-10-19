@@ -446,8 +446,8 @@ export default function App() {
           aria-label="Scroll back to top"
           title="Back to top"
           tabIndex={showBackToTop ? 0 : -1}
-className={`group fixed bottom-24 right-5 z-50 flex h-15 w-15 items-center justify-center overflow-hidden rounded-full border backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transition-none sm:bottom-22 sm:right- ${            isLight
-              ? "border-slate-200 bg-white/90 text-indigo-700 shadow-lg shadow-slate-300/40 hover:border-indigo-400/50 hover:bg-indigo-600 hover:text-white hover:shadow-[0_8px_30px_-8px_rgba(99,102,241,0.45)] focus-visible:ring-offset-slate-50"
+className={`group fixed bottom-22 right-6 z-50 flex h-12.5 w-12.5 items-center justify-center overflow-hidden rounded-full border backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transition-none sm:bottom-[88px] sm:right-6 ${
+  isLight              ? "border-slate-200 bg-white/90 text-indigo-700 shadow-lg shadow-slate-300/40 hover:border-indigo-400/50 hover:bg-indigo-600 hover:text-white hover:shadow-[0_8px_30px_-8px_rgba(99,102,241,0.45)] focus-visible:ring-offset-slate-50"
               : "border-white/10 bg-slate-900/85 text-white shadow-lg shadow-black/20 hover:border-indigo-400/50 hover:bg-indigo-600 hover:shadow-[0_8px_30px_-8px_rgba(99,102,241,0.65)] focus-visible:ring-offset-[#080b14]"
           } ${
             showBackToTop

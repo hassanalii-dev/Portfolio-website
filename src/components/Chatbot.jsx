@@ -1,17 +1,16 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import {
   Bot,
   X,
   Send,
   MessageCircle,
+  Sparkles,
   User,
   RotateCcw,
   Globe,
   Mic,
   MicOff,
   LoaderCircle,
-  Sparkles,
 } from "lucide-react";
 
 const LANGUAGES = [
@@ -25,12 +24,7 @@ const CONTENT = {
     subtitle: "Portfolio Assistant",
     online: "Online",
     placeholder: "Type your message...",
-    suggestions: [
-      "About Hassan",
-      "Skills",
-      "Projects",
-      "Education",
-    ],
+    suggestions: ["About Hassan", "Skills", "Projects", "Education"],
     welcome: "How can I help you today?",
     listening: "Listening... Speak now",
     thinking: "Thinking...",
@@ -43,15 +37,16 @@ const CONTENT = {
     send: "Send message",
     speak: "Speak a message",
     stopMic: "Stop microphone",
+    footer: "Portfolio assistant · Text replies only",
     replies: {
       greeting:
-        "Hi! 👋 Welcome to Hassan Ali's portfolio. I'm your virtual assistant. How can I help you?",
+        "Hi! 👋 Welcome to Hassan Ali portfolio. I'm your virtual assistant. How can I hep you?",
       about:
         "Hassan Ali is a BS Computer Science student at Lahore Garrison University in Lahore, Pakistan. He is learning full-stack web development and building modern, responsive websites.",
       skills:
         "Hassan works with HTML5, CSS3, JavaScript and React.js. He is also learning Node.js, backend development and MongoDB.",
       projects:
-        "Hassan's portfolio showcases his web development journey. His projects include a modern portfolio, an e-commerce website concept and a full-stack web application. You can explore his work in the Projects section.",
+        "Hassan's portfolio showcases his web development journey. His projects include a modern portfolio, an e-commerce website concept and a full-stack web application and other manay projects. You can see his all projects in his work section",
       education:
         "Hassan is studying BS Computer Science at Lahore Garrison University. He completed Intermediate ICS with Physics at Government Islamia Graduate College, Civil Lines, Lahore. He is also learning full-stack development at NexSkill, Arfa Tower, Lahore.",
       contact:
@@ -61,21 +56,21 @@ const CONTENT = {
       thanks:
         "You're welcome! 😊 Feel free to ask anything else about Hassan's portfolio.",
       fallback:
-        "I can answer questions about Hassan's portfolio, skills, education and projects. Try asking about his background, skills, work or education.",
+        "I can answer questions about Hassan's portfolio, skills, education and projects. So kindly ask me about these questions",
     },
   },
 
   ur: {
     title: "حسن کا معاون",
     subtitle: "پورٹ فولیو معاون",
-    online: "آن لائن",
+    online: "آن لائن • مدد کے لیے تیار",
     placeholder: "اپنا پیغام لکھیں...",
     suggestions: ["حسن کا تعارف", "مہارتیں", "پروجیکٹس", "تعلیم"],
     welcome: "میں آج آپ کی کیا مدد کر سکتا ہوں؟",
     listening: "سن رہا ہوں... اب بولیے",
     thinking: "جواب تیار ہو رہا ہے...",
     micUnsupported: "اس براؤزر میں آواز کے ذریعے ان پٹ دستیاب نہیں ہے۔",
-    assistant: "حسن کا معاون",
+    assistant: "معاون",
     you: "آپ",
     reset: "نئی گفتگو شروع کریں",
     close: "چیٹ بند کریں",
@@ -83,7 +78,7 @@ const CONTENT = {
     send: "پیغام بھیجیں",
     speak: "بول کر پیغام دیں",
     stopMic: "مائیکروفون بند کریں",
-    footer: "پورٹ فولیو معاون · تحریری جوابات",
+    footer: "پورٹ فولیو معاون · جوابات صرف تحریر میں",
     replies: {
       greeting:
         "السلام علیکم! 👋 حسن علی کے پورٹ فولیو میں خوش آمدید۔ میں آپ کا ورچوئل معاون ہوں۔ آپ کیا جاننا چاہتے ہیں؟",
@@ -102,7 +97,7 @@ const CONTENT = {
       thanks:
         "آپ کا خیر مقدم ہے! 😊 حسن کے پورٹ فولیو کے بارے میں مزید کچھ پوچھنا ہو تو ضرور پوچھیں۔",
       fallback:
-        "میں حسن علی کے پورٹ فولیو، مہارتوں، تعلیم اور پروجیکٹس کے بارے میں معلومات دے سکتا ہوں۔ آپ ان موضوعات کے بارے میں سوال پوچھ سکتے ہیں۔",
+        "میں حسن علی کے پورٹ فولیو، مہارتوں، تعلیم اور پروجیکٹس کے بارے میں معلومات دے سکتا ہوں۔ عام AI سوالات کے لیے Gemini API کو منسلک کرنا ہوگا۔",
     },
   },
 };
@@ -144,10 +139,7 @@ function getReplyKey(message) {
     text.includes("technology") ||
     text.includes("tech stack") ||
     text.includes("html") ||
-    text.includes("css") ||
-    text.includes("javascript") ||
     text.includes("react") ||
-    text.includes("node") ||
     text.includes("mongodb") ||
     text.includes("مہارت") ||
     text.includes("ہنر")
@@ -169,7 +161,6 @@ function getReplyKey(message) {
     text.includes("study") ||
     text.includes("university") ||
     text.includes("degree") ||
-    text.includes("college") ||
     text.includes("taleem") ||
     text.includes("تعلیم")
   ) {
@@ -180,7 +171,6 @@ function getReplyKey(message) {
     text.includes("contact") ||
     text.includes("email") ||
     text.includes("hire") ||
-    text.includes("phone") ||
     text.includes("rabta") ||
     text.includes("رابطہ")
   ) {
@@ -219,14 +209,11 @@ export default function Chatbot() {
   const [messages, setMessages] = useState([]);
 
   const messagesEndRef = useRef(null);
-  const feedRef = useRef(null);
   const inputRef = useRef(null);
   const recognitionRef = useRef(null);
   const replyTimerRef = useRef(null);
   const closeTimerRef = useRef(null);
-  const openFrameRef = useRef([]);
   const mountedRef = useRef(false);
-  const typingRef = useRef(false);
 
   const current = CONTENT[language];
   const isUrdu = language === "ur";
@@ -236,13 +223,8 @@ export default function Chatbot() {
 
     return () => {
       mountedRef.current = false;
-
       window.clearTimeout(replyTimerRef.current);
       window.clearTimeout(closeTimerRef.current);
-
-      openFrameRef.current.forEach((frame) =>
-        window.cancelAnimationFrame(frame)
-      );
 
       try {
         recognitionRef.current?.abort();
@@ -251,10 +233,6 @@ export default function Chatbot() {
       }
     };
   }, []);
-
-  useEffect(() => {
-    typingRef.current = isTyping;
-  }, [isTyping]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -273,7 +251,30 @@ export default function Chatbot() {
     return () => window.clearTimeout(timer);
   }, [isOpen, isClosing]);
 
-  const stopListening = () => {
+  const openChat = () => {
+    window.clearTimeout(closeTimerRef.current);
+
+    setIsClosing(false);
+    setIsMounted(true);
+
+    if (messages.length === 0) {
+      setMessages([
+        createMessage("bot", CONTENT[language].replies.greeting, "greeting"),
+      ]);
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (mountedRef.current) setIsOpen(true);
+      });
+    });
+  };
+
+  const closeChat = () => {
+    setIsClosing(true);
+    setIsOpen(false);
+    setShowLanguages(false);
+
     try {
       recognitionRef.current?.stop();
     } catch {
@@ -281,77 +282,44 @@ export default function Chatbot() {
     }
 
     setIsListening(false);
-  };
-
-  const openChat = () => {
-    window.clearTimeout(closeTimerRef.current);
-
-    openFrameRef.current.forEach((frame) =>
-      window.cancelAnimationFrame(frame)
-    );
-
-    setIsClosing(false);
-    setIsMounted(true);
-
-    if (messages.length === 0) {
-      setMessages([
-        createMessage(
-          "bot",
-          CONTENT[language].replies.greeting,
-          "greeting"
-        ),
-      ]);
-    }
-
-    const firstFrame = window.requestAnimationFrame(() => {
-      const secondFrame = window.requestAnimationFrame(() => {
-        if (mountedRef.current) setIsOpen(true);
-      });
-
-      openFrameRef.current.push(secondFrame);
-    });
-
-    openFrameRef.current.push(firstFrame);
-  };
-
-  const closeChat = () => {
-    setIsClosing(true);
-    setIsOpen(false);
-    setShowLanguages(false);
-    stopListening();
-
-    window.clearTimeout(closeTimerRef.current);
 
     closeTimerRef.current = window.setTimeout(() => {
       if (mountedRef.current) {
         setIsMounted(false);
         setIsClosing(false);
       }
-    }, 320);
+    }, 300);
   };
 
   const resetChat = () => {
     window.clearTimeout(replyTimerRef.current);
-    stopListening();
 
-    typingRef.current = false;
+    try {
+      recognitionRef.current?.stop();
+    } catch {
+      // Recognition may already be stopped.
+    }
+
+    setIsListening(false);
     setIsTyping(false);
     setMessage("");
-    setShowLanguages(false);
 
     setMessages([
-      createMessage(
-        "bot",
-        CONTENT[language].replies.greeting,
-        "greeting"
-      ),
+      createMessage("bot", CONTENT[language].replies.greeting, "greeting"),
     ]);
   };
 
   const changeLanguage = (code) => {
     setLanguage(code);
     setShowLanguages(false);
-    stopListening();
+
+    try {
+      recognitionRef.current?.stop();
+    } catch {
+      // Recognition may already be stopped.
+    }
+
+    setIsListening(false);
 
     setMessages((previous) =>
       previous.map((item) => {
@@ -372,12 +340,11 @@ export default function Chatbot() {
   const sendMessage = (value = message) => {
     const text = value.trim();
 
-    if (!text || typingRef.current) return;
+    if (!text || isTyping) return;
 
     window.clearTimeout(replyTimerRef.current);
 
     const replyKey = getReplyKey(text);
-    const selectedLanguage = language;
 
     setMessages((previous) => [
       ...previous,
@@ -385,7 +352,6 @@ export default function Chatbot() {
     ]);
 
     setMessage("");
-    typingRef.current = true;
     setIsTyping(true);
 
     replyTimerRef.current = window.setTimeout(() => {
@@ -395,28 +361,19 @@ export default function Chatbot() {
         ...previous,
         createMessage(
           "bot",
-          CONTENT[selectedLanguage].replies[replyKey] ||
-            CONTENT[selectedLanguage].replies.fallback,
+          CONTENT[language].replies[replyKey] ||
+            CONTENT[language].replies.fallback,
           replyKey
         ),
       ]);
 
-      typingRef.current = false;
       setIsTyping(false);
     }, 550);
   };
 
   const startListening = () => {
-    if (isTyping) return;
-
-    if (isListening) {
-      stopListening();
-      return;
-    }
-
     const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
+      window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
       setMessages((previous) => [
@@ -426,53 +383,65 @@ export default function Chatbot() {
       return;
     }
 
+    if (isListening) {
+      try {
+        recognitionRef.current?.stop();
+      } catch {
+        // Recognition may already be stopped.
+      }
+
+      setIsListening(false);
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = isUrdu ? "ur-PK" : "en-US";
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      if (mountedRef.current) setIsListening(true);
+    };
+
+    recognition.onresult = (event) => {
+      let transcript = "";
+
+      for (
+        let i = event.resultIndex;
+        i < event.results.length;
+        i += 1
+      ) {
+        transcript += event.results[i][0].transcript;
+      }
+
+      if (mountedRef.current) setMessage(transcript);
+    };
+
+    recognition.onerror = () => {
+      if (mountedRef.current) setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      if (mountedRef.current) setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+
     try {
-      const recognition = new SpeechRecognition();
-
-      recognition.lang = isUrdu ? "ur-PK" : "en-US";
-      recognition.continuous = false;
-      recognition.interimResults = true;
-      recognition.maxAlternatives = 1;
-
-      recognition.onstart = () => {
-        if (mountedRef.current) setIsListening(true);
-      };
-
-      recognition.onresult = (event) => {
-        let transcript = "";
-
-        for (
-          let i = event.resultIndex;
-          i < event.results.length;
-          i += 1
-        ) {
-          transcript += event.results[i][0].transcript;
-        }
-
-        if (mountedRef.current) setMessage(transcript);
-      };
-
-      recognition.onerror = () => {
-        if (mountedRef.current) setIsListening(false);
-      };
-
-      recognition.onend = () => {
-        if (mountedRef.current) setIsListening(false);
-      };
-
-      recognitionRef.current = recognition;
       recognition.start();
     } catch {
       setIsListening(false);
     }
   };
 
-  const quickQuestions = current.suggestions;
-
-  const showQuickQuestions =
-    messages.length === 1 &&
-    messages[0]?.role === "bot" &&
-    messages[0]?.replyKey === "greeting";
+  const quickQuestions = [
+    "Tell me about Hassan",
+    "What are Hassan's skills?",
+    "Show me Hassan's projects",
+    "Tell me about Hassan's education",
+  ];
 
   return (
     <>
@@ -496,90 +465,94 @@ export default function Chatbot() {
           --hc-bot: #f1f4fb;
         }
 
-        .hc-root *,
-        .hc-root *::before,
-        .hc-root *::after {
-          box-sizing: border-box;
-        }
-
+        /* Circular Launcher Button with Smooth Hover Zoom & Pulsing Shadow */
         .hc-launcher {
           position: fixed;
           z-index: 9998;
-          right: max(20px, env(safe-area-inset-right));
-          bottom: max(16px, env(safe-area-inset-bottom));
-          width: 60px;
-          height: 60px;
+          right: 24px;
+          bottom: 25px;
+          width: 50px;
+          height: 50px;
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 0;
           color: white;
-          border: 0;
+          border: none;
           border-radius: 50%;
           background: linear-gradient(135deg,#6366f1,#8b5cf6 55%,#06b6d4);
-          box-shadow: 0 12px 35px rgba(99,102,241,.4);
+          box-shadow: 0 12px 35px rgba(99, 102, 241, 0.45);
           cursor: pointer;
+          transform: scale(1);
           animation: hc-shadow-pulse 2.5s infinite;
-          transition: transform .3s cubic-bezier(.34,1.56,.64,1),
-                      box-shadow .3s ease;
-          -webkit-tap-highlight-color: transparent;
+          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
         }
 
+        /* Smooth Cursor Hover Zoom Effect */
         .hc-launcher:hover {
           transform: scale(1.05);
-          box-shadow: 0 16px 45px rgba(99,102,241,.55);
+          box-shadow: 0 16px 45px rgba(99, 102, 241, 0.6);
         }
 
+        /* Button Press Effect */
         .hc-launcher:active {
-          transform: scale(.94);
+          transform: scale(0.92);
         }
 
-        .hc-launcher-symbol {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 28px;
-          height: 28px;
-        }
-
-        .hc-launcher-symbol svg {
-          position: absolute;
-          transition: transform .35s cubic-bezier(.34,1.56,.64,1),
-                      opacity .3s ease;
-        }
-
-        .hc-launcher:not(.hc-launcher-open) .hc-icon-msg {
-          opacity: 1;
-          transform: scale(1) rotate(0);
-        }
-
-        .hc-launcher:not(.hc-launcher-open) .hc-icon-cross {
-          opacity: 0;
-          transform: scale(.5) rotate(-90deg);
-          pointer-events: none;
-        }
-
-        .hc-launcher.hc-launcher-open .hc-icon-msg {
-          opacity: 0;
-          transform: scale(.5) rotate(90deg);
-          pointer-events: none;
-        }
-
-        .hc-launcher.hc-launcher-open .hc-icon-cross {
-          opacity: 1;
-          transform: scale(1) rotate(0);
-        }
-
+        /* Pulsing ring shadow animation */
         @keyframes hc-shadow-pulse {
-          0%,100% {
-            box-shadow: 0 0 0 0 rgba(99,102,241,0),
-                        0 12px 35px rgba(99,102,241,.4);
+          0% {
+            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4),
+                        0 12px 35px rgba(99, 102, 241, 0.45);
           }
           70% {
-            box-shadow: 0 0 0 12px rgba(99,102,241,0),
-                        0 12px 35px rgba(99,102,241,.4);
+            box-shadow: 0 0 0 14px rgba(99, 102, 241, 0),
+                        0 12px 35px rgba(99, 102, 241, 0.45);
           }
+          100% {
+            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0),
+                        0 12px 35px rgba(99, 102, 241, 0.45);
+          }
+        }
+
+        /* Icon Container */
+        .hc-launcher-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  transform: translateX(px);
+}
+
+        /* Smooth Entry/Exit Animation for Icons */
+        .hc-launcher-symbol svg {
+          position: absolute;
+          transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+        }
+
+        /* Closed Chat: Message visible, Cross hidden */
+        .hc-launcher:not(.hc-launcher-open) .hc-icon-msg {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+        }
+        .hc-launcher:not(.hc-launcher-open) .hc-icon-cross {
+          opacity: 0;
+          transform: scale(0.5) rotate(-90deg);
+          pointer-events: none;
+        }
+
+        /* Open Chat: Cross visible, Message hidden */
+        .hc-launcher.hc-launcher-open .hc-icon-msg {
+          opacity: 0;
+          transform: scale(0.5) rotate(90deg);
+          pointer-events: none;
+        }
+        .hc-launcher.hc-launcher-open .hc-icon-cross {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
         }
 
         .hc-window {
@@ -587,9 +560,9 @@ export default function Chatbot() {
           z-index: 9997;
           right: 24px;
           bottom: 96px;
-          width: min(400px,calc(100vw - 32px));
-          height: min(620px,calc(100dvh - 120px));
-          min-height: 280px;
+          width: min(390px, calc(100vw - 32px));
+          height: min(590px, calc(100dvh - 120px));
+          min-height: 340px;
           display: flex;
           flex-direction: column;
           overflow: hidden;
@@ -604,9 +577,10 @@ export default function Chatbot() {
           transform: translateY(15px) scale(.97);
           visibility: hidden;
           pointer-events: none;
-          transition: opacity .26s ease,
-                      transform .32s cubic-bezier(.22,1,.36,1),
-                      visibility .26s;
+          transition:
+            opacity .26s ease,
+            transform .32s cubic-bezier(.22,1,.36,1),
+            visibility .26s;
         }
 
         .hc-window.hc-visible {
@@ -624,7 +598,7 @@ export default function Chatbot() {
 
         .hc-header {
           flex-shrink: 0;
-          padding: 16px 12px;
+          padding: 17px 13px;
           color: white;
           background: linear-gradient(120deg,#4f46e5 0%,#7c3aed 56%,#0891b2 120%);
         }
@@ -634,18 +608,17 @@ export default function Chatbot() {
           direction: ltr;
           align-items: center;
           gap: 6px;
-          min-width: 0;
         }
 
         .hc-avatar {
-          width: 40px;
-          height: 40px;
+          width: 42px;
+          height: 42px;
           flex-shrink: 0;
           display: flex;
           align-items: center;
           justify-content: center;
           border: 1px solid rgba(255,255,255,.28);
-          border-radius: 13px;
+          border-radius: 14px;
           background: rgba(255,255,255,.17);
         }
 
@@ -658,10 +631,9 @@ export default function Chatbot() {
 
         .hc-heading h3 {
           margin: 0;
-          font-size: 13px;
+          font-size: 14px;
           line-height: 1.4;
           font-weight: 750;
-          overflow-wrap: anywhere;
         }
 
         .hc-heading p {
@@ -685,23 +657,32 @@ export default function Chatbot() {
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          width: 31px;
-          height: 33px;
+          width: 30px;
+          height: 32px;
           padding: 0;
           color: white;
           border: 1px solid transparent;
-          border-radius: 9px;
+          border-radius: 10px;
           background: transparent;
           cursor: pointer;
-          transition: background .2s ease, transform .25s ease;
+          transition: background .25s ease;
         }
 
         .hc-icon-button:hover {
           background: rgba(255,255,255,.18);
         }
 
-        .hc-close-button:hover {
-          transform: rotate(90deg);
+        .hc-close-button {
+          position: relative;
+          top: 0;
+          transform: translateY(0) rotate(0deg);
+          transition: transform .35s ease, background .25s ease;
+        }
+
+        .hc-close-button:hover,
+        .hc-close-button:active {
+          top: 0;
+          transform: translateY(0) rotate(90deg);
         }
 
         .hc-language-wrap {
@@ -713,8 +694,8 @@ export default function Chatbot() {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 4px;
-          min-height: 33px;
+          gap: 5px;
+          min-height: 32px;
           padding: 0 7px;
           color: white;
           font-size: 10px;
@@ -723,13 +704,19 @@ export default function Chatbot() {
           border-radius: 9px;
           background: rgba(255,255,255,.13);
           cursor: pointer;
+          transition: background .2s ease;
+        }
+
+        .hc-language-button:hover {
+          background: rgba(255,255,255,.23);
         }
 
         .hc-language-menu {
           position: absolute;
           z-index: 20;
-          top: calc(100% + 7px);
+          top: 39px;
           right: 0;
+          left: auto;
           min-width: 125px;
           padding: 5px;
           border: 1px solid var(--hc-border);
@@ -745,10 +732,10 @@ export default function Chatbot() {
           align-items: center;
           justify-content: space-between;
           gap: 10px;
-          padding: 10px;
+          padding: 9px 10px;
           color: var(--hc-text);
           font-size: 12px;
-          text-align: start;
+          text-align: left;
           border: 0;
           border-radius: 8px;
           background: transparent;
@@ -764,8 +751,7 @@ export default function Chatbot() {
         .hc-feed {
           flex: 1;
           min-height: 0;
-          padding: 15px 12px 12px;
-          overflow-x: hidden;
+          padding: 16px 13px 12px;
           overflow-y: auto;
           overscroll-behavior: contain;
           scrollbar-width: thin;
@@ -773,26 +759,17 @@ export default function Chatbot() {
           background:
             radial-gradient(ellipse at 100% 0%,rgba(99,102,241,.055),transparent 45%),
             var(--hc-panel);
-          -webkit-overflow-scrolling: touch;
         }
 
         .hc-day-label {
           width: fit-content;
-          margin: 0 auto 15px;
+          margin: 0 auto 16px;
           padding: 5px 10px;
           color: var(--hc-muted);
           font-size: 10px;
           border: 1px solid var(--hc-border);
           border-radius: 20px;
           background: var(--hc-panel-soft);
-        }
-
-        .hc-welcome {
-          margin: 0 0 12px 35px;
-          color: var(--hc-muted);
-          font-size: 11px;
-          line-height: 1.7;
-          animation: hc-message-in .4s ease both;
         }
 
         .hc-message-row {
@@ -822,7 +799,7 @@ export default function Chatbot() {
         }
 
         .hc-bubble-wrap {
-          max-width: min(83%,310px);
+          max-width: 83%;
           min-width: 0;
         }
 
@@ -834,10 +811,10 @@ export default function Chatbot() {
         }
 
         .hc-bubble {
-          padding: 10px 12px;
+          padding: 11px 12px;
           color: var(--hc-text);
           font-size: 12px;
-          line-height: 1.85;
+          line-height: 1.9;
           overflow-wrap: anywhere;
           white-space: pre-wrap;
           border: 1px solid var(--hc-border);
@@ -850,6 +827,7 @@ export default function Chatbot() {
         .hc-bubble[dir="rtl"] {
           direction: rtl;
           text-align: right;
+          unicode-bidi: plaintext;
         }
 
         .hc-message-row.user .hc-bubble {
@@ -869,21 +847,18 @@ export default function Chatbot() {
           flex-wrap: wrap;
           direction: ltr;
           gap: 7px;
-          margin: 6px 0 15px 35px;
+          margin: 6px 0 13px 35px;
           animation: hc-message-in .4s ease both;
         }
 
         .hc-suggestion {
-          max-width: 100%;
-          padding: 8px 10px;
+          padding: 7px 10px;
           color: var(--hc-text);
           font-size: 10px;
-          line-height: 1.5;
           border: 1px solid rgba(129,140,248,.28);
           border-radius: 20px;
           background: rgba(99,102,241,.08);
           cursor: pointer;
-          overflow-wrap: anywhere;
           transition: background .2s ease, border-color .2s ease, transform .2s ease;
         }
 
@@ -931,8 +906,7 @@ export default function Chatbot() {
           display: flex;
           direction: ltr;
           align-items: center;
-          gap: 4px;
-          min-width: 0;
+          gap: 5px;
           min-height: 46px;
           padding: 5px;
           border: 1px solid var(--hc-border);
@@ -947,20 +921,18 @@ export default function Chatbot() {
         }
 
         .hc-input {
-  flex: 1;
-  width: 0;
-  min-width: 0;
-  padding: 5px 5px;
-  color: var(--hc-text);
-  font: inherit;
-  font-size: 13px;
-  border: 0;
-  outline: none;
-  background: transparent;
-  direction: auto;
-  text-align: start;
-  box-sizing: border-box;
-}
+          flex: 1;
+          min-width: 0;
+          padding: 7px 5px;
+          color: var(--hc-text);
+          font: inherit;
+          font-size: 12px;
+          border: 0;
+          outline: none;
+          background: transparent;
+          direction: auto;
+          text-align: start;
+        }
 
         .hc-input::placeholder {
           color: var(--hc-muted);
@@ -974,13 +946,11 @@ export default function Chatbot() {
           justify-content: center;
           flex-shrink: 0;
           width: 35px;
-          height: 36px;
-          padding: 0;
+          height: 35px;
           border: 0;
           border-radius: 10px;
           cursor: pointer;
           transition: background .2s ease, transform .2s ease, color .2s ease;
-          -webkit-tap-highlight-color: transparent;
         }
 
         .hc-tool-button {
@@ -997,11 +967,6 @@ export default function Chatbot() {
           color: white;
           background: #ef4444;
           animation: hc-pulse 1.2s infinite;
-        }
-
-        .hc-tool-button:disabled {
-          opacity: .45;
-          cursor: not-allowed;
         }
 
         .hc-send-button {
@@ -1028,14 +993,8 @@ export default function Chatbot() {
           margin: 9px 0 0;
           color: var(--hc-muted);
           font-size: 9px;
-          line-height: 1.5;
           text-align: center;
           opacity: .8;
-        }
-
-        .hc-root button:focus-visible {
-          outline: 2px solid #a5b4fc;
-          outline-offset: 3px;
         }
 
         @keyframes hc-message-in {
@@ -1062,26 +1021,25 @@ export default function Chatbot() {
           to { transform: rotate(360deg); }
         }
 
-        /* Mobile phones */
         @media (max-width: 520px) {
           .hc-launcher {
-            right: max(15px,env(safe-area-inset-right));
-            bottom: max(15px,env(safe-area-inset-bottom));
+            right: 16px;
+            bottom: 16px;
             width: 55px;
             height: 55px;
           }
 
           .hc-window {
             right: 10px;
-            bottom: calc(78px + env(safe-area-inset-bottom));
+            bottom: 82px;
             width: calc(100vw - 20px);
-            height: calc(100dvh - 100px - env(safe-area-inset-bottom));
-            min-height: 250px;
+            height: min(590px, calc(100dvh - 100px));
+            min-height: 300px;
             border-radius: 19px;
           }
 
           .hc-header {
-            padding: 13px 9px;
+            padding: 15px 9px;
           }
 
           .hc-header-top {
@@ -1089,9 +1047,8 @@ export default function Chatbot() {
           }
 
           .hc-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 11px;
+            width: 36px;
+            height: 36px;
           }
 
           .hc-heading h3 {
@@ -1103,164 +1060,21 @@ export default function Chatbot() {
           }
 
           .hc-icon-button {
-            width: 28px;
-            height: 32px;
+            width: 27px;
           }
 
           .hc-language-button {
-            min-height: 32px;
             gap: 3px;
             padding: 0 5px;
             font-size: 9px;
           }
 
           .hc-feed {
-            padding: 12px 9px;
-          }
-
-          .hc-bubble-wrap {
-            max-width: 85%;
+            padding: 13px 10px;
           }
 
           .hc-input-area {
             padding: 9px;
-            padding-bottom: max(9px,env(safe-area-inset-bottom));
-          }
-        }
-
-        /* Extra-small phones */
-        @media (max-width: 360px) {
-          .hc-window {
-            right: 6px;
-            width: calc(100vw - 12px);
-            bottom: calc(72px + env(safe-area-inset-bottom));
-            height: calc(100dvh - 88px - env(safe-area-inset-bottom));
-            border-radius: 16px;
-          }
-
-          .hc-header {
-            padding: 11px 6px;
-          }
-
-          .hc-header-top {
-            gap: 2px;
-          }
-
-          .hc-avatar {
-            width: 30px;
-            height: 30px;
-          }
-
-          .hc-heading h3 {
-            font-size: 10px;
-          }
-
-          .hc-heading p {
-            font-size: 8px;
-          }
-
-          .hc-icon-button {
-            width: 25px;
-          }
-
-          .hc-language-button {
-            padding: 0 3px;
-            font-size: 9px;
-          }
-
-          .hc-language-button svg {
-            width: 12px;
-          }
-
-          .hc-feed {
-            padding: 10px 7px;
-          }
-
-          .hc-message-row {
-            gap: 5px;
-          }
-
-          .hc-mini-avatar {
-            width: 24px;
-            height: 24px;
-          }
-
-          .hc-bubble-wrap {
-            max-width: 87%;
-          }
-
-          .hc-bubble {
-            padding: 9px;
-            font-size: 12px;
-            line-height: 1.75;
-          }
-
-          .hc-suggestions {
-            gap: 5px;
-            margin-left: 29px;
-          }
-
-          .hc-suggestion {
-            padding: 7px 8px;
-            font-size: 9px;
-          }
-
-          .hc-input-area {
-            padding: 7px;
-          }
-
-          .hc-input-shell {
-            gap: 2px;
-            padding: 4px;
-          }
-
-          .hc-tool-button,
-          .hc-send-button {
-            width: 31px;
-            height: 33px;
-          }
-        }
-
-        /* Tablets */
-        @media (min-width: 521px) and (max-width: 1024px) {
-          .hc-window {
-            right: 20px;
-            bottom: 92px;
-            width: min(410px,calc(100vw - 40px));
-            height: min(640px,calc(100dvh - 115px));
-          }
-        }
-
-        /* Short screens and landscape */
-        @media (max-height: 500px) {
-          .hc-window {
-            top: 8px;
-            bottom: 8px;
-            height: auto;
-            min-height: 0;
-          }
-
-          .hc-launcher {
-            bottom: max(12px,env(safe-area-inset-bottom));
-          }
-
-          .hc-header {
-            padding-top: 8px;
-            padding-bottom: 8px;
-          }
-
-          .hc-avatar {
-            width: 30px;
-            height: 30px;
-          }
-
-          .hc-feed {
-            padding-top: 8px;
-            padding-bottom: 8px;
-          }
-
-          .hc-input-area {
-            padding: 7px 9px;
           }
         }
 
@@ -1271,7 +1085,6 @@ export default function Chatbot() {
             animation-duration: .01ms !important;
             animation-iteration-count: 1 !important;
             transition-duration: .01ms !important;
-            scroll-behavior: auto !important;
           }
         }
       `}</style>
@@ -1316,9 +1129,7 @@ export default function Chatbot() {
                   <button
                     type="button"
                     className="hc-language-button"
-                    onClick={() =>
-                      setShowLanguages((value) => !value)
-                    }
+                    onClick={() => setShowLanguages((value) => !value)}
                     aria-label={current.changeLanguage}
                     aria-expanded={showLanguages}
                     title={current.changeLanguage}
@@ -1359,7 +1170,7 @@ export default function Chatbot() {
               </div>
             </header>
 
-            <div className="hc-feed" ref={feedRef}>
+            <div className="hc-feed">
               
 
               {messages.map((item) => {
@@ -1369,8 +1180,7 @@ export default function Chatbot() {
                       CONTENT[language].replies.fallback
                     : item.text;
 
-                const botTextIsUrdu =
-                  item.role === "bot" && isUrdu;
+                const botTextIsUrdu = item.role === "bot" && isUrdu;
 
                 return (
                   <div
@@ -1387,13 +1197,9 @@ export default function Chatbot() {
                       <div
                         className="hc-message-name"
                         dir={isUrdu ? "rtl" : "ltr"}
-                        style={{
-                          textAlign: isUrdu ? "right" : "left",
-                        }}
+                        style={{ textAlign: isUrdu ? "right" : "left" }}
                       >
-                        {item.role === "bot"
-                          ? current.assistant
-                          : current.you}
+                        {item.role === "bot" ? current.assistant : current.you}
                       </div>
 
                       <div
@@ -1408,9 +1214,7 @@ export default function Chatbot() {
                     {item.role === "user" && (
                       <div
                         className="hc-mini-avatar"
-                        style={{
-                          background: "rgba(100,116,139,.35)",
-                        }}
+                        style={{ background: "rgba(100,116,139,.35)" }}
                       >
                         <User size={15} />
                       </div>
@@ -1419,33 +1223,7 @@ export default function Chatbot() {
                 );
               })}
 
-              {showQuickQuestions && (
-                <>
-                  <p
-                    className="hc-welcome"
-                    dir={isUrdu ? "rtl" : "ltr"}
-                    style={{
-                      textAlign: isUrdu ? "right" : "left",
-                    }}
-                  >
-                    {current.welcome}
-                  </p>
-
-                  <div className="hc-suggestions">
-                    {quickQuestions.map((question) => (
-                      <button
-                        type="button"
-                        key={question}
-                        className="hc-suggestion"
-                        disabled={isTyping}
-                        onClick={() => sendMessage(question)}
-                      >
-                        {question}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              )}
+              
 
               {isTyping && (
                 <div className="hc-message-row bot">
@@ -1457,18 +1235,12 @@ export default function Chatbot() {
                     <div
                       className="hc-message-name"
                       dir={isUrdu ? "rtl" : "ltr"}
-                      style={{
-                        textAlign: isUrdu ? "right" : "left",
-                      }}
+                      style={{ textAlign: isUrdu ? "right" : "left" }}
                     >
                       {current.assistant}
                     </div>
 
-                    <div
-                      className="hc-typing"
-                      aria-label={current.thinking}
-                      role="status"
-                    >
+                    <div className="hc-typing" aria-label={current.thinking}>
                       <span />
                       <span />
                       <span />
@@ -1493,13 +1265,9 @@ export default function Chatbot() {
                   className="hc-input"
                   type="text"
                   value={message}
-                  onChange={(event) =>
-                    setMessage(event.target.value)
-                  }
+                  onChange={(event) => setMessage(event.target.value)}
                   placeholder={
-                    isListening
-                      ? current.listening
-                      : current.placeholder
+                    isListening ? current.listening : current.placeholder
                   }
                   aria-label={current.placeholder}
                   autoComplete="off"
@@ -1509,23 +1277,12 @@ export default function Chatbot() {
 
                 <button
                   type="button"
-                  className={`hc-tool-button ${
-                    isListening ? "recording" : ""
-                  }`}
+                  className={`hc-tool-button ${isListening ? "recording" : ""}`}
                   onClick={startListening}
-                  disabled={isTyping}
-                  title={
-                    isListening ? current.stopMic : current.speak
-                  }
-                  aria-label={
-                    isListening ? current.stopMic : current.speak
-                  }
+                  title={isListening ? current.stopMic : current.speak}
+                  aria-label={isListening ? current.stopMic : current.speak}
                 >
-                  {isListening ? (
-                    <MicOff size={17} />
-                  ) : (
-                    <Mic size={17} />
-                  )}
+                  {isListening ? <MicOff size={17} /> : <Mic size={17} />}
                 </button>
 
                 <button
@@ -1536,49 +1293,41 @@ export default function Chatbot() {
                   aria-label={current.send}
                 >
                   {isTyping ? (
-                    <LoaderCircle
-                      size={17}
-                      className="hc-spinner"
-                    />
+                    <LoaderCircle size={17} className="hc-spinner" />
                   ) : (
                     <Send size={16} />
                   )}
                 </button>
               </div>
 
-              <p
-                className="hc-footer-note"
-                dir={isUrdu ? "rtl" : "ltr"}
-              >
-                {current.footer}
-              </p>
+             
             </form>
           </section>
         )}
 
         <button
-          type="button"
-          className={`hc-launcher ${
-            isOpen && !isClosing ? "hc-launcher-open" : ""
-          }`}
-          onClick={isOpen ? closeChat : openChat}
-          aria-label={isOpen ? current.close : current.title}
-          title={isOpen ? current.close : current.title}
-          aria-expanded={isOpen && !isClosing}
-        >
-          <span className="hc-launcher-symbol">
-            <MessageCircle
-              size={26}
-              strokeWidth={2.1}
-              className="hc-icon-msg"
-            />
-            <X
-              size={25}
-              strokeWidth={2.2}
-              className="hc-icon-cross"
-            />
-          </span>
-        </button>
+  type="button"
+  className={`hc-launcher ${
+    isOpen && !isClosing ? "hc-launcher-open" : ""
+  }`}
+  onClick={isOpen ? closeChat : openChat}
+  aria-label={isOpen ? current.close : current.title}
+  title={isOpen ? current.close : current.title}
+>
+  <span className="hc-launcher-symbol">
+    <Bot
+      size={24}
+      strokeWidth={2.1}
+      className="hc-icon-msg"
+    />
+
+    <X
+      size={25}
+      strokeWidth={2.2}
+      className="hc-icon-cross"
+    />
+  </span>
+</button>
       </div>
     </>
   );
