@@ -85,10 +85,7 @@ export default function Navbar() {
     });
 
     return () => {
-      window.removeEventListener(
-        "portfolio-theme-change",
-        updateTheme
-      );
+      window.removeEventListener("portfolio-theme-change", updateTheme);
       observer.disconnect();
     };
   }, []);
@@ -356,8 +353,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => handleNavigation(navLinks[6])}
-              style={{ cursor: "default" }}
-              className={`group inline-flex cursor-default items-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 lg:px-4 ${
+              className={`group inline-flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 lg:px-4 ${
                 isLight
                   ? "border-indigo-200 bg-indigo-50 text-indigo-700 hover:border-cyan-300 hover:bg-cyan-50 hover:text-cyan-700"
                   : "border-indigo-400/25 bg-indigo-500/[0.08] text-indigo-200 hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-200"
@@ -514,12 +510,11 @@ export default function Navbar() {
             tabIndex={menuOpen ? 0 : -1}
             onClick={() => handleNavigation(navLinks[6])}
             style={{
-              cursor: "default",
               transitionDelay: menuOpen
                 ? `${70 + navLinks.length * 35}ms`
                 : "0ms",
             }}
-            className={`group mt-4 flex min-h-[49px] w-full cursor-default items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition-[transform,opacity,box-shadow] duration-300 ease-out hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 motion-reduce:transition-none ${
+            className={`group mt-4 flex min-h-[49px] w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition-[transform,opacity,box-shadow] duration-300 ease-out hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 motion-reduce:transition-none ${
               menuOpen
                 ? "translate-y-0 opacity-100"
                 : "translate-y-2 opacity-0"

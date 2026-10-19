@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import {
   Code2,
@@ -239,7 +238,6 @@ export default function Hero() {
 
       {/* Responsive main layout */}
       <div className="relative mx-auto grid w-full max-w-[1300px] grid-cols-1 items-center gap-10 px-5 sm:px-8 md:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:gap-10 lg:px-10 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] xl:gap-14 xl:px-14 2xl:gap-20 2xl:px-16">
-
         {/* Left: Hero content */}
         <div
           className={`relative z-10 min-w-0 transition-all duration-700 ease-out motion-reduce:transition-none ${
@@ -347,7 +345,7 @@ export default function Hero() {
           <div
             onPointerMove={handlePointerMove}
             onPointerLeave={resetTilt}
-            className={`group relative isolate overflow-hidden rounded-[26px] border p-4 backdrop-blur-xl transition-[border-color,box-shadow,background-color] duration-300 hover:border-indigo-400/40 hover:shadow-[0_25px_80px_rgba(79,70,229,0.12)] sm:rounded-[32px] sm:p-6 xl:p-7 ${theme.card}`}
+            className={`group relative isolate overflow-hidden rounded-[26px] border p-4 backdrop-blur-xl transition-[border-color,box-shadow] duration-300 hover:border-indigo-400/40 hover:shadow-[0_25px_80px_rgba(79,70,229,0.12)] sm:rounded-[32px] sm:p-6 xl:p-7 ${theme.card}`}
             style={{
               transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
               transitionProperty: "transform, border-color, box-shadow",
