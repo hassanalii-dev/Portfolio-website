@@ -540,14 +540,14 @@ export default function Chatbot() {
           transform: scale(1) rotate(0deg);
         }
 
-        /* Fully Responsive Chat Window for All Screen Sizes */
+        /* Chat Window - Centered on Mobile, right-aligned on Desktop */
         .hc-window {
           position: fixed;
           z-index: 9997;
           right: 24px;
           bottom: 96px;
-          width: min(390px, calc(100vw - 32px));
-          height: min(590px, calc(100dvh - 120px));
+          width: 390px;
+          height: 590px;
           min-height: 340px;
           display: flex;
           flex-direction: column;
@@ -580,6 +580,27 @@ export default function Chatbot() {
           opacity: 0;
           transform: translateY(10px) scale(.98);
           pointer-events: none;
+        }
+
+        @media (max-width: 640px) {
+          .hc-window {
+            right: auto;
+            left: 50%;
+            bottom: 88px;
+            width: calc(100vw - 24px);
+            max-width: 390px;
+            height: min(560px, calc(100dvh - 110px));
+            transform: translateX(-50%) translateY(15px) scale(.97);
+            transform-origin: bottom center;
+          }
+
+          .hc-window.hc-visible {
+            transform: translateX(-50%) translateY(0) scale(1);
+          }
+
+          .hc-window.hc-closing {
+            transform: translateX(-50%) translateY(10px) scale(.98);
+          }
         }
 
         .hc-header {
