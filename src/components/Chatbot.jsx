@@ -436,13 +436,6 @@ export default function Chatbot() {
     }
   };
 
-  const quickQuestions = [
-    "Tell me about Hassan",
-    "What are Hassan's skills?",
-    "Show me Hassan's projects",
-    "Tell me about Hassan's education",
-  ];
-
   return (
     <>
       <style>{`
@@ -488,18 +481,15 @@ export default function Chatbot() {
           transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
         }
 
-        /* Smooth Cursor Hover Zoom Effect */
         .hc-launcher:hover {
           transform: scale(1.05);
           box-shadow: 0 16px 45px rgba(99, 102, 241, 0.6);
         }
 
-        /* Button Press Effect */
         .hc-launcher:active {
           transform: scale(0.92);
         }
 
-        /* Pulsing ring shadow animation */
         @keyframes hc-shadow-pulse {
           0% {
             box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4),
@@ -515,25 +505,21 @@ export default function Chatbot() {
           }
         }
 
-        /* Icon Container */
         .hc-launcher-symbol {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  transform: translateX(px);
-}
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          width: 28px;
+          height: 28px;
+          flex-shrink: 0;
+        }
 
-        /* Smooth Entry/Exit Animation for Icons */
         .hc-launcher-symbol svg {
           position: absolute;
           transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
         }
 
-        /* Closed Chat: Message visible, Cross hidden */
         .hc-launcher:not(.hc-launcher-open) .hc-icon-msg {
           opacity: 1;
           transform: scale(1) rotate(0deg);
@@ -544,7 +530,6 @@ export default function Chatbot() {
           pointer-events: none;
         }
 
-        /* Open Chat: Cross visible, Message hidden */
         .hc-launcher.hc-launcher-open .hc-icon-msg {
           opacity: 0;
           transform: scale(0.5) rotate(90deg);
@@ -560,8 +545,8 @@ export default function Chatbot() {
           z-index: 9997;
           right: 24px;
           bottom: 96px;
-          width: min(390px, calc(100vw - 32px));
-          height: min(590px, calc(100dvh - 120px));
+          width: 390px;
+          height: 590px;
           min-height: 340px;
           display: flex;
           flex-direction: column;
@@ -761,17 +746,6 @@ export default function Chatbot() {
             var(--hc-panel);
         }
 
-        .hc-day-label {
-          width: fit-content;
-          margin: 0 auto 16px;
-          padding: 5px 10px;
-          color: var(--hc-muted);
-          font-size: 10px;
-          border: 1px solid var(--hc-border);
-          border-radius: 20px;
-          background: var(--hc-panel-soft);
-        }
-
         .hc-message-row {
           display: flex;
           direction: ltr;
@@ -840,37 +814,6 @@ export default function Chatbot() {
         .hc-message-row.user .hc-message-name {
           text-align: right;
           margin-right: 2px;
-        }
-
-        .hc-suggestions {
-          display: flex;
-          flex-wrap: wrap;
-          direction: ltr;
-          gap: 7px;
-          margin: 6px 0 13px 35px;
-          animation: hc-message-in .4s ease both;
-        }
-
-        .hc-suggestion {
-          padding: 7px 10px;
-          color: var(--hc-text);
-          font-size: 10px;
-          border: 1px solid rgba(129,140,248,.28);
-          border-radius: 20px;
-          background: rgba(99,102,241,.08);
-          cursor: pointer;
-          transition: background .2s ease, border-color .2s ease, transform .2s ease;
-        }
-
-        .hc-suggestion:hover:not(:disabled) {
-          border-color: #818cf8;
-          background: rgba(99,102,241,.18);
-          transform: translateY(-2px);
-        }
-
-        .hc-suggestion:disabled {
-          opacity: .5;
-          cursor: not-allowed;
         }
 
         .hc-typing {
@@ -989,14 +932,6 @@ export default function Chatbot() {
           animation: hc-spinner 1s linear infinite;
         }
 
-        .hc-footer-note {
-          margin: 9px 0 0;
-          color: var(--hc-muted);
-          font-size: 9px;
-          text-align: center;
-          opacity: .8;
-        }
-
         @keyframes hc-message-in {
           from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
@@ -1019,63 +954,6 @@ export default function Chatbot() {
 
         @keyframes hc-spinner {
           to { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 520px) {
-          .hc-launcher {
-            right: 16px;
-            bottom: 16px;
-            width: 55px;
-            height: 55px;
-          }
-
-          .hc-window {
-            right: 10px;
-            bottom: 82px;
-            width: calc(100vw - 20px);
-            height: min(590px, calc(100dvh - 100px));
-            min-height: 300px;
-            border-radius: 19px;
-          }
-
-          .hc-header {
-            padding: 15px 9px;
-          }
-
-          .hc-header-top {
-            gap: 4px;
-          }
-
-          .hc-avatar {
-            width: 36px;
-            height: 36px;
-          }
-
-          .hc-heading h3 {
-            font-size: 12px;
-          }
-
-          .hc-heading p {
-            font-size: 9px;
-          }
-
-          .hc-icon-button {
-            width: 27px;
-          }
-
-          .hc-language-button {
-            gap: 3px;
-            padding: 0 5px;
-            font-size: 9px;
-          }
-
-          .hc-feed {
-            padding: 13px 10px;
-          }
-
-          .hc-input-area {
-            padding: 9px;
-          }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1171,8 +1049,6 @@ export default function Chatbot() {
             </header>
 
             <div className="hc-feed">
-              
-
               {messages.map((item) => {
                 const displayText =
                   item.role === "bot" && item.replyKey
@@ -1222,8 +1098,6 @@ export default function Chatbot() {
                   </div>
                 );
               })}
-
-              
 
               {isTyping && (
                 <div className="hc-message-row bot">
@@ -1299,35 +1173,33 @@ export default function Chatbot() {
                   )}
                 </button>
               </div>
-
-             
             </form>
           </section>
         )}
 
         <button
-  type="button"
-  className={`hc-launcher ${
-    isOpen && !isClosing ? "hc-launcher-open" : ""
-  }`}
-  onClick={isOpen ? closeChat : openChat}
-  aria-label={isOpen ? current.close : current.title}
-  title={isOpen ? current.close : current.title}
->
-  <span className="hc-launcher-symbol">
-    <Bot
-      size={24}
-      strokeWidth={2.1}
-      className="hc-icon-msg"
-    />
+          type="button"
+          className={`hc-launcher ${
+            isOpen && !isClosing ? "hc-launcher-open" : ""
+          }`}
+          onClick={isOpen ? closeChat : openChat}
+          aria-label={isOpen ? current.close : current.title}
+          title={isOpen ? current.close : current.title}
+        >
+          <span className="hc-launcher-symbol">
+            <Bot
+              size={24}
+              strokeWidth={2.1}
+              className="hc-icon-msg"
+            />
 
-    <X
-      size={25}
-      strokeWidth={2.2}
-      className="hc-icon-cross"
-    />
-  </span>
-</button>
+            <X
+              size={25}
+              strokeWidth={2.2}
+              className="hc-icon-cross"
+            />
+          </span>
+        </button>
       </div>
     </>
   );
