@@ -6,25 +6,27 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Education", href: "#education" },
-  { label: "Skills", href: "#skills" },
-  { label: "Services", href: "#services" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/", section: "home" },
+  { label: "About", href: "/about", section: "about" },
+  { label: "Education", href: "/education", section: "education" },
+  { label: "Skills", href: "/skills", section: "skills" },
+  { label: "Services", href: "/services", section: "services" },
+  { label: "Projects", href: "/projects", section: "projects" },
+  { label: "Contact", href: "/contact", section: "contact" },
 ];
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled] = useState(false);
 
   const [isLight, setIsLight] = useState(() => {
-    if (typeof document === "undefined") return false;
-
     try {
       return (
         document.documentElement.dataset.theme === "light" ||
@@ -35,7 +37,7 @@ export default function Navbar() {
     }
   });
 
-  // Theme synchronization
+  // Theme synchronization.
   useEffect(() => {
     const root = document.documentElement;
     const theme = isLight ? "light" : "dark";
@@ -56,7 +58,7 @@ export default function Navbar() {
     );
   }, [isLight]);
 
-  // Listen for theme changes from other components
+  // Listen for theme changes from other components.
   useEffect(() => {
     const updateTheme = (event) => {
       const theme =
@@ -66,14 +68,14 @@ export default function Navbar() {
       setIsLight(theme === "light");
     };
 
-    window.addEventListener(
-      "portfolio-theme-change",
-      updateTheme
-    );
+    window.addEventListener("portfolio-theme-change", updateTheme);
 
     const observer = new MutationObserver(() => {
-      setIsLight(
-        document.documentElement.dataset.theme === "light"
+      const theme =
+        document.documentElement.dataset.theme === "light";
+
+      setIsLight((previous) =>
+        previous === theme ? previous : theme
       );
     });
 
@@ -99,7 +101,31 @@ export default function Navbar() {
     setMenuOpen(false);
   };
 
-  // Active section and navbar scroll effect
+  // Navigate without adding a hash to the URL.
+  const handleNavigation = (link) => {
+    closeMenu();
+
+    if (location.pathname !== link.href) {
+      navigate(link.href);
+    } else {
+      const section = document.getElementById(link.section);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+          ).matches
+            ? "auto"
+            : "smooth",
+          block: "start",
+        });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+  };
+
+  // Navbar scroll effect and active section.
   useEffect(() => {
     let ticking = false;
     let frameId;
@@ -112,21 +138,24 @@ export default function Navbar() {
       frameId = window.requestAnimationFrame(() => {
         setScrolled(window.scrollY > 24);
 
-        const marker = 170;
-        let current = "home";
+        if (location.pathname === "/") {
+          const marker = 170;
+          let current = "home";
 
-        navLinks.forEach((link) => {
-          const section = document.querySelector(link.href);
+          navLinks.forEach((link) => {
+            const section = document.getElementById(link.section);
 
-          if (
-            section &&
-            section.getBoundingClientRect().top <= marker
-          ) {
-            current = section.id;
-          }
-        });
+            if (
+              section &&
+              section.getBoundingClientRect().top <= marker
+            ) {
+              current = link.section;
+            }
+          });
 
-        setActiveSection(current);
+          setActiveSection(current);
+        }
+
         ticking = false;
       });
     };
@@ -146,20 +175,26 @@ export default function Navbar() {
         window.cancelAnimationFrame(frameId);
       }
     };
-  }, []);
+  }, [location.pathname]);
 
-  // Close on Escape or desktop breakpoint
+  // Update the active navigation item when the URL changes.
+  useEffect(() => {
+    const currentLink = navLinks.find(
+      (link) => link.href === location.pathname
+    );
+
+    setActiveSection(currentLink?.section || "home");
+    closeMenu();
+  }, [location.pathname]);
+
+  // Close on Escape or desktop breakpoint.
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        closeMenu();
-      }
+      if (event.key === "Escape") closeMenu();
     };
 
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        closeMenu();
-      }
+      if (window.innerWidth >= 768) closeMenu();
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -171,7 +206,7 @@ export default function Navbar() {
     };
   }, []);
 
-  // Prevent background scrolling when mobile menu is open
+  // Prevent background scrolling while the mobile menu is open.
   useEffect(() => {
     if (!menuOpen) return;
 
@@ -183,7 +218,6 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  // Theme toggle
   const ThemeToggle = ({ mobile = false }) => (
     <button
       type="button"
@@ -193,15 +227,14 @@ export default function Navbar() {
       }
       aria-pressed={isLight}
       title={isLight ? "Switch to dark mode" : "Switch to light mode"}
-      className={`group relative inline-flex shrink-0 items-center justify-center
+      style={{ cursor: "default" }}
+      className={`group relative inline-flex shrink-0 cursor-default items-center justify-center
         overflow-hidden rounded-xl border
         transition-[background-color,border-color,color,box-shadow]
         duration-300 ease-out
         focus-visible:outline-none focus-visible:ring-2
         focus-visible:ring-cyan-400
-        ${
-          mobile ? "h-11 w-11" : "h-10 w-10"
-        }
+        ${mobile ? "h-11 w-11" : "h-10 w-10"}
         ${
           isLight
             ? "border-indigo-200 bg-white text-indigo-600 shadow-sm shadow-indigo-100 hover:border-purple-300 hover:bg-indigo-50"
@@ -236,7 +269,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Navbar */}
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b
           transition-[background-color,border-color,box-shadow,backdrop-filter]
@@ -260,11 +292,11 @@ export default function Navbar() {
 
         <div className="mx-auto flex min-h-[76px] max-w-[1250px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
           {/* Logo */}
-          <a
-            href="#home"
-            onClick={closeMenu}
+          <button
+            type="button"
+            onClick={() => handleNavigation(navLinks[0])}
             aria-label="Hassan Ali home"
-            className="group relative z-[60] flex min-w-0 shrink-0 items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+            className="group relative z-[60] flex min-w-0 shrink-0 cursor-pointer items-center gap-3 rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
           >
             <span className="flex min-w-0 flex-col justify-center leading-none">
               <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-[23px] font-bold tracking-tight text-transparent transition-all duration-300 group-hover:brightness-125 sm:text-[25px]">
@@ -279,7 +311,7 @@ export default function Navbar() {
                 Freelancer &amp; Developer
               </span>
             </span>
-          </a>
+          </button>
 
           {/* Desktop Navigation */}
           <nav
@@ -287,15 +319,15 @@ export default function Navbar() {
             className="hidden items-center gap-0.5 md:flex lg:gap-1"
           >
             {navLinks.map((link) => {
-              const isActive =
-                activeSection === link.href.slice(1);
+              const isActive = activeSection === link.section;
 
               return (
-                <a
+                <button
                   key={link.href}
-                  href={link.href}
-                  aria-current={isActive ? "location" : undefined}
-                  className={`group relative whitespace-nowrap rounded-lg px-2 py-2.5 text-[12px] font-medium transition-colors duration-200 lg:px-3 lg:text-[13px] ${
+                  type="button"
+                  onClick={() => handleNavigation(link)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`group relative cursor-pointer whitespace-nowrap rounded-lg px-2 py-2.5 text-[12px] font-medium transition-colors duration-200 lg:px-3 lg:text-[13px] ${
                     isActive
                       ? "text-cyan-500"
                       : isLight
@@ -303,9 +335,7 @@ export default function Navbar() {
                         : "text-slate-400 hover:bg-white/[0.04] hover:text-white"
                   }`}
                 >
-                  <span className="relative z-10">
-                    {link.label}
-                  </span>
+                  <span className="relative z-10">{link.label}</span>
 
                   <span
                     className={`absolute inset-x-2 bottom-1 h-[2px] origin-center rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400 transition-transform duration-300 lg:inset-x-3 ${
@@ -314,30 +344,31 @@ export default function Navbar() {
                         : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70"
                     }`}
                   />
-                </a>
+                </button>
               );
             })}
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden shrink-0 items-center gap-2 lg:gap-3 md:flex">
+          <div className="hidden shrink-0 items-center gap-2 md:flex lg:gap-3">
             <ThemeToggle />
 
-            <a
-              href="#contact"
-              className={`group inline-flex items-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 lg:px-4 ${
+            <button
+              type="button"
+              onClick={() => handleNavigation(navLinks[6])}
+              style={{ cursor: "default" }}
+              className={`group inline-flex cursor-default items-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 lg:px-4 ${
                 isLight
                   ? "border-indigo-200 bg-indigo-50 text-indigo-700 hover:border-cyan-300 hover:bg-cyan-50 hover:text-cyan-700"
                   : "border-indigo-400/25 bg-indigo-500/[0.08] text-indigo-200 hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-200"
               }`}
             >
               Let's Talk
-
               <ArrowUpRight
                 size={15}
                 className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               />
-            </a>
+            </button>
           </div>
 
           {/* Mobile / Tablet Actions */}
@@ -346,19 +377,14 @@ export default function Navbar() {
 
             <button
               type="button"
-              onClick={() => setMenuOpen((prev) => !prev)}
-              className={`group relative z-[60] flex h-11 w-11 items-center justify-center rounded-xl border
-                transition-[background-color,border-color,color]
-                duration-300 focus-visible:outline-none
-                focus-visible:ring-2 focus-visible:ring-cyan-400 ${
-                  isLight
-                    ? "border-slate-300 bg-white text-slate-800 hover:border-indigo-300 hover:bg-indigo-50"
-                    : "border-white/10 bg-white/[0.04] text-white hover:border-indigo-400/40 hover:bg-indigo-500/10"
-                }`}
+              onClick={() => setMenuOpen((previous) => !previous)}
+              className={`group relative z-[60] flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border transition-[background-color,border-color,color] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+                isLight
+                  ? "border-slate-300 bg-white text-slate-800 hover:border-indigo-300 hover:bg-indigo-50"
+                  : "border-white/10 bg-white/[0.04] text-white hover:border-indigo-400/40 hover:bg-indigo-500/10"
+              }`}
               aria-label={
-                menuOpen
-                  ? "Close navigation menu"
-                  : "Open navigation menu"
+                menuOpen ? "Close navigation menu" : "Open navigation menu"
               }
               aria-expanded={menuOpen}
               aria-controls="mobile-navigation"
@@ -396,7 +422,7 @@ export default function Navbar() {
         tabIndex={menuOpen ? 0 : -1}
         aria-label="Close navigation menu"
         aria-hidden={!menuOpen}
-        className={`fixed inset-0 z-40 md:hidden ${
+        className={`fixed inset-0 z-40 cursor-pointer md:hidden ${
           isLight ? "bg-slate-900/30" : "bg-black/60"
         } ${
           menuOpen
@@ -421,19 +447,17 @@ export default function Navbar() {
         } origin-top transition-[transform,opacity,visibility,background-color,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none`}
       >
         <div className="mx-auto max-w-[500px]">
-          {/* Navigation links */}
           <div className="space-y-1.5">
             {navLinks.map((link, index) => {
-              const isActive =
-                activeSection === link.href.slice(1);
+              const isActive = activeSection === link.section;
 
               return (
-                <a
+                <button
                   key={link.href}
-                  href={link.href}
+                  type="button"
                   tabIndex={menuOpen ? 0 : -1}
-                  onClick={closeMenu}
-                  aria-current={isActive ? "location" : undefined}
+                  onClick={() => handleNavigation(link)}
+                  aria-current={isActive ? "page" : undefined}
                   style={{
                     transitionDelay: menuOpen
                       ? `${70 + index * 35}ms`
@@ -442,22 +466,19 @@ export default function Navbar() {
                       ? "translate3d(0, 0, 0)"
                       : "translate3d(0, 8px, 0)",
                   }}
-                  className={`group flex min-h-[49px] items-center justify-between rounded-xl border px-4 py-3 text-sm font-medium
-                    transition-[transform,opacity,background-color,border-color,color]
-                    duration-300 ease-out focus-visible:outline-none
-                    focus-visible:ring-2 focus-visible:ring-cyan-400 ${
-                      menuOpen
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-2 opacity-0"
-                    } ${
-                      isActive
-                        ? isLight
-                          ? "border-indigo-200 bg-indigo-50 text-indigo-700"
-                          : "border-indigo-400/20 bg-indigo-500/10 text-cyan-300"
-                        : isLight
-                          ? "border-transparent text-slate-700 hover:border-slate-200 hover:bg-slate-50 hover:text-indigo-600"
-                          : "border-transparent text-slate-300 hover:border-white/10 hover:bg-white/[0.04] hover:text-white"
-                    }`}
+                  className={`group flex min-h-[49px] w-full cursor-pointer items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-medium transition-[transform,opacity,background-color,border-color,color] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+                    menuOpen
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-2 opacity-0"
+                  } ${
+                    isActive
+                      ? isLight
+                        ? "border-indigo-200 bg-indigo-50 text-indigo-700"
+                        : "border-indigo-400/20 bg-indigo-500/10 text-cyan-300"
+                      : isLight
+                        ? "border-transparent text-slate-700 hover:border-slate-200 hover:bg-slate-50 hover:text-indigo-600"
+                        : "border-transparent text-slate-300 hover:border-white/10 hover:bg-white/[0.04] hover:text-white"
+                  }`}
                 >
                   <span className="flex items-center gap-3">
                     <span
@@ -469,7 +490,6 @@ export default function Navbar() {
                             : "bg-slate-700 group-hover:bg-indigo-400"
                       }`}
                     />
-
                     {link.label}
                   </span>
 
@@ -483,34 +503,34 @@ export default function Navbar() {
                           : "text-slate-600 group-hover:text-indigo-300"
                     }`}
                   />
-                </a>
+                </button>
               );
             })}
           </div>
 
           {/* Mobile CTA */}
-          <a
-            href="#contact"
+          <button
+            type="button"
             tabIndex={menuOpen ? 0 : -1}
-            onClick={closeMenu}
+            onClick={() => handleNavigation(navLinks[6])}
             style={{
+              cursor: "default",
               transitionDelay: menuOpen
                 ? `${70 + navLinks.length * 35}ms`
                 : "0ms",
             }}
-            className={`group mt-4 flex min-h-[49px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition-[transform,opacity,box-shadow] duration-300 ease-out hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 motion-reduce:transition-none ${
+            className={`group mt-4 flex min-h-[49px] w-full cursor-default items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition-[transform,opacity,box-shadow] duration-300 ease-out hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 motion-reduce:transition-none ${
               menuOpen
                 ? "translate-y-0 opacity-100"
                 : "translate-y-2 opacity-0"
             }`}
           >
             Let's Talk
-
             <ArrowUpRight
               size={17}
               className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
-          </a>
+          </button>
         </div>
       </nav>
     </>

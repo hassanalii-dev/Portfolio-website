@@ -1,6 +1,6 @@
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { ArrowUp } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Loader from "./components/Loader";
 import LiveBackground from "./components/LiveBackground";
@@ -14,19 +14,35 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
+const routeSections = {
+  "/": "home",
+  "/home": "home",
+  "/about": "about",
+  "/education": "education",
+  "/skills": "skills",
+  "/services": "services",
+  "/projects": "projects",
+  "/contact": "contact",
+};
+
 export default function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const [isLight, setIsLight] = useState(() => {
     try {
-      return localStorage.getItem("portfolio-theme") === "light";
+      return (
+        localStorage.getItem("portfolio-theme") === "light"
+      );
     } catch {
       return false;
     }
   });
 
-  // Keep theme synchronized with Navbar.
+  // Keep the theme synchronized with Navbar.
   useEffect(() => {
     const syncTheme = () => {
       setIsLight(
@@ -34,16 +50,33 @@ export default function App() {
       );
     };
 
-    syncTheme();
+    const savedTheme = (() => {
+      try {
+        return localStorage.getItem("portfolio-theme");
+      } catch {
+        return null;
+      }
+    })();
+
+    const theme =
+      savedTheme ||
+      document.documentElement.dataset.theme ||
+      "dark";
+
+    document.documentElement.dataset.theme = theme;
+    setIsLight(theme === "light");
 
     window.addEventListener("portfolio-theme-change", syncTheme);
 
     return () => {
-      window.removeEventListener("portfolio-theme-change", syncTheme);
+      window.removeEventListener(
+        "portfolio-theme-change",
+        syncTheme
+      );
     };
   }, []);
 
-  // Back-to-top visibility.
+  // Update Back-to-Top visibility while scrolling.
   useEffect(() => {
     let ticking = false;
 
@@ -69,20 +102,106 @@ export default function App() {
     };
   }, []);
 
-  // Smooth scroll to top.
-  const scrollToTop = () => {
+  // Scroll to the top.
+  const scrollToTop = useCallback(() => {
     window.scrollTo({
       top: 0,
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
-        .matches
+      behavior: window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches
         ? "auto"
         : "smooth",
     });
-  };
+  }, []);
 
-  const handleLoaderComplete = () => {
+  // Mark the application as loaded when Loader finishes.
+  const handleLoaderComplete = useCallback(() => {
     setIsLoaded(true);
-  };
+  }, []);
+
+  // Navigate to a section using a clean URL without a hash.
+  const navigateToSection = useCallback(
+    (section) => {
+      const normalizedSection = section.replace(/^\/+|\/+$/g, "");
+      const path =
+        normalizedSection === "" || normalizedSection === "home"
+          ? "/"
+          : `/${normalizedSection}`;
+
+      if (location.pathname !== path) {
+        navigate(path);
+      }
+
+      const scrollToSection = () => {
+        const target = document.getElementById(
+          normalizedSection || "home"
+        );
+
+        if (target) {
+          target.scrollIntoView({
+            behavior: window.matchMedia(
+              "(prefers-reduced-motion: reduce)"
+            ).matches
+              ? "auto"
+              : "smooth",
+            block: "start",
+          });
+        } else {
+          window.scrollTo({
+            top: 0,
+            behavior: "auto",
+          });
+        }
+      };
+
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(scrollToSection);
+      });
+    },
+    [location.pathname, navigate]
+  );
+
+  // Handle direct URLs and browser Back/Forward navigation.
+  useEffect(() => {
+    const section = routeSections[location.pathname];
+
+    if (!section) return;
+
+    let cancelled = false;
+    let attempts = 0;
+    let timeoutId;
+
+    const scrollToRoute = () => {
+      if (cancelled) return;
+
+      const target = document.getElementById(section);
+
+      if (target) {
+        target.scrollIntoView({
+          behavior: "auto",
+          block: "start",
+        });
+        return;
+      }
+
+      // Allow the page and its sections to finish mounting.
+      if (attempts < 20) {
+        attempts += 1;
+        timeoutId = window.setTimeout(scrollToRoute, 50);
+      }
+    };
+
+    if (section === "home") {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    } else {
+      scrollToRoute();
+    }
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [location.pathname, isLoaded]);
 
   return (
     <>
@@ -105,7 +224,6 @@ export default function App() {
           margin: 0;
         }
 
-        /* Responsive layout handling. */
         .portfolio-app {
           width: 100%;
           min-width: 0;
@@ -125,7 +243,6 @@ export default function App() {
           max-width: 100%;
         }
 
-        /* Main application reveal. */
         .portfolio-shell {
           min-height: 100vh;
           background-color: #080b14;
@@ -143,16 +260,10 @@ export default function App() {
         }
 
         @keyframes portfolioShellReveal {
-          from {
-            opacity: 0;
-          }
-
-          to {
-            opacity: 1;
-          }
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
 
-        /* Page content entrance animation. */
         .portfolio-page-content {
           opacity: 0;
           transform: translate3d(0, 18px, 0);
@@ -174,12 +285,10 @@ export default function App() {
             transform: translate3d(0, 18px, 0);
             filter: blur(3px);
           }
-
           60% {
             opacity: 1;
             filter: blur(0);
           }
-
           100% {
             opacity: 1;
             transform: translate3d(0, 0, 0);
@@ -187,7 +296,6 @@ export default function App() {
           }
         }
 
-        /* Back-to-top visibility animation. */
         .back-to-top {
           opacity: 0;
           visibility: hidden;
@@ -256,12 +364,10 @@ export default function App() {
         }
       `}</style>
 
-      {/* Loader */}
       {!isLoaded && (
         <Loader onComplete={handleLoaderComplete} />
       )}
 
-      {/* Main application */}
       <div
         data-theme={isLight ? "light" : "dark"}
         className={`
@@ -291,7 +397,7 @@ export default function App() {
           <Navbar />
         </div>
 
-        {/* Page content */}
+        {/* All sections remain on the same page */}
         <div
           className={`
             portfolio-page-content
@@ -300,19 +406,39 @@ export default function App() {
           `}
         >
           <main>
-            <Hero pageReady={isLoaded} />
-            <About />
-            <Education />
-            <Skills />
-            <Services />
-            <Projects />
-            <Contact />
+            <section id="home" className="scroll-mt-20">
+              <Hero pageReady={isLoaded} />
+            </section>
+
+            <section id="about" className="scroll-mt-20">
+              <About />
+            </section>
+
+            <section id="education" className="scroll-mt-20">
+              <Education />
+            </section>
+
+            <section id="skills" className="scroll-mt-20">
+              <Skills />
+            </section>
+
+            <section id="services" className="scroll-mt-20">
+              <Services />
+            </section>
+
+            <section id="projects" className="scroll-mt-20">
+              <Projects />
+            </section>
+
+            <section id="contact" className="scroll-mt-20">
+              <Contact />
+            </section>
           </main>
 
           <Footer />
         </div>
 
-        {/* Back To Top */}
+        {/* Back to top */}
         <button
           type="button"
           onClick={scrollToTop}
