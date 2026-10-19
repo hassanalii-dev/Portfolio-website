@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { UserRound, MapPin, LaptopMinimal } from "lucide-react";
 
@@ -79,11 +78,11 @@ export default function About() {
     opacity: isVisible ? 1 : 0,
     transform: isVisible
       ? "translate3d(0, 0, 0)"
-      : "translate3d(0, 20px, 0)",
-    transition: `opacity 700ms ease ${isVisible ? delay : 0}ms, transform 700ms ease ${isVisible ? delay : 0}ms`,
+      : "translate3d(0, 15px, 0)",
+    transition: `opacity 500ms ease ${isVisible ? delay : 0}ms, transform 500ms ease ${isVisible ? delay : 0}ms`,
   });
 
-  // Desktop card tilt
+  // Desktop card tilt (optimized & smooth)
   const handlePointerMove = (event) => {
     if (
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
@@ -99,8 +98,8 @@ export default function About() {
     const y = (event.clientY - rect.top) / rect.height;
 
     setTilt({
-      x: (0.5 - y) * 2.5,
-      y: (x - 0.5) * 2.5,
+      x: (0.5 - y) * 2,
+      y: (x - 0.5) * 2,
     });
   };
 
@@ -141,7 +140,7 @@ export default function About() {
       ref={sectionRef}
       id="about"
       data-theme={isLight ? "light" : "dark"}
-      className={`about-section relative isolate overflow-hidden pt-8 pb-14 transition-colors duration-500 sm:py-20 md:py-24 lg:py-28 xl:py-32 ${
+      className={`about-section relative isolate overflow-hidden pt-8 pb-14 transition-colors duration-300 sm:py-20 md:py-24 lg:py-28 xl:py-32 ${
         isLight ? "text-slate-800" : "text-white"
       }`}
     >
@@ -182,7 +181,7 @@ export default function About() {
       <div className="relative mx-auto w-full max-w-[1300px] px-5 sm:px-8 lg:px-10 xl:px-14 2xl:px-16">
         {/* Section heading */}
         <div
-          className="mb-8 text-center transition-all duration-700 ease-out motion-reduce:transition-none sm:mb-14 lg:mb-16"
+          className="mb-8 text-center transition-all duration-500 ease-out motion-reduce:transition-none sm:mb-14 lg:mb-16"
           style={reveal(0)}
         >
           <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-indigo-400/30 bg-indigo-400/[0.08] px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[1.5px] text-indigo-500 sm:px-4 sm:text-xs sm:tracking-[3px]">
@@ -191,13 +190,13 @@ export default function About() {
           </span>
 
           <h2
-            className={`mt-4 text-3xl font-black tracking-tight transition-colors duration-500 min-[420px]:text-4xl sm:mt-5 sm:text-5xl md:text-6xl ${colors.heading}`}
+            className={`mt-4 text-3xl font-black tracking-tight transition-colors duration-300 min-[420px]:text-4xl sm:mt-5 sm:text-5xl md:text-6xl ${colors.heading}`}
           >
             Who I Am
           </h2>
 
           <p
-            className={`mx-auto mt-3 max-w-[620px] text-sm leading-7 transition-colors duration-500 sm:mt-4 sm:text-base sm:leading-8 ${colors.paragraph}`}
+            className={`mx-auto mt-3 max-w-[620px] text-sm leading-7 transition-colors duration-300 sm:mt-4 sm:text-base sm:leading-8 ${colors.paragraph}`}
           >
             A passionate student who is continuously learning,
             creating, and building in the world of web development.
@@ -210,21 +209,21 @@ export default function About() {
         <div className="grid grid-cols-1 items-center gap-8 md:gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] xl:gap-14 2xl:gap-20">
           {/* Profile card */}
           <div
-            className="relative mx-auto w-full max-w-[360px] min-w-0 transition-all duration-700 ease-out motion-reduce:transition-none sm:max-w-[380px] lg:max-w-none"
-            style={reveal(120)}
+            className="relative mx-auto w-full max-w-[360px] min-w-0 transition-all duration-500 ease-out motion-reduce:transition-none sm:max-w-[380px] lg:max-w-none"
+            style={reveal(80)}
           >
             <div className="pointer-events-none absolute -inset-3 rounded-[30px] bg-gradient-to-br from-indigo-500/[0.14] via-purple-500/[0.06] to-cyan-400/[0.09] blur-2xl sm:-inset-4 sm:rounded-[36px]" />
 
             <div
               onPointerMove={handlePointerMove}
               onPointerLeave={resetTilt}
-              className={`group relative overflow-hidden rounded-[26px] border p-4 transition-[background-color,border-color,box-shadow] duration-500 hover:border-indigo-400/40 hover:shadow-[0_20px_55px_rgba(79,70,229,0.10)] min-[420px]:p-5 sm:rounded-[32px] sm:p-6 xl:p-7 ${colors.card}`}
+              className={`group relative overflow-hidden rounded-[26px] border p-4 transition-[border-color,box-shadow] duration-300 hover:border-indigo-400/40 hover:shadow-[0_20px_55px_rgba(79,70,229,0.10)] min-[420px]:p-5 sm:rounded-[32px] sm:p-6 xl:p-7 ${colors.card}`}
               style={{
                 transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-                transitionProperty:
-                  "transform, border-color, box-shadow, background-color",
-                transitionDuration: "220ms",
+                transitionProperty: "transform, border-color, box-shadow",
+                transitionDuration: "180ms",
                 transitionTimingFunction: "ease-out",
+                willChange: "transform",
               }}
             >
               {/* Card atmosphere */}
@@ -255,7 +254,7 @@ export default function About() {
                     </p>
 
                     <p
-                      className={`mt-1 text-xs font-semibold transition-colors duration-500 sm:text-sm ${colors.profileTitle}`}
+                      className={`mt-1 text-xs font-semibold transition-colors duration-300 sm:text-sm ${colors.profileTitle}`}
                     >
                       About My Profile
                     </p>
@@ -277,7 +276,7 @@ export default function About() {
 
                   <div className="relative h-36 w-36 rounded-full bg-gradient-to-br from-indigo-400 via-purple-500 to-cyan-400 p-[3px] shadow-[0_0_35px_rgba(99,102,241,0.15)] transition-transform duration-300 group-hover:scale-[1.025] min-[420px]:h-40 min-[420px]:w-40 sm:h-52 sm:w-52 xl:h-56 xl:w-56">
                     <div
-                      className={`h-full w-full overflow-hidden rounded-full border-[3px] transition-colors duration-500 ${colors.profileBorder} ${colors.profileImageBg}`}
+                      className={`h-full w-full overflow-hidden rounded-full border-[3px] transition-colors duration-300 ${colors.profileBorder} ${colors.profileImageBg}`}
                     >
                       <img
                         src="/image copy.png"
@@ -289,7 +288,7 @@ export default function About() {
                   </div>
 
                   <span
-                    className={`absolute bottom-2 right-2 flex h-5 w-5 items-center justify-center rounded-full border-[3px] bg-emerald-400 transition-colors duration-500 sm:bottom-4 sm:right-3 ${colors.profileBorder}`}
+                    className={`absolute bottom-2 right-2 flex h-5 w-5 items-center justify-center rounded-full border-[3px] bg-emerald-400 transition-colors duration-300 sm:bottom-4 sm:right-3 ${colors.profileBorder}`}
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-950" />
                   </span>
@@ -309,7 +308,7 @@ export default function About() {
                 </p>
 
                 <p
-                  className={`mt-3 inline-flex max-w-full items-center gap-2 rounded-full border px-3 py-2 text-xs transition-colors duration-500 ${colors.location}`}
+                  className={`mt-3 inline-flex max-w-full items-center gap-2 rounded-full border px-3 py-2 text-xs transition-colors duration-300 ${colors.location}`}
                 >
                   <MapPin size={14} className="shrink-0 text-indigo-400" />
                   Lahore, Pakistan
@@ -318,7 +317,7 @@ export default function About() {
 
               {/* Divider */}
               <div
-                className={`relative z-10 my-5 h-px bg-gradient-to-r from-transparent to-transparent transition-colors duration-500 sm:my-6 ${colors.divider}`}
+                className={`relative z-10 my-5 h-px bg-gradient-to-r from-transparent to-transparent transition-colors duration-300 sm:my-6 ${colors.divider}`}
               />
 
               {/* Learning status */}
@@ -340,15 +339,15 @@ export default function About() {
           {/* About text */}
           <div className="min-w-0">
             <div
-              className="transition-all duration-700 ease-out motion-reduce:transition-none"
-              style={reveal(220)}
+              className="transition-all duration-500 ease-out motion-reduce:transition-none"
+              style={reveal(140)}
             >
               <span className="text-xs font-semibold tracking-[2px] text-indigo-500 sm:text-sm">
                 GET TO KNOW ME
               </span>
 
               <h3
-                className={`mt-3 text-2xl font-bold leading-snug tracking-tight transition-colors duration-500 min-[420px]:text-3xl sm:text-4xl lg:text-[32px] xl:text-[36px] ${colors.heading}`}
+                className={`mt-3 text-2xl font-bold leading-snug tracking-tight transition-colors duration-300 min-[420px]:text-3xl sm:text-4xl lg:text-[32px] xl:text-[36px] ${colors.heading}`}
               >
                 I&apos;m Hassan Ali,
                 <span className="mt-1 block bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
@@ -357,7 +356,7 @@ export default function About() {
               </h3>
 
               <p
-                className={`mt-5 text-sm leading-7 transition-colors duration-500 sm:text-base sm:leading-8 ${colors.paragraph}`}
+                className={`mt-4 text-sm leading-7 transition-colors duration-300 sm:mt-5 sm:text-base sm:leading-8 ${colors.paragraph}`}
               >
                 I am a BSCS student at Lahore Garrison University and a Full
                 Stack Web Developer trained at NexSkill, Arfa Tower Lahore. I
@@ -367,7 +366,7 @@ export default function About() {
               </p>
 
               <p
-                className={`mt-4 text-sm leading-7 transition-colors duration-500 sm:text-base sm:leading-8 ${colors.paragraph}`}
+                className={`mt-3 text-sm leading-7 transition-colors duration-300 sm:mt-4 sm:text-base sm:leading-8 ${colors.paragraph}`}
               >
                 My goal is to become a professional full stack developer and
                 build useful, beautiful, and high-quality digital products
@@ -380,7 +379,7 @@ export default function About() {
               {details.map((item) => (
                 <div
                   key={item.label}
-                  className={`group relative min-w-0 overflow-hidden rounded-xl border p-4 backdrop-blur-md transition duration-300 ease-out hover:-translate-y-1 hover:border-indigo-400/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 motion-reduce:transform-none ${colors.detailCard}`}
+                  className={`group relative min-w-0 overflow-hidden rounded-xl border p-4 backdrop-blur-md transition duration-200 ease-out hover:-translate-y-0.5 hover:border-indigo-400/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 motion-reduce:transform-none ${colors.detailCard}`}
                 >
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-indigo-400/[0.08] to-cyan-400/[0.04] opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
 
@@ -408,15 +407,11 @@ export default function About() {
       <style>{`
         .about-orb {
           animation: aboutOrbFloat 12s ease-in-out infinite alternate;
+          will-change: transform;
         }
 
         .about-orb-delay {
           animation-delay: -5s;
-        }
-
-        .about-gradient-text {
-          background-size: 200% auto;
-          animation: aboutGradient 8s ease-in-out infinite alternate;
         }
 
         @keyframes aboutOrbFloat {
@@ -429,19 +424,8 @@ export default function About() {
           }
         }
 
-        @keyframes aboutGradient {
-          from {
-            background-position: 0% center;
-          }
-
-          to {
-            background-position: 100% center;
-          }
-        }
-
         @media (prefers-reduced-motion: reduce) {
-          .about-orb,
-          .about-gradient-text {
+          .about-orb {
             animation: none !important;
           }
         }

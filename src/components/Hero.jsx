@@ -125,10 +125,10 @@ export default function Hero() {
     }
 
     const delay = isDeleting
-      ? 35
+      ? 30
       : text === currentWord
-        ? 1500
-        : 75;
+        ? 1200
+        : 60;
 
     const timer = setTimeout(() => {
       if (!isDeleting) {
@@ -165,8 +165,8 @@ export default function Hero() {
     const y = (event.clientY - rect.top) / rect.height;
 
     setTilt({
-      x: (0.5 - y) * 3,
-      y: (x - 0.5) * 3,
+      x: (0.5 - y) * 2,
+      y: (x - 0.5) * 2,
     });
   };
 
@@ -240,10 +240,10 @@ export default function Hero() {
       <div className="relative mx-auto grid w-full max-w-[1300px] grid-cols-1 items-center gap-10 px-5 sm:px-8 md:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:gap-10 lg:px-10 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] xl:gap-14 xl:px-14 2xl:gap-20 2xl:px-16">
         {/* Left: Hero content */}
         <div
-          className={`relative z-10 min-w-0 transition-all duration-700 ease-out motion-reduce:transition-none ${
+          className={`relative z-10 min-w-0 transition-all duration-500 ease-out motion-reduce:transition-none ${
             isVisible
               ? "translate-y-0 opacity-100"
-              : "translate-y-6 opacity-0"
+              : "translate-y-5 opacity-0"
           }`}
         >
           {/* Availability badge */}
@@ -304,7 +304,7 @@ export default function Hero() {
           <div className="mt-6 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap sm:mt-8 sm:gap-4">
             <a
               href="#projects"
-              className="group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6"
+              className="group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6"
             >
               <Code2 size={18} />
               View My Work
@@ -312,7 +312,7 @@ export default function Hero() {
 
             <a
               href="#contact"
-              className={`group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 text-sm font-semibold backdrop-blur-md transition duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6 ${theme.secondaryButton}`}
+              className={`group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 text-sm font-semibold backdrop-blur-md transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6 ${theme.secondaryButton}`}
             >
               <Send size={15} />
               Contact Me
@@ -322,11 +322,11 @@ export default function Hero() {
             <a
               href="/WhatsApp%20Image%202026-10-09%20at%206.43.58%20PM.pdf"
               download="Hassan-Ali-CV.pdf"
-              className={`group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 text-sm font-semibold backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-indigo-400/50 hover:bg-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6 ${theme.secondaryButton}`}
+              className={`group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 text-sm font-semibold backdrop-blur-md transition duration-200 hover:-translate-y-0.5 hover:border-indigo-400/50 hover:bg-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6 ${theme.secondaryButton}`}
             >
               <Download
                 size={18}
-                className="transition-transform duration-300 group-hover:translate-y-0.5"
+                className="transition-transform duration-200 group-hover:translate-y-0.5"
               />
               Download CV
             </a>
@@ -349,7 +349,7 @@ export default function Hero() {
             style={{
               transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
               transitionProperty: "transform, border-color, box-shadow",
-              transitionDuration: "220ms",
+              transitionDuration: "180ms",
               transitionTimingFunction: "ease-out",
               willChange: "transform",
             }}
@@ -500,12 +500,12 @@ export default function Hero() {
       {/* Animations */}
       <style>{`
         .hero-orb {
-          animation: heroOrbFloat 10s ease-in-out infinite alternate;
+          animation: heroOrbFloat 12s ease-in-out infinite alternate;
           will-change: transform;
         }
 
         .hero-orb-delay {
-          animation-delay: -4s;
+          animation-delay: -5s;
         }
 
         .hero-gradient-text {
@@ -515,33 +515,20 @@ export default function Hero() {
 
         .hero-card-float {
           opacity: 0;
-          transform: translate3d(0, 24px, 0);
+          transform: translate3d(0, 20px, 0);
           transition:
-            opacity 700ms ease-out,
-            transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+            opacity 500ms ease-out,
+            transform 500ms ease-out;
         }
 
         .hero-card-float.hero-card-visible {
           opacity: 1;
           transform: translate3d(0, 0, 0);
-          animation: heroCardFloat 5s ease-in-out 5000ms infinite;
         }
 
         .hero-card-float.hero-card-hidden {
           opacity: 0;
-          transform: translate3d(0, 24px, 0);
-          animation: none;
-        }
-
-        @keyframes heroCardFloat {
-          0%,
-          100% {
-            translate: 0 0;
-          }
-
-          50% {
-            translate: 0 -8px;
-          }
+          transform: translate3d(0, 20px, 0);
         }
 
         @keyframes heroOrbFloat {
@@ -550,7 +537,7 @@ export default function Hero() {
           }
 
           to {
-            transform: translate3d(20px, -25px, 0) scale(1.08);
+            transform: translate3d(16px, -18px, 0) scale(1.06);
           }
         }
 
@@ -567,14 +554,9 @@ export default function Hero() {
         @media (prefers-reduced-motion: reduce) {
           .hero-orb,
           .hero-gradient-text,
-          .hero-card-float,
-          .hero-card-float.hero-card-visible {
+          .hero-card-float {
             animation: none !important;
             transition: none !important;
-          }
-
-          .hero-card-float {
-            translate: none !important;
           }
         }
       `}</style>

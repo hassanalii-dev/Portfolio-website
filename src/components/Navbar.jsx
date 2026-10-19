@@ -133,7 +133,7 @@ export default function Navbar() {
       ticking = true;
 
       frameId = window.requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 24);
+        setScrolled(window.scrollY > 20);
 
         if (location.pathname === "/") {
           const marker = 170;
@@ -228,7 +228,7 @@ export default function Navbar() {
       className={`group relative inline-flex shrink-0 cursor-default items-center justify-center
         overflow-hidden rounded-xl border
         transition-[background-color,border-color,color,box-shadow]
-        duration-300 ease-out
+        duration-200 ease-out
         focus-visible:outline-none focus-visible:ring-2
         focus-visible:ring-cyan-400
         ${mobile ? "h-11 w-11" : "h-10 w-10"}
@@ -238,13 +238,13 @@ export default function Navbar() {
             : "border-indigo-400/20 bg-[#080b1b] text-cyan-300 shadow-[0_0_16px_rgba(139,92,246,0.10)] hover:border-cyan-400/50 hover:bg-indigo-500/10 hover:shadow-[0_0_18px_rgba(139,92,246,0.18)]"
         }`}
     >
-      <span className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-purple-500/[0.08] via-transparent to-cyan-400/[0.08] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <span className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-purple-500/[0.08] via-transparent to-cyan-400/[0.08] opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
 
       <span className="relative flex h-5 w-5 items-center justify-center">
         <Sun
           size={19}
           strokeWidth={1.8}
-          className={`absolute transition-all duration-300 ease-out ${
+          className={`absolute transition-all duration-200 ease-out ${
             isLight
               ? "rotate-0 scale-100 opacity-100"
               : "-rotate-90 scale-50 opacity-0"
@@ -254,7 +254,7 @@ export default function Navbar() {
         <Moon
           size={19}
           strokeWidth={1.8}
-          className={`absolute transition-all duration-300 ease-out ${
+          className={`absolute transition-all duration-200 ease-out ${
             isLight
               ? "rotate-90 scale-50 opacity-0"
               : "rotate-0 scale-100 opacity-100"
@@ -269,20 +269,20 @@ export default function Navbar() {
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b
           transition-[background-color,border-color,box-shadow,backdrop-filter]
-          duration-300 ease-out ${
+          duration-200 ease-out ${
             isLight
               ? scrolled
-                ? "border-slate-200 bg-white/95 shadow-lg shadow-slate-200/40 backdrop-blur-2xl"
-                : "border-slate-200/70 bg-white/80 backdrop-blur-xl"
+                ? "border-slate-200 bg-white/95 shadow-lg shadow-slate-200/40 backdrop-blur-xl"
+                : "border-slate-200/70 bg-white/80 backdrop-blur-lg"
               : scrolled
-                ? "border-white/[0.09] bg-[#050816]/95 shadow-lg shadow-black/20 backdrop-blur-2xl"
-                : "border-white/[0.05] bg-[#050816]/70 backdrop-blur-xl"
+                ? "border-white/[0.09] bg-[#050816]/95 shadow-lg shadow-black/20 backdrop-blur-xl"
+                : "border-white/[0.05] bg-[#050816]/70 backdrop-blur-lg"
           }`}
       >
         <div
           className={`pointer-events-none absolute inset-x-0 bottom-0 h-px
             bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent
-            transition-opacity duration-300 ${
+            transition-opacity duration-200 ${
               scrolled ? "opacity-100" : "opacity-0"
             }`}
         />
@@ -296,12 +296,12 @@ export default function Navbar() {
             className="group relative z-[60] flex min-w-0 shrink-0 cursor-pointer items-center gap-3 rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
           >
             <span className="flex min-w-0 flex-col justify-center leading-none">
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-[23px] font-bold tracking-tight text-transparent transition-all duration-300 group-hover:brightness-125 sm:text-[25px]">
+              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-[23px] font-bold tracking-tight text-transparent transition-all duration-200 group-hover:brightness-125 sm:text-[25px]">
                 Hassan
               </span>
 
               <span
-                className={`mt-[7px] whitespace-nowrap text-[8px] font-semibold uppercase tracking-[1.5px] transition-colors duration-300 sm:text-[9px] sm:tracking-[2px] ${
+                className={`mt-[7px] whitespace-nowrap text-[8px] font-semibold uppercase tracking-[1.5px] transition-colors duration-200 sm:text-[9px] sm:tracking-[2px] ${
                   isLight ? "text-slate-500" : "text-slate-400"
                 }`}
               >
@@ -324,7 +324,7 @@ export default function Navbar() {
                   type="button"
                   onClick={() => handleNavigation(link)}
                   aria-current={isActive ? "page" : undefined}
-                  className={`group relative cursor-pointer whitespace-nowrap rounded-lg px-2 py-2.5 text-[12px] font-medium transition-colors duration-200 lg:px-3 lg:text-[13px] ${
+                  className={`group relative cursor-pointer whitespace-nowrap rounded-lg px-2 py-2.5 text-[12px] font-medium transition-colors duration-150 lg:px-3 lg:text-[13px] ${
                     isActive
                       ? "text-cyan-500"
                       : isLight
@@ -335,7 +335,7 @@ export default function Navbar() {
                   <span className="relative z-10">{link.label}</span>
 
                   <span
-                    className={`absolute inset-x-2 bottom-1 h-[2px] origin-center rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400 transition-transform duration-300 lg:inset-x-3 ${
+                    className={`absolute inset-x-2 bottom-1 h-[2px] origin-center rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400 transition-transform duration-200 lg:inset-x-3 ${
                       isActive
                         ? "scale-x-100 opacity-100"
                         : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70"
@@ -353,7 +353,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => handleNavigation(navLinks[6])}
-              className={`group inline-flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 lg:px-4 ${
+              className={`group inline-flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 lg:px-4 ${
                 isLight
                   ? "border-indigo-200 bg-indigo-50 text-indigo-700 hover:border-cyan-300 hover:bg-cyan-50 hover:text-cyan-700"
                   : "border-indigo-400/25 bg-indigo-500/[0.08] text-indigo-200 hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-200"
@@ -362,7 +362,7 @@ export default function Navbar() {
               Let's Talk
               <ArrowUpRight
                 size={15}
-                className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                className="transition-transform duration-150 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               />
             </button>
           </div>
@@ -374,7 +374,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setMenuOpen((previous) => !previous)}
-              className={`group relative z-[60] flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border transition-[background-color,border-color,color] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+              className={`group relative z-[60] flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border transition-[background-color,border-color,color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                 isLight
                   ? "border-slate-300 bg-white text-slate-800 hover:border-indigo-300 hover:bg-indigo-50"
                   : "border-white/10 bg-white/[0.04] text-white hover:border-indigo-400/40 hover:bg-indigo-500/10"
@@ -389,7 +389,7 @@ export default function Navbar() {
                 <Menu
                   size={22}
                   strokeWidth={1.8}
-                  className={`absolute transition-[transform,opacity] duration-300 ease-out ${
+                  className={`absolute transition-[transform,opacity] duration-200 ease-out ${
                     menuOpen
                       ? "rotate-90 scale-75 opacity-0"
                       : "rotate-0 scale-100 opacity-100"
@@ -399,7 +399,7 @@ export default function Navbar() {
                 <X
                   size={22}
                   strokeWidth={1.8}
-                  className={`absolute transition-[transform,opacity] duration-300 ease-out ${
+                  className={`absolute transition-[transform,opacity] duration-200 ease-out ${
                     menuOpen
                       ? "rotate-0 scale-100 opacity-100"
                       : "-rotate-90 scale-75 opacity-0"
@@ -424,7 +424,7 @@ export default function Navbar() {
           menuOpen
             ? "pointer-events-auto visible opacity-100 backdrop-blur-sm"
             : "pointer-events-none invisible opacity-0"
-        } transition-[opacity,visibility,background-color] duration-300 ease-out motion-reduce:transition-none`}
+        } transition-[opacity,visibility,background-color] duration-200 ease-out motion-reduce:transition-none`}
       />
 
       {/* Mobile Navigation Panel */}
@@ -439,8 +439,8 @@ export default function Navbar() {
         } ${
           menuOpen
             ? "visible translate-y-0 scale-100 opacity-100"
-            : "invisible pointer-events-none -translate-y-3 scale-[0.99] opacity-0"
-        } origin-top transition-[transform,opacity,visibility,background-color,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none`}
+            : "invisible pointer-events-none -translate-y-2 scale-[0.99] opacity-0"
+        } origin-top transition-[transform,opacity,visibility,background-color,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none`}
       >
         <div className="mx-auto max-w-[500px]">
           <div className="space-y-1.5">
@@ -456,13 +456,13 @@ export default function Navbar() {
                   aria-current={isActive ? "page" : undefined}
                   style={{
                     transitionDelay: menuOpen
-                      ? `${70 + index * 35}ms`
+                      ? `${40 + index * 20}ms`
                       : "0ms",
                     transform: menuOpen
                       ? "translate3d(0, 0, 0)"
-                      : "translate3d(0, 8px, 0)",
+                      : "translate3d(0, 6px, 0)",
                   }}
-                  className={`group flex min-h-[49px] w-full cursor-pointer items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-medium transition-[transform,opacity,background-color,border-color,color] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+                  className={`group flex min-h-[49px] w-full cursor-pointer items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-medium transition-[transform,opacity,background-color,border-color,color] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                     menuOpen
                       ? "translate-y-0 opacity-100"
                       : "translate-y-2 opacity-0"
@@ -478,7 +478,7 @@ export default function Navbar() {
                 >
                   <span className="flex items-center gap-3">
                     <span
-                      className={`h-1.5 w-1.5 shrink-0 rounded-full transition-[background-color,box-shadow] duration-300 ${
+                      className={`h-1.5 w-1.5 shrink-0 rounded-full transition-[background-color,box-shadow] duration-200 ${
                         isActive
                           ? "bg-cyan-400 shadow-[0_0_10px_rgba(103,232,249,0.7)]"
                           : isLight
@@ -491,7 +491,7 @@ export default function Navbar() {
 
                   <ArrowUpRight
                     size={16}
-                    className={`transition-[transform,color] duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 ${
+                    className={`transition-[transform,color] duration-150 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 ${
                       isActive
                         ? "text-cyan-500"
                         : isLight
@@ -511,10 +511,10 @@ export default function Navbar() {
             onClick={() => handleNavigation(navLinks[6])}
             style={{
               transitionDelay: menuOpen
-                ? `${70 + navLinks.length * 35}ms`
+                ? `${40 + navLinks.length * 20}ms`
                 : "0ms",
             }}
-            className={`group mt-4 flex min-h-[49px] w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition-[transform,opacity,box-shadow] duration-300 ease-out hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 motion-reduce:transition-none ${
+            className={`group mt-4 flex min-h-[49px] w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition-[transform,opacity,box-shadow] duration-200 ease-out hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 motion-reduce:transition-none ${
               menuOpen
                 ? "translate-y-0 opacity-100"
                 : "translate-y-2 opacity-0"
@@ -523,7 +523,7 @@ export default function Navbar() {
             Let's Talk
             <ArrowUpRight
               size={17}
-              className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              className="transition-transform duration-150 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
           </button>
         </div>

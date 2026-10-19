@@ -124,10 +124,10 @@ export default function Skills() {
     opacity: isVisible ? 1 : 0,
     transform: isVisible
       ? "translate3d(0, 0, 0)"
-      : "translate3d(0, 22px, 0)",
+      : "translate3d(0, 15px, 0)",
     transition: `
-      opacity 800ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms,
-      transform 800ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms
+      opacity 500ms ease ${delay}ms,
+      transform 500ms ease ${delay}ms
     `,
   });
 
@@ -186,14 +186,14 @@ export default function Skills() {
               key={skill.title}
               style={{
                 opacity: isVisible ? 1 : 0,
-                translate: isVisible ? "0 0" : "0 22px",
+                translate: isVisible ? "0 0" : "0 15px",
                 transition: `
-                  opacity 800ms cubic-bezier(0.22, 1, 0.36, 1) ${180 + index * 110}ms,
-                  translate 800ms cubic-bezier(0.22, 1, 0.36, 1) ${180 + index * 110}ms,
-                  transform 550ms cubic-bezier(0.22, 1, 0.36, 1),
-                  border-color 400ms ease,
-                  background-color 400ms ease,
-                  box-shadow 400ms ease
+                  opacity 500ms ease ${100 + index * 60}ms,
+                  translate 500ms ease ${100 + index * 60}ms,
+                  transform 300ms ease,
+                  border-color 250ms ease,
+                  background-color 250ms ease,
+                  box-shadow 250ms ease
                 `,
               }}
               className={`skill-card group relative isolate min-w-0 overflow-hidden rounded-2xl border p-5 backdrop-blur-xl sm:rounded-[22px] sm:p-6 ${skill.glow} ${
@@ -205,19 +205,19 @@ export default function Skills() {
               {/* Subtle corner glow — unchanged */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute -right-10 -top-10 -z-10 h-28 w-28 rounded-full bg-indigo-500/[0.07] blur-2xl transition-colors duration-300 group-hover:bg-cyan-400/[0.10]"
+                className="pointer-events-none absolute -right-10 -top-10 -z-10 h-28 w-28 rounded-full bg-indigo-500/[0.07] blur-2xl transition-colors duration-200 group-hover:bg-cyan-400/[0.10]"
               />
 
               {/* Technology icon */}
               <div className="flex items-start justify-between gap-3">
-                <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[20px] border border-indigo-300/10 bg-gradient-to-br from-indigo-500/20 to-cyan-400/10 shadow-inner transition-all duration-500 group-hover:scale-105 group-hover:border-indigo-300/30">
+                <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[20px] border border-indigo-300/10 bg-gradient-to-br from-indigo-500/20 to-cyan-400/10 shadow-inner transition-all duration-300 group-hover:scale-105 group-hover:border-indigo-300/30">
                   <img
                     src={skill.image}
                     alt={`${skill.title} logo`}
                     width="38"
                     height="38"
                     loading="lazy"
-                    className="h-9 w-9 object-contain transition-transform duration-500 group-hover:scale-110"
+                    className="h-9 w-9 object-contain transition-transform duration-300 group-hover:scale-110"
                     onError={(event) => {
                       event.currentTarget.style.display = "none";
                     }}
@@ -225,7 +225,7 @@ export default function Skills() {
                 </div>
 
                 <span
-                  className={`pt-1 font-mono text-[11px] tracking-widest transition-colors duration-300 group-hover:text-indigo-400 sm:text-xs ${
+                  className={`pt-1 font-mono text-[11px] tracking-widest transition-colors duration-200 group-hover:text-indigo-400 sm:text-xs ${
                     isLight ? "text-slate-400" : "text-slate-600 group-hover:text-indigo-300"
                   }`}
                 >
@@ -236,7 +236,7 @@ export default function Skills() {
               {/* Card content */}
               <div className="mt-5 sm:mt-6">
                 <h3
-                  className={`break-words text-lg font-semibold transition-colors duration-300 group-hover:text-cyan-500 sm:text-xl ${
+                  className={`break-words text-lg font-semibold transition-colors duration-200 group-hover:text-cyan-500 sm:text-xl ${
                     isLight
                       ? "text-slate-900"
                       : "text-white group-hover:text-cyan-200"
@@ -252,10 +252,6 @@ export default function Skills() {
                 >
                   {skill.desc}
                 </p>
-
-               
-
-                
               </div>
             </article>
           ))}
@@ -270,22 +266,22 @@ export default function Skills() {
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
           transition:
-            transform 550ms cubic-bezier(0.22, 1, 0.36, 1),
-            border-color 400ms ease,
-            background-color 400ms ease,
-            box-shadow 400ms ease;
+            transform 300ms ease,
+            border-color 250ms ease,
+            background-color 250ms ease,
+            box-shadow 250ms ease;
         }
 
         @media (hover: hover) and (pointer: fine) {
           #skills .skill-card:hover {
-            transform: translate3d(0, -3px, 0) scale(1.025);
-            border-color: rgba(129, 140, 248, 0.32);
+            transform: translate3d(0, -2px, 0) scale(1.015);
+            border-color: rgba(129, 140, 248, 0.3);
             background-color: ${
               isLight
                 ? "rgba(255, 255, 255, 0.96)"
                 : "rgba(15, 23, 42, 0.8)"
             };
-            box-shadow: 0 18px 40px ${
+            box-shadow: 0 15px 40px ${
               isLight
                 ? "rgba(99, 102, 241, 0.10)"
                 : "rgba(0, 0, 0, 0.14)"
@@ -294,7 +290,7 @@ export default function Skills() {
         }
 
         #skills .skill-card:focus-within {
-          border-color: rgba(129, 140, 248, 0.32);
+          border-color: rgba(129, 140, 248, 0.3);
         }
 
         @media (prefers-reduced-motion: reduce) {

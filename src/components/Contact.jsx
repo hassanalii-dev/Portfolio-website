@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import {
   Mail,
@@ -153,15 +152,15 @@ export default function Contact() {
     };
   }, []);
 
-  // Shared reveal animation for both cards.
+  // Shared reveal animation for both cards (optimized).
   const reveal = (delay = 0) => ({
     opacity: isVisible ? 1 : 0,
     transform: isVisible
       ? "translate3d(0, 0, 0)"
-      : "translate3d(0, 24px, 0)",
+      : "translate3d(0, 15px, 0)",
     transition: `
-      opacity 850ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms,
-      transform 850ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms
+      opacity 500ms ease ${isVisible ? delay : 0}ms,
+      transform 500ms ease ${isVisible ? delay : 0}ms
     `,
     willChange: isVisible ? "auto" : "opacity, transform",
   });
@@ -328,7 +327,7 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className={`relative isolate overflow-hidden py-16 transition-colors duration-500 sm:py-20 lg:py-24 xl:py-28 ${
+      className={`relative isolate overflow-hidden py-16 transition-colors duration-300 sm:py-20 lg:py-24 xl:py-28 ${
         isLight ? "text-slate-800" : "text-white"
       }`}
     >
@@ -355,13 +354,13 @@ export default function Contact() {
           </span>
 
           <h2
-            className={`mt-4 text-3xl font-black tracking-tight transition-colors duration-500 min-[480px]:text-4xl sm:text-5xl ${headingClass}`}
+            className={`mt-4 text-3xl font-black tracking-tight transition-colors duration-300 min-[480px]:text-4xl sm:text-5xl ${headingClass}`}
           >
             Let's <span className="contact-gradient-text">Talk</span>
           </h2>
 
           <p
-            className={`mx-auto mt-4 max-w-[620px] text-sm leading-7 transition-colors duration-500 sm:text-base ${paragraphClass}`}
+            className={`mx-auto mt-4 max-w-[620px] text-sm leading-7 transition-colors duration-300 sm:text-base ${paragraphClass}`}
           >
             Have a question, opportunity, or project idea?
             Send me a message. I'd love to hear from you.
@@ -374,7 +373,7 @@ export default function Contact() {
         <div className="grid grid-cols-1 items-stretch gap-5 min-[480px]:gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-7 xl:gap-8">
           {/* LEFT CARD: Contact Information */}
           <div
-            className={`${cardClasses} group p-5 transition-[transform,border-color,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-indigo-400/40 hover:shadow-2xl motion-reduce:transform-none min-[480px]:p-6 sm:p-8`}
+            className={`${cardClasses} group p-5 transition-[border-color,box-shadow,background-color] duration-300 hover:border-indigo-400/40 hover:shadow-2xl motion-reduce:transform-none min-[480px]:p-6 sm:p-8`}
           >
             <div
               aria-hidden="true"
@@ -383,21 +382,21 @@ export default function Contact() {
 
             <div className="relative">
               <div
-                style={reveal(100)}
+                style={reveal(60)}
                 className="contact-main-icon mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-indigo-400/30 bg-indigo-500/10 text-indigo-500 sm:h-14 sm:w-14"
               >
                 <Mail size={23} />
               </div>
 
               <h3
-                style={reveal(180)}
-                className={`text-xl font-bold transition-colors duration-500 sm:text-2xl ${headingClass}`}
+                style={reveal(100)}
+                className={`text-xl font-bold transition-colors duration-300 sm:text-2xl ${headingClass}`}
               >
                 Contact Information
               </h3>
 
               <p
-                style={reveal(260)}
+                style={reveal(140)}
                 className={`mt-3 text-sm leading-7 ${paragraphClass}`}
               >
                 Let's connect! Feel free to reach out for collaborations,
@@ -412,7 +411,7 @@ export default function Contact() {
                   return (
                     <div
                       key={item.title}
-                      style={reveal(340 + index * 100)}
+                      style={reveal(180 + index * 60)}
                       className="contact-detail group/item flex min-w-0 items-center gap-3 sm:gap-4"
                     >
                       <div
@@ -443,7 +442,7 @@ export default function Contact() {
 
               {/* Social links */}
               <div
-                style={reveal(800)}
+                style={reveal(450)}
                 className={`mt-8 border-t pt-6 sm:mt-9 ${
                   isLight
                     ? "border-slate-200"
@@ -492,7 +491,7 @@ export default function Contact() {
 
           {/* RIGHT CARD: Send a Message */}
           <div
-            className={`${cardClasses} group p-5 transition-[transform,border-color,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-indigo-400/40 hover:shadow-2xl motion-reduce:transform-none min-[480px]:p-6 sm:p-8`}
+            className={`${cardClasses} group p-5 transition-[border-color,box-shadow,background-color] duration-300 hover:border-indigo-400/40 hover:shadow-2xl motion-reduce:transform-none min-[480px]:p-6 sm:p-8`}
           >
             <div
               aria-hidden="true"
@@ -502,7 +501,7 @@ export default function Contact() {
             <div className="relative">
               {/* Animated icon */}
               <div
-                style={reveal(100)}
+                style={reveal(60)}
                 className="contact-main-icon mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-indigo-400/30 bg-indigo-500/10 text-indigo-500 sm:h-14 sm:w-14"
               >
                 <MessageSquare size={23} />
@@ -510,15 +509,15 @@ export default function Contact() {
 
               {/* Animated heading */}
               <h3
-                style={reveal(200)}
-                className={`text-xl font-bold transition-colors duration-500 sm:text-2xl ${headingClass}`}
+                style={reveal(100)}
+                className={`text-xl font-bold transition-colors duration-300 sm:text-2xl ${headingClass}`}
               >
                 Send Me a Message
               </h3>
 
               {/* Animated paragraph */}
               <p
-                style={reveal(300)}
+                style={reveal(140)}
                 className={`mt-3 text-sm leading-7 ${paragraphClass}`}
               >
                 Fill in the details below and send me your message.
@@ -551,7 +550,7 @@ export default function Contact() {
                 {/* Name */}
                 <div
                   className="contact-field"
-                  style={reveal(400)}
+                  style={reveal(200)}
                 >
                   <label
                     htmlFor="contact-name"
@@ -564,7 +563,7 @@ export default function Contact() {
                     <UserRound
                       size={17}
                       aria-hidden="true"
-                      className=" pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
+                      className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
                     />
 
                     <input
@@ -583,7 +582,7 @@ export default function Contact() {
                 {/* Email */}
                 <div
                   className="contact-field"
-                  style={reveal(520)}
+                  style={reveal(260)}
                 >
                   <label
                     htmlFor="contact-email"
@@ -596,7 +595,7 @@ export default function Contact() {
                     <Mail
                       size={17}
                       aria-hidden="true"
-                      className=" pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
+                      className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
                     />
 
                     <input
@@ -615,7 +614,7 @@ export default function Contact() {
                 {/* Message */}
                 <div
                   className="contact-field"
-                  style={reveal(640)}
+                  style={reveal(320)}
                 >
                   <label
                     htmlFor="contact-message"
@@ -638,7 +637,7 @@ export default function Contact() {
                 </div>
 
                 {/* Animated submit button */}
-                <div style={reveal(760)}>
+                <div style={reveal(380)}>
                   <button
                     type="submit"
                     disabled={isSending}
@@ -727,115 +726,78 @@ export default function Contact() {
 
         #contact .contact-card {
           transition:
-            transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
-            border-color 450ms ease,
-            box-shadow 450ms ease,
-            background-color 450ms ease;
-        }
-
-        #contact .contact-main-icon {
-          transition:
-            transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
-            border-color 350ms ease,
-            background-color 350ms ease;
-        }
-
-        #contact .contact-detail-icon {
-          transition:
-            transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
-            color 350ms ease,
-            background-color 350ms ease,
-            border-color 350ms ease;
+            transform 300ms ease,
+            border-color 300ms ease,
+            box-shadow 300ms ease,
+            background-color 300ms ease;
+          will-change: transform;
         }
 
         #contact .contact-social {
           transition:
-            transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
-            border-color 300ms ease,
-            background-color 300ms ease,
-            color 300ms ease;
+            transform 200ms ease,
+            border-color 200ms ease,
+            background-color 200ms ease,
+            color 200ms ease;
         }
 
         #contact .contact-input {
           transition:
-            border-color 300ms ease,
-            box-shadow 300ms ease,
-            background-color 300ms ease,
-            color 300ms ease;
-        }
-
-        #contact .contact-input-icon {
-          transition:
-            color 250ms ease,
-            transform 250ms ease;
-        }
-
-        #contact .contact-field:focus-within .contact-input-icon {
-          color: #818cf8;
-          transform: translateY(-50%) scale(1.08);
+            border-color 200ms ease,
+            box-shadow 200ms ease,
+            background-color 200ms ease,
+            color 200ms ease;
         }
 
         #contact .contact-submit {
           position: relative;
           overflow: hidden;
           transition:
-            transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
-            box-shadow 300ms ease,
+            transform 200ms ease,
+            box-shadow 200ms ease,
             opacity 200ms ease;
         }
 
         #contact .contact-send-icon,
         #contact .contact-submit-arrow {
-          transition:
-            transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+          transition: transform 200ms ease;
         }
 
         #contact .contact-status {
-          animation:
-            contactStatusIn 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+          animation: contactStatusIn 300ms ease both;
         }
 
         @keyframes contactStatusIn {
           from {
             opacity: 0;
-            transform: translate3d(0, 12px, 0) scale(0.985);
+            transform: translate3d(0, 8px, 0);
           }
 
           to {
             opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1);
+            transform: translate3d(0, 0, 0);
           }
         }
 
         @media (hover: hover) and (pointer: fine) {
           #contact .contact-card:hover {
-            transform: translate3d(0, -3px, 0);
+            transform: translate3d(0, -2px, 0);
             border-color: rgba(129, 140, 248, 0.3);
-            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.12);
-          }
-
-          #contact .contact-main-icon:hover {
-            transform: translateY(-3px) scale(1.035);
-          }
-
-          #contact .group\\/item:hover .contact-detail-icon {
-            transform: translateY(-2px);
-            border-color: rgba(129, 140, 248, 0.35);
-            background-color: rgba(99, 102, 241, 0.1);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
           }
 
           #contact .contact-social:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             border-color: rgba(129, 140, 248, 0.45);
           }
 
           #contact .contact-submit:not(:disabled):hover {
             transform: translateY(-2px);
-            box-shadow: 0 14px 32px rgba(99, 102, 241, 0.28);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.25);
           }
 
           #contact .contact-submit:not(:disabled):hover .contact-send-icon {
-            transform: translateX(3px);
+            transform: translateX(2px);
           }
 
           #contact .contact-submit:not(:disabled):hover .contact-submit-arrow {

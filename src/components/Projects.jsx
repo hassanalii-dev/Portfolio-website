@@ -138,7 +138,7 @@ function ProjectCard({ project, isLight }) {
             onError={(event) => {
               event.currentTarget.style.opacity = "0";
             }}
-            className="h-full w-full object-cover object-center transition-[filter] duration-500 group-hover:brightness-110"
+            className="h-full w-full object-cover object-center transition-[filter] duration-300 group-hover:brightness-110"
           />
         </div>
 
@@ -159,7 +159,7 @@ function ProjectCard({ project, isLight }) {
 
       <div className="flex flex-1 flex-col p-4 min-[420px]:p-5 sm:p-6">
         <h3
-          className={`break-words text-lg font-semibold leading-snug transition-colors duration-300 sm:text-xl ${theme.title}`}
+          className={`break-words text-lg font-semibold leading-snug transition-colors duration-200 sm:text-xl ${theme.title}`}
         >
           {project.title}
         </h3>
@@ -187,7 +187,7 @@ function ProjectCard({ project, isLight }) {
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className={`max-w-full break-words rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition-colors duration-300 sm:px-3 sm:text-xs ${theme.tag}`}
+              className={`max-w-full break-words rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition-colors duration-200 sm:px-3 sm:text-xs ${theme.tag}`}
             >
               {tag}
             </span>
@@ -199,13 +199,13 @@ function ProjectCard({ project, isLight }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`View ${project.title} live website`}
-          className={`group/btn mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 sm:mt-6 ${theme.button}`}
+          className={`group/btn mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 sm:mt-6 ${theme.button}`}
         >
           <Globe size={17} />
           <span>View Project</span>
           <ArrowUpRight
             size={17}
-            className="transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5"
+            className="transition-transform duration-200 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5"
           />
         </a>
       </div>
@@ -342,14 +342,14 @@ export default function Projects() {
     opacity: isVisible ? 1 : 0,
     transform: isVisible
       ? "translate3d(0, 0, 0) scale(1)"
-      : "translate3d(0, 22px, 0) scale(0.94)",
+      : "translate3d(0, 15px, 0) scale(0.96)",
     transition: reduceMotion
       ? "none"
-      : `opacity 750ms cubic-bezier(0.22, 1, 0.36, 1) ${
-          extra ? 100 + index * 110 : 180 + index * 110
+      : `opacity 500ms ease ${
+          extra ? 50 + index * 60 : 100 + index * 60
         }ms,
-         transform 750ms cubic-bezier(0.22, 1, 0.36, 1) ${
-           extra ? 100 + index * 110 : 180 + index * 110
+         transform 500ms ease ${
+           extra ? 50 + index * 60 : 100 + index * 60
          }ms`,
   });
 
@@ -401,10 +401,10 @@ export default function Projects() {
             opacity: isVisible ? 1 : 0,
             transform: isVisible
               ? "translate3d(0, 0, 0)"
-              : "translate3d(0, 22px, 0)",
+              : "translate3d(0, 15px, 0)",
             transition: reduceMotion
               ? "none"
-              : "opacity 800ms cubic-bezier(0.22, 1, 0.36, 1), transform 800ms cubic-bezier(0.22, 1, 0.36, 1)",
+              : "opacity 500ms ease, transform 500ms ease",
           }}
           className="mx-auto mb-10 max-w-2xl text-center sm:mb-14 md:mb-16"
         >
@@ -456,7 +456,7 @@ export default function Projects() {
             opacity: showAllProjects ? 1 : 0,
             transition: reduceMotion
               ? "none"
-              : "height 650ms cubic-bezier(0.22, 1, 0.36, 1), opacity 450ms ease",
+              : "height 400ms ease, opacity 300ms ease",
           }}
           className="overflow-hidden"
           aria-hidden={!showAllProjects}
@@ -474,14 +474,14 @@ export default function Projects() {
                   opacity: showAllProjects ? 1 : 0,
                   transform: showAllProjects
                     ? "translate3d(0, 0, 0) scale(1)"
-                    : "translate3d(0, 24px, 0) scale(0.92)",
+                    : "translate3d(0, 15px, 0) scale(0.96)",
                   transition: reduceMotion
                     ? "none"
-                    : `opacity 650ms cubic-bezier(0.22, 1, 0.36, 1) ${
-                        showAllProjects ? 100 + index * 120 : 0
+                    : `opacity 400ms ease ${
+                        showAllProjects ? 50 + index * 60 : 0
                       }ms,
-                       transform 700ms cubic-bezier(0.22, 1, 0.36, 1) ${
-                         showAllProjects ? 100 + index * 120 : 0
+                       transform 400ms ease ${
+                         showAllProjects ? 50 + index * 60 : 0
                        }ms`,
                 }}
               >
@@ -497,10 +497,10 @@ export default function Projects() {
             opacity: isVisible ? 1 : 0,
             transform: isVisible
               ? "translate3d(0, 0, 0)"
-              : "translate3d(0, 18px, 0)",
+              : "translate3d(0, 15px, 0)",
             transition: reduceMotion
               ? "none"
-              : "opacity 800ms cubic-bezier(0.22, 1, 0.36, 1) 350ms, transform 800ms cubic-bezier(0.22, 1, 0.36, 1) 350ms",
+              : "opacity 500ms ease 200ms, transform 500ms ease 200ms",
           }}
         >
           <button
@@ -508,7 +508,7 @@ export default function Projects() {
             onClick={handleToggleProjects}
             aria-expanded={showAllProjects}
             aria-controls="extra-projects"
-            className={`group/more inline-flex min-h-12 items-center justify-center gap-2.5 rounded-xl border px-6 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 sm:px-8 ${theme.button}`}
+            className={`group/more inline-flex min-h-12 items-center justify-center gap-2.5 rounded-xl border px-6 py-3 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 sm:px-8 ${theme.button}`}
           >
             <span>
               {showAllProjects ? "Show Less" : "Show More"}
@@ -517,12 +517,12 @@ export default function Projects() {
             {showAllProjects ? (
               <ChevronUp
                 size={18}
-                className="transition-transform duration-300 group-hover/more:-translate-y-0.5"
+                className="transition-transform duration-200 group-hover/more:-translate-y-0.5"
               />
             ) : (
               <ChevronDown
                 size={18}
-                className="transition-transform duration-300 group-hover/more:translate-y-0.5"
+                className="transition-transform duration-200 group-hover/more:translate-y-0.5"
               />
             )}
           </button>
@@ -543,24 +543,24 @@ export default function Projects() {
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
           transition:
-            transform 550ms cubic-bezier(0.22, 1, 0.36, 1),
-            border-color 400ms ease,
-            background-color 400ms ease,
-            box-shadow 400ms ease;
+            transform 300ms ease,
+            border-color 250ms ease,
+            background-color 250ms ease,
+            box-shadow 250ms ease;
           will-change: transform;
         }
 
         #projects .project-image img {
           transform: scale(1);
-          transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+          transition: transform 350ms ease;
           will-change: transform;
         }
 
         @media (hover: hover) and (pointer: fine) {
           #projects .project-card:hover {
-            transform: translate3d(0, -3px, 0) scale(1.025);
-            border-color: rgba(129, 140, 248, 0.35);
-            box-shadow: 0 20px 55px -25px rgba(99, 102, 241, 0.25);
+            transform: translate3d(0, -2px, 0) scale(1.015);
+            border-color: rgba(129, 140, 248, 0.3);
+            box-shadow: 0 15px 40px -20px rgba(99, 102, 241, 0.2);
           }
 
           #projects .project-image img:hover {
@@ -568,7 +568,7 @@ export default function Projects() {
           }
 
           #projects .project-card:hover .project-image img {
-            transform: scale(1.07);
+            transform: scale(1.05);
           }
 
           #projects:has(.project-card) .project-card:hover {
@@ -580,7 +580,7 @@ export default function Projects() {
 
         @media (max-width: 639px) {
           #projects .project-card:hover {
-            transform: translate3d(0, -2px, 0) scale(1.01);
+            transform: translate3d(0, -1px, 0) scale(1.005);
           }
         }
 

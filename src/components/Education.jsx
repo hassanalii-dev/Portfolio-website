@@ -115,14 +115,14 @@ export default function Education() {
     return () => observer.disconnect();
   }, []);
 
-  const reveal = (delay = 0, distance = 22) => ({
+  const reveal = (delay = 0, distance = 15) => ({
     opacity: isVisible ? 1 : 0,
     transform: isVisible
       ? "translate3d(0, 0, 0)"
       : `translate3d(0, ${distance}px, 0)`,
-    transition: `opacity 650ms ease ${
+    transition: `opacity 500ms ease ${
       isVisible ? delay : 0
-    }ms, transform 650ms cubic-bezier(0.22, 1, 0.36, 1) ${
+    }ms, transform 500ms ease ${
       isVisible ? delay : 0
     }ms`,
   });
@@ -223,7 +223,7 @@ export default function Education() {
           {/* Animated timeline progress */}
           <div
             aria-hidden="true"
-            className="absolute left-[15px] top-5 w-px origin-top bg-gradient-to-b from-indigo-500 via-purple-500 to-cyan-400 transition-transform duration-[1600ms] ease-out sm:left-1/2 sm:-translate-x-1/2"
+            className="absolute left-[15px] top-5 w-px origin-top bg-gradient-to-b from-indigo-500 via-purple-500 to-cyan-400 transition-transform duration-[1000ms] ease-out sm:left-1/2 sm:-translate-x-1/2"
             style={{
               height: "calc(100% - 40px)",
               transform: `scaleY(${isVisible ? 1 : 0})`,
@@ -244,7 +244,7 @@ export default function Education() {
                   {/* Timeline dot */}
                   <div
                     aria-hidden="true"
-                    className={`absolute left-[15px] top-1/2 z-20 flex h-[15px] w-[15px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 transition-all duration-500 sm:left-1/2 ${
+                    className={`absolute left-[15px] top-1/2 z-20 flex h-[15px] w-[15px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 transition-all duration-300 sm:left-1/2 ${
                       item.completed
                         ? "border-white bg-emerald-400 shadow-[0_0_16px_rgba(52,211,153,0.55)]"
                         : `bg-indigo-400 shadow-[0_0_16px_rgba(99,102,241,0.65)] ${theme.dotBorder}`
@@ -255,7 +255,7 @@ export default function Education() {
                     }`}
                     style={{
                       transitionDelay: isVisible
-                        ? `${250 + index * 180}ms`
+                        ? `${150 + index * 100}ms`
                         : "0ms",
                     }}
                   >
@@ -269,7 +269,7 @@ export default function Education() {
                         ? "sm:col-start-1"
                         : "sm:col-start-2"
                     }`}
-                    style={reveal(120 + index * 150, 20)}
+                    style={reveal(80 + index * 100, 15)}
                   >
                     <article
                       className={`education-card group relative min-w-0 overflow-hidden rounded-[22px] border p-4 backdrop-blur-xl transition-colors duration-300 sm:rounded-[26px] sm:p-5 md:p-6 ${theme.card} ${
@@ -364,19 +364,19 @@ export default function Education() {
           transform: translateZ(0) scale(1);
           transform-origin: center center;
           transition:
-            transform 320ms cubic-bezier(0.2, 0.75, 0.25, 1),
-            border-color 280ms ease,
-            box-shadow 280ms ease,
-            background-color 280ms ease;
+            transform 200ms ease,
+            border-color 200ms ease,
+            box-shadow 200ms ease,
+            background-color 200ms ease;
           backface-visibility: hidden;
           will-change: transform;
         }
 
         @media (hover: hover) and (pointer: fine) {
           .education-card:hover {
-            transform: translateZ(0) scale(1.025);
-            border-color: rgba(129, 140, 248, 0.32);
-            box-shadow: 0 18px 48px rgba(79, 70, 229, 0.12);
+            transform: translateZ(0) scale(1.015);
+            border-color: rgba(129, 140, 248, 0.3);
+            box-shadow: 0 12px 35px rgba(79, 70, 229, 0.1);
           }
         }
 

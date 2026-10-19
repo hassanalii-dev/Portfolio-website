@@ -1,1228 +1,835 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Bot,
-  X,
+  Mail,
+  MapPin,
+  GraduationCap,
   Send,
-  MessageCircle,
-  Sparkles,
-  User,
-  RotateCcw,
-  Globe,
-  Mic,
-  MicOff,
+  CheckCircle2,
+  AlertCircle,
   LoaderCircle,
+  ArrowUpRight,
+  UserRound,
+  MessageSquare,
 } from "lucide-react";
 
-const LANGUAGES = [
-  { code: "en", label: "English" },
-  { code: "ur", label: "اردو" },
-];
-
-const CONTENT = {
-  en: {
-    title: "Hassan's AI Assistant",
-    subtitle: "Portfolio Assistant",
-    online: "Online",
-    placeholder: "Type your message...",
-    suggestions: ["About Hassan", "Skills", "Projects", "Education"],
-    welcome: "How can I help you today?",
-    listening: "Listening... Speak now",
-    thinking: "Thinking...",
-    micUnsupported: "Voice input is not supported in this browser.",
-    assistant: "Hassan AI Assistant",
-    you: "You",
-    reset: "Start a new conversation",
-    close: "Close chat",
-    changeLanguage: "Change language",
-    send: "Send message",
-    speak: "Speak a message",
-    stopMic: "Stop microphone",
-    footer: "Portfolio assistant · Text replies only",
-    replies: {
-      greeting:
-        "Hi! 👋 Welcome to Hassan Ali portfolio. I'm your virtual assistant. How can I hep you?",
-      about:
-        "Hassan Ali is a BS Computer Science student at Lahore Garrison University in Lahore, Pakistan. He is learning full-stack web development and building modern, responsive websites.",
-      skills:
-        "Hassan works with HTML5, CSS3, JavaScript and React.js. He is also learning Node.js, backend development and MongoDB.",
-      projects:
-        "Hassan's portfolio showcases his web development journey. His projects include a modern portfolio, an e-commerce website concept and a full-stack web application and other manay projects. You can see his all projects in his work section",
-      education:
-        "Hassan is studying BS Computer Science at Lahore Garrison University. He completed Intermediate ICS with Physics at Government Islamia Graduate College, Civil Lines, Lahore. He is also learning full-stack development at NexSkill, Arfa Tower, Lahore.",
-      contact:
-        "You can contact Hassan through the Contact section of this portfolio. Use the available contact details and social links.",
-      help:
-        "You can ask about Hassan's background, education, skills, projects or web development. You can also use the microphone if your browser supports voice input.",
-      thanks:
-        "You're welcome! 😊 Feel free to ask anything else about Hassan's portfolio.",
-      fallback:
-        "I can answer questions about Hassan's portfolio, skills, education and projects. So kindly ask me about these questions",
-    },
-  },
-
-  ur: {
-    title: "حسن کا معاون",
-    subtitle: "پورٹ فولیو معاون",
-    online: "آن لائن • مدد کے لیے تیار",
-    placeholder: "اپنا پیغام لکھیں...",
-    suggestions: ["حسن کا تعارف", "مہارتیں", "پروجیکٹس", "تعلیم"],
-    welcome: "میں آج آپ کی کیا مدد کر سکتا ہوں؟",
-    listening: "سن رہا ہوں... اب بولیے",
-    thinking: "جواب تیار ہو رہا ہے...",
-    micUnsupported: "اس براؤزر میں آواز کے ذریعے ان پٹ دستیاب نہیں ہے۔",
-    assistant: "معاون",
-    you: "آپ",
-    reset: "نئی گفتگو شروع کریں",
-    close: "چیٹ بند کریں",
-    changeLanguage: "زبان تبدیل کریں",
-    send: "پیغام بھیجیں",
-    speak: "بول کر پیغام دیں",
-    stopMic: "مائیکروفون بند کریں",
-    footer: "پورٹ فولیو معاون · جوابات صرف تحریر میں",
-    replies: {
-      greeting:
-        "السلام علیکم! 👋 حسن علی کے پورٹ فولیو میں خوش آمدید۔ میں آپ کا ورچوئل معاون ہوں۔ آپ کیا جاننا چاہتے ہیں؟",
-      about:
-        "حسن علی لاہور، پاکستان میں لاہور گیریژن یونیورسٹی کے بی ایس کمپیوٹر سائنس کے طالب علم ہیں۔ وہ فل اسٹیک ویب ڈویلپمنٹ سیکھ رہے ہیں اور جدید، ریسپانسیو ویب سائٹس بنا رہے ہیں۔",
-      skills:
-        "حسن HTML5، CSS3، JavaScript اور React.js پر کام کرتے ہیں۔ وہ Node.js، بیک اینڈ ڈویلپمنٹ اور MongoDB بھی سیکھ رہے ہیں۔",
-      projects:
-        "حسن کے پورٹ فولیو میں ان کے ویب ڈویلپمنٹ کے کام کی جھلک موجود ہے۔ ان کے پروجیکٹس میں جدید پورٹ فولیو، ای کامرس ویب سائٹ اور فل اسٹیک ویب ایپلیکیشن شامل ہیں۔",
-      education:
-        "حسن لاہور گیریژن یونیورسٹی سے بی ایس کمپیوٹر سائنس کر رہے ہیں۔ انہوں نے گورنمنٹ اسلامیہ گریجویٹ کالج، سول لائنز لاہور سے آئی سی ایس فزکس مکمل کیا۔ وہ نیکس اسکل، ارفع ٹاور لاہور سے فل اسٹیک ویب ڈویلپمنٹ بھی سیکھ رہے ہیں۔",
-      contact:
-        "آپ اس پورٹ فولیو کے رابطہ سیکشن کے ذریعے حسن سے رابطہ کر سکتے ہیں۔ وہاں موجود رابطے کی تفصیلات اور سوشل لنکس استعمال کریں۔",
-      help:
-        "آپ حسن کی تعلیم، مہارتوں، پروجیکٹس اور ویب ڈویلپمنٹ کے بارے میں پوچھ سکتے ہیں۔ اگر آپ کا براؤزر سپورٹ کرتا ہے تو مائیکروفون سے بھی سوال کر سکتے ہیں۔",
-      thanks:
-        "آپ کا خیر مقدم ہے! 😊 حسن کے پورٹ فولیو کے بارے میں مزید کچھ پوچھنا ہو تو ضرور پوچھیں۔",
-      fallback:
-        "میں حسن علی کے پورٹ فولیو، مہارتوں، تعلیم اور پروجیکٹس کے بارے میں معلومات دے سکتا ہوں۔ عام AI سوالات کے لیے Gemini API کو منسلک کرنا ہوگا۔",
-    },
-  },
-};
-
-function getReplyKey(message) {
-  const text = message.toLowerCase().trim();
-
-  if (
-    /^(hi|hello|hey|salam|assalam|aoa)\b/.test(text) ||
-    text.includes("السلام علیکم") ||
-    text.includes("اسلام علیکم") ||
-    text.includes("ہیلو")
-  ) {
-    return "greeting";
-  }
-
-  if (
-    text.includes("thank") ||
-    text.includes("shukriya") ||
-    text.includes("شکریہ")
-  ) {
-    return "thanks";
-  }
-
-  if (
-    text.includes("about") ||
-    text.includes("who is hassan") ||
-    text.includes("introduce") ||
-    text.includes("taaruf") ||
-    text.includes("hassan kon") ||
-    text.includes("حسن کون") ||
-    text.includes("تعارف")
-  ) {
-    return "about";
-  }
-
-  if (
-    text.includes("skill") ||
-    text.includes("technology") ||
-    text.includes("tech stack") ||
-    text.includes("html") ||
-    text.includes("react") ||
-    text.includes("mongodb") ||
-    text.includes("مہارت") ||
-    text.includes("ہنر")
-  ) {
-    return "skills";
-  }
-
-  if (
-    text.includes("project") ||
-    text.includes("work") ||
-    text.includes("portfolio") ||
-    text.includes("پروجیکٹ")
-  ) {
-    return "projects";
-  }
-
-  if (
-    text.includes("education") ||
-    text.includes("study") ||
-    text.includes("university") ||
-    text.includes("degree") ||
-    text.includes("taleem") ||
-    text.includes("تعلیم")
-  ) {
-    return "education";
-  }
-
-  if (
-    text.includes("contact") ||
-    text.includes("email") ||
-    text.includes("hire") ||
-    text.includes("rabta") ||
-    text.includes("رابطہ")
-  ) {
-    return "contact";
-  }
-
-  if (
-    text.includes("help") ||
-    text.includes("madad") ||
-    text.includes("مدد")
-  ) {
-    return "help";
-  }
-
-  return "fallback";
+function GitHubIcon({ size = 20 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.56.1.76-.24.76-.54v-2.1c-3.1.67-3.76-1.32-3.76-1.32-.5-1.29-1.23-1.63-1.23-1.63-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15.99 1.7 2.6 1.21 3.23.92.1-.72.39-1.21.71-1.49-2.47-.28-5.07-1.24-5.07-5.5 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.05 1.15a10.6 10.6 0 0 1 5.55 0c2.11-1.45 3.05-1.15 3.05-1.15.61 1.54.23 2.68.11 2.96.72.78 1.15 1.78 1.15 3.01 0 4.27-2.6 5.21-5.08 5.49.4.35.76 1.02.76 2.06v3.09c0 .3.2.65.77.54A11.1 11.1 0 0 0 12 .9Z" />
+    </svg>
+  );
 }
 
-function createMessage(role, text, replyKey = null) {
-  return {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-    role,
-    text,
-    replyKey,
-  };
+function LinkedInIcon({ size = 20 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52ZM7.93 18.74H4.96V9.18h2.97v9.56ZM6.45 7.88a1.72 1.72 0 1 1 0-3.44 1.72 1.72 0 0 1 0 3.44Zm12.29 10.86h-2.96v-4.65c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.48V9.18h2.84v1.31h.04c.4-.75 1.36-1.55 2.8-1.55 3 0 3.58 1.97 3.58 4.53v5.27Z" />
+    </svg>
+  );
 }
 
-export default function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
-  const [message, setMessage] = useState("");
-  const [language, setLanguage] = useState("en");
-  const [showLanguages, setShowLanguages] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-  const [messages, setMessages] = useState([]);
+function GmailIcon({ size = 22 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path fill="#4285F4" d="M3 6.5V19h4V9.2L3 6.5Z" />
+      <path fill="#34A853" d="M17 9.2V19h4V6.5l-4 2.7Z" />
+      <path
+        fill="#EA4335"
+        d="M3 5.8v.7l4 2.7 5 3.8 5-3.8 4-2.7v-.7a2.5 2.5 0 0 0-4-2L12 7.5 7 3.8a2.5 2.5 0 0 0-4 2Z"
+      />
+      <path
+        fill="#C5221F"
+        d="M3 5.8v.7l4 2.7V4.5l-1-.7a2.5 2.5 0 0 0-4 2Z"
+      />
+    </svg>
+  );
+}
 
-  const messagesEndRef = useRef(null);
-  const inputRef = useRef(null);
-  const recognitionRef = useRef(null);
-  const replyTimerRef = useRef(null);
-  const closeTimerRef = useRef(null);
-  const mountedRef = useRef(false);
+export default function Contact() {
+  const sectionRef = useRef(null);
+  const statusTimerRef = useRef(null);
+  const statusRef = useRef(null);
 
-  const current = CONTENT[language];
-  const isUrdu = language === "ur";
+  const [isVisible, setIsVisible] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
+  const [isLight, setIsLight] = useState(
+    () =>
+      typeof document !== "undefined" &&
+      document.documentElement.dataset.theme === "light"
+  );
+
+  const [formStatus, setFormStatus] = useState({
+    show: false,
+    success: false,
+    message: "",
+  });
+
+  // Synchronize with the website theme.
   useEffect(() => {
-    mountedRef.current = true;
+    const syncTheme = () => {
+      setIsLight(
+        document.documentElement.dataset.theme === "light"
+      );
+    };
+
+    syncTheme();
+
+    window.addEventListener("portfolio-theme-change", syncTheme);
+
+    const mutationObserver = new MutationObserver(syncTheme);
+
+    mutationObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
 
     return () => {
-      mountedRef.current = false;
-      window.clearTimeout(replyTimerRef.current);
-      window.clearTimeout(closeTimerRef.current);
+      window.removeEventListener(
+        "portfolio-theme-change",
+        syncTheme
+      );
+      mutationObserver.disconnect();
+    };
+  }, []);
 
-      try {
-        recognitionRef.current?.abort();
-      } catch {
-        // Recognition may already be stopped.
+  // Reveal both cards when the Contact section enters the viewport.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      {
+        threshold: 0.06,
+        rootMargin: "0px 0px -25px 0px",
+      }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Clear status timer when the component unmounts.
+  useEffect(() => {
+    return () => {
+      if (statusTimerRef.current) {
+        clearTimeout(statusTimerRef.current);
       }
     };
   }, []);
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-    });
-  }, [messages, isTyping]);
+  // Shared reveal animation for both cards (optimized).
+  const reveal = (delay = 0) => ({
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible
+      ? "translate3d(0, 0, 0)"
+      : "translate3d(0, 15px, 0)",
+    transition: `
+      opacity 500ms ease ${isVisible ? delay : 0}ms,
+      transform 500ms ease ${isVisible ? delay : 0}ms
+    `,
+    willChange: isVisible ? "auto" : "opacity, transform",
+  });
 
-  useEffect(() => {
-    if (!isOpen || isClosing) return;
-
-    const timer = window.setTimeout(() => {
-      inputRef.current?.focus();
-    }, 250);
-
-    return () => window.clearTimeout(timer);
-  }, [isOpen, isClosing]);
-
-  const openChat = () => {
-    window.clearTimeout(closeTimerRef.current);
-
-    setIsClosing(false);
-    setIsMounted(true);
-
-    if (messages.length === 0) {
-      setMessages([
-        createMessage("bot", CONTENT[language].replies.greeting, "greeting"),
-      ]);
+  const showStatus = (success, message) => {
+    if (statusTimerRef.current) {
+      clearTimeout(statusTimerRef.current);
     }
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (mountedRef.current) setIsOpen(true);
+    setFormStatus({
+      show: true,
+      success,
+      message,
+    });
+
+    statusTimerRef.current = setTimeout(() => {
+      setFormStatus({
+        show: false,
+        success: false,
+        message: "",
       });
+    }, 6000);
+  };
+
+  // FormSubmit contact form.
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (isSending) return;
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    setIsSending(true);
+
+    if (statusTimerRef.current) {
+      clearTimeout(statusTimerRef.current);
+    }
+
+    setFormStatus({
+      show: false,
+      success: false,
+      message: "",
     });
-  };
-
-  const closeChat = () => {
-    setIsClosing(true);
-    setIsOpen(false);
-    setShowLanguages(false);
 
     try {
-      recognitionRef.current?.stop();
-    } catch {
-      // Recognition may already be stopped.
-    }
-
-    setIsListening(false);
-
-    closeTimerRef.current = window.setTimeout(() => {
-      if (mountedRef.current) {
-        setIsMounted(false);
-        setIsClosing(false);
-      }
-    }, 300);
-  };
-
-  const resetChat = () => {
-    window.clearTimeout(replyTimerRef.current);
-
-    try {
-      recognitionRef.current?.stop();
-    } catch {
-      // Recognition may already be stopped.
-    }
-
-    setIsListening(false);
-    setIsTyping(false);
-    setMessage("");
-
-    setMessages([
-      createMessage("bot", CONTENT[language].replies.greeting, "greeting"),
-    ]);
-  };
-
-  const changeLanguage = (code) => {
-    setLanguage(code);
-    setShowLanguages(false);
-
-    try {
-      recognitionRef.current?.stop();
-    } catch {
-      // Recognition may already be stopped.
-    }
-
-    setIsListening(false);
-
-    setMessages((previous) =>
-      previous.map((item) => {
-        if (item.role === "bot" && item.replyKey) {
-          return {
-            ...item,
-            text:
-              CONTENT[code].replies[item.replyKey] ||
-              CONTENT[code].replies.fallback,
-          };
+      const response = await fetch(
+        "https://formsubmit.co/ajax/hassanmughal085870@gmail.com",
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Accept: "application/json",
+          },
         }
+      );
 
-        return item;
-      })
-    );
-  };
+      const result = await response.json().catch(() => null);
 
-  const sendMessage = (value = message) => {
-    const text = value.trim();
-
-    if (!text || isTyping) return;
-
-    window.clearTimeout(replyTimerRef.current);
-
-    const replyKey = getReplyKey(text);
-
-    setMessages((previous) => [
-      ...previous,
-      createMessage("user", text),
-    ]);
-
-    setMessage("");
-    setIsTyping(true);
-
-    replyTimerRef.current = window.setTimeout(() => {
-      if (!mountedRef.current) return;
-
-      setMessages((previous) => [
-        ...previous,
-        createMessage(
-          "bot",
-          CONTENT[language].replies[replyKey] ||
-            CONTENT[language].replies.fallback,
-          replyKey
-        ),
-      ]);
-
-      setIsTyping(false);
-    }, 550);
-  };
-
-  const startListening = () => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      setMessages((previous) => [
-        ...previous,
-        createMessage("bot", current.micUnsupported),
-      ]);
-      return;
-    }
-
-    if (isListening) {
-      try {
-        recognitionRef.current?.stop();
-      } catch {
-        // Recognition may already be stopped.
-      }
-
-      setIsListening(false);
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-
-    recognition.lang = isUrdu ? "ur-PK" : "en-US";
-    recognition.continuous = false;
-    recognition.interimResults = true;
-    recognition.maxAlternatives = 1;
-
-    recognition.onstart = () => {
-      if (mountedRef.current) setIsListening(true);
-    };
-
-    recognition.onresult = (event) => {
-      let transcript = "";
-
-      for (
-        let i = event.resultIndex;
-        i < event.results.length;
-        i += 1
+      if (
+        !response.ok ||
+        !result ||
+        result.success === false ||
+        result.success === "false" ||
+        result.success === "error"
       ) {
-        transcript += event.results[i][0].transcript;
+        throw new Error("Message submission failed");
       }
 
-      if (mountedRef.current) setMessage(transcript);
-    };
+      form.reset();
 
-    recognition.onerror = () => {
-      if (mountedRef.current) setIsListening(false);
-    };
-
-    recognition.onend = () => {
-      if (mountedRef.current) setIsListening(false);
-    };
-
-    recognitionRef.current = recognition;
-
-    try {
-      recognition.start();
+      showStatus(
+        true,
+        "Message sent successfully! Thank you for reaching out. I'll get back to you soon."
+      );
     } catch {
-      setIsListening(false);
+      showStatus(
+        false,
+        "Your message couldn't be sent. Please check your connection and try again, or email me directly."
+      );
+    } finally {
+      setIsSending(false);
+
+      requestAnimationFrame(() => {
+        statusRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      });
     }
   };
+
+  const contactDetails = [
+    {
+      title: "Email Address",
+      value: "hassanmughal085870@gmail.com",
+      icon: Mail,
+    },
+    {
+      title: "Phone Number",
+      value: "+92 321 4062601",
+      icon: MessageSquare,
+    },
+    {
+      title: "Location",
+      value: "Lahore, Pakistan",
+      icon: MapPin,
+    },
+    {
+      title: "Education",
+      value: "BS Computer Science",
+      icon: GraduationCap,
+    },
+  ];
+
+  const headingClass = isLight
+    ? "text-slate-900"
+    : "text-white";
+
+  const paragraphClass = isLight
+    ? "text-slate-600"
+    : "text-slate-400";
+
+  const labelClass = isLight
+    ? "text-slate-700"
+    : "text-slate-300";
+
+  const detailValueClass = isLight
+    ? "text-slate-700"
+    : "text-slate-200";
+
+  const cardClasses = `
+    contact-card relative min-w-0 overflow-hidden rounded-3xl
+    border shadow-xl backdrop-blur-xl
+    ${
+      isLight
+        ? "border-slate-200 bg-white/85 shadow-slate-900/[0.06]"
+        : "border-white/[0.09] bg-slate-900/50 shadow-black/10"
+    }
+  `;
+
+  const inputClasses = `
+    contact-input block w-full min-w-0 rounded-xl border px-4 py-3.5
+    text-sm outline-none
+    focus:border-indigo-400/70 focus:ring-4 focus:ring-indigo-500/10
+    ${
+      isLight
+        ? "border-slate-200 bg-slate-50/70 text-slate-800 placeholder:text-slate-400 focus:bg-white"
+        : "border-white/10 bg-slate-950/50 text-white placeholder:text-slate-500 focus:bg-slate-950/80"
+    }
+  `;
+
+  const socialClass = `
+    contact-social inline-flex h-11 w-11 shrink-0 items-center
+    justify-center rounded-xl border p-0
+    ${
+      isLight
+        ? "border-slate-200 bg-slate-50 text-slate-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
+        : "border-white/10 bg-white/[0.03] text-slate-300 hover:border-indigo-400/40 hover:bg-indigo-500/10 hover:text-indigo-200"
+    }
+  `;
 
   return (
-    <>
+    <section
+      ref={sectionRef}
+      id="contact"
+      className={`relative isolate overflow-hidden py-16 transition-colors duration-300 sm:py-20 lg:py-24 xl:py-28 ${
+        isLight ? "text-slate-800" : "text-white"
+      }`}
+    >
+      {/* Background decoration */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-32 top-1/4 -z-10 h-64 w-64 rounded-full bg-indigo-600/[0.08] blur-[100px] sm:h-80 sm:w-80"
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-32 bottom-0 -z-10 h-64 w-64 rounded-full bg-cyan-500/[0.06] blur-[100px] sm:h-80 sm:w-80"
+      />
+
+      <div className="relative mx-auto w-full max-w-[1235px] px-4 min-[480px]:px-5 sm:px-8 lg:px-6">
+        {/* Section heading */}
+        <div
+          className="mb-10 text-center sm:mb-14 lg:mb-16"
+          style={reveal(0)}
+        >
+          <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-indigo-400/30 bg-indigo-400/[0.08] px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[1.5px] text-indigo-500 sm:px-4 sm:text-xs sm:tracking-[3px]">
+            <Mail size={15} />
+            Get In Touch
+          </span>
+
+          <h2
+            className={`mt-4 text-3xl font-black tracking-tight transition-colors duration-300 min-[480px]:text-4xl sm:text-5xl ${headingClass}`}
+          >
+            Let's <span className="contact-gradient-text">Talk</span>
+          </h2>
+
+          <p
+            className={`mx-auto mt-4 max-w-[620px] text-sm leading-7 transition-colors duration-300 sm:text-base ${paragraphClass}`}
+          >
+            Have a question, opportunity, or project idea?
+            Send me a message. I'd love to hear from you.
+          </p>
+
+          <div className="mx-auto mt-6 h-px w-20 rounded-full bg-gradient-to-r from-transparent via-indigo-400 to-transparent sm:mt-7 sm:w-24" />
+        </div>
+
+        {/* Two-column contact layout */}
+        <div className="grid grid-cols-1 items-stretch gap-5 min-[480px]:gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-7 xl:gap-8">
+          {/* LEFT CARD: Contact Information */}
+          <div
+            className={`${cardClasses} group p-5 transition-[border-color,box-shadow,background-color] duration-300 hover:border-indigo-400/40 hover:shadow-2xl motion-reduce:transform-none min-[480px]:p-6 sm:p-8`}
+          >
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-indigo-500/[0.08] blur-3xl"
+            />
+
+            <div className="relative">
+              <div
+                style={reveal(60)}
+                className="contact-main-icon mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-indigo-400/30 bg-indigo-500/10 text-indigo-500 sm:h-14 sm:w-14"
+              >
+                <Mail size={23} />
+              </div>
+
+              <h3
+                style={reveal(100)}
+                className={`text-xl font-bold transition-colors duration-300 sm:text-2xl ${headingClass}`}
+              >
+                Contact Information
+              </h3>
+
+              <p
+                style={reveal(140)}
+                className={`mt-3 text-sm leading-7 ${paragraphClass}`}
+              >
+                Let's connect! Feel free to reach out for collaborations,
+                learning opportunities, or web development projects.
+              </p>
+
+              {/* Contact details */}
+              <div className="mt-7 space-y-5 sm:mt-8 sm:space-y-6">
+                {contactDetails.map((item, index) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <div
+                      key={item.title}
+                      style={reveal(180 + index * 60)}
+                      className="contact-detail group/item flex min-w-0 items-center gap-3 sm:gap-4"
+                    >
+                      <div
+                        className={`contact-detail-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-indigo-500 sm:h-11 sm:w-11 ${
+                          isLight
+                            ? "border-slate-200 bg-slate-50"
+                            : "border-white/[0.08] bg-white/[0.04]"
+                        }`}
+                      >
+                        <Icon size={19} />
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <p className="mb-1 text-xs text-slate-500">
+                          {item.title}
+                        </p>
+
+                        <p
+                          className={`break-words text-[13px] font-medium leading-6 min-[480px]:text-sm ${detailValueClass}`}
+                        >
+                          {item.value}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Social links */}
+              <div
+                style={reveal(450)}
+                className={`mt-8 border-t pt-6 sm:mt-9 ${
+                  isLight
+                    ? "border-slate-200"
+                    : "border-white/[0.08]"
+                }`}
+              >
+                <p className="mb-4 text-[10px] font-semibold uppercase tracking-[2px] text-slate-500 sm:text-xs">
+                  Find Me Online
+                </p>
+
+                <div className="flex items-center gap-3">
+                  <a
+                    href="https://github.com/hassanalii-dev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    title="GitHub"
+                    className={socialClass}
+                  >
+                    <GitHubIcon size={20} />
+                  </a>
+
+                  <a
+                    href="https://www.linkedin.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    title="LinkedIn"
+                    className={socialClass}
+                  >
+                    <LinkedInIcon size={20} />
+                  </a>
+
+                  <a
+                    href="mailto:hassanmughal085870@gmail.com"
+                    aria-label="Email me"
+                    title="Email me"
+                    className={socialClass}
+                  >
+                    <GmailIcon size={22} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT CARD: Send a Message */}
+          <div
+            className={`${cardClasses} group p-5 transition-[border-color,box-shadow,background-color] duration-300 hover:border-indigo-400/40 hover:shadow-2xl motion-reduce:transform-none min-[480px]:p-6 sm:p-8`}
+          >
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-cyan-500/[0.06] blur-3xl"
+            />
+
+            <div className="relative">
+              {/* Animated icon */}
+              <div
+                style={reveal(60)}
+                className="contact-main-icon mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-indigo-400/30 bg-indigo-500/10 text-indigo-500 sm:h-14 sm:w-14"
+              >
+                <MessageSquare size={23} />
+              </div>
+
+              {/* Animated heading */}
+              <h3
+                style={reveal(100)}
+                className={`text-xl font-bold transition-colors duration-300 sm:text-2xl ${headingClass}`}
+              >
+                Send Me a Message
+              </h3>
+
+              {/* Animated paragraph */}
+              <p
+                style={reveal(140)}
+                className={`mt-3 text-sm leading-7 ${paragraphClass}`}
+              >
+                Fill in the details below and send me your message.
+              </p>
+
+              {/* Form with staggered field animations */}
+              <form
+                onSubmit={handleSubmit}
+                className="contact-form mt-6 space-y-5 sm:mt-7"
+                aria-busy={isSending}
+              >
+                <input
+                  type="hidden"
+                  name="_subject"
+                  value="New Portfolio Message - Hassan Ali"
+                />
+
+                <input
+                  type="hidden"
+                  name="_captcha"
+                  value="false"
+                />
+
+                <input
+                  type="hidden"
+                  name="_template"
+                  value="table"
+                />
+
+                {/* Name */}
+                <div
+                  className="contact-field"
+                  style={reveal(200)}
+                >
+                  <label
+                    htmlFor="contact-name"
+                    className={`mb-2 block text-sm font-semibold ${labelClass}`}
+                  >
+                    Your Name
+                  </label>
+
+                  <div className="relative">
+                    <UserRound
+                      size={17}
+                      aria-hidden="true"
+                      className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
+                    />
+
+                    <input
+                      id="contact-name"
+                      type="text"
+                      name="name"
+                      placeholder="Enter your full name"
+                      autoComplete="name"
+                      required
+                      maxLength={100}
+                      className={`${inputClasses} pl-11`}
+                    />
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div
+                  className="contact-field"
+                  style={reveal(260)}
+                >
+                  <label
+                    htmlFor="contact-email"
+                    className={`mb-2 block text-sm font-semibold ${labelClass}`}
+                  >
+                    Your Email
+                  </label>
+
+                  <div className="relative">
+                    <Mail
+                      size={17}
+                      aria-hidden="true"
+                      className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
+                    />
+
+                    <input
+                      id="contact-email"
+                      type="email"
+                      name="email"
+                      placeholder="you@example.com"
+                      autoComplete="email"
+                      required
+                      maxLength={254}
+                      className={`${inputClasses} pl-11`}
+                    />
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div
+                  className="contact-field"
+                  style={reveal(320)}
+                >
+                  <label
+                    htmlFor="contact-message"
+                    className={`mb-2 block text-sm font-semibold ${labelClass}`}
+                  >
+                    Your Message{" "}
+                    <span className="text-indigo-400"></span>
+                  </label>
+
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    placeholder="Tell me about your project, idea, or question..."
+                    required
+                    minLength={5}
+                    maxLength={5000}
+                    rows={5}
+                    className={`${inputClasses} min-h-[145px] resize-y leading-7 sm:min-h-[160px]`}
+                  />
+                </div>
+
+                {/* Animated submit button */}
+                <div style={reveal(380)}>
+                  <button
+                    type="submit"
+                    disabled={isSending}
+                    className="contact-submit group/btn flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {isSending ? (
+                      <>
+                        <LoaderCircle
+                          size={19}
+                          className="animate-spin"
+                        />
+                        Sending Your Message...
+                      </>
+                    ) : (
+                      <>
+                        <Send
+                          size={17}
+                          className="contact-send-icon"
+                        />
+                        Send Message
+                        <ArrowUpRight
+                          size={17}
+                          className="contact-submit-arrow"
+                        />
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+
+              {/* Success / error status */}
+              <div
+                ref={statusRef}
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                {formStatus.show && (
+                  <div
+                    role="status"
+                    className={`contact-status mt-5 flex items-start gap-3 rounded-xl border p-4 text-sm leading-6 ${
+                      formStatus.success
+                        ? isLight
+                          ? "border-emerald-500/30 bg-emerald-50 text-emerald-700"
+                          : "border-emerald-500/30 bg-emerald-500/[0.08] text-emerald-300"
+                        : isLight
+                          ? "border-red-500/30 bg-red-50 text-red-700"
+                          : "border-red-500/30 bg-red-500/[0.08] text-red-300"
+                    }`}
+                  >
+                    {formStatus.success ? (
+                      <CheckCircle2
+                        size={20}
+                        className="mt-0.5 shrink-0"
+                      />
+                    ) : (
+                      <AlertCircle
+                        size={20}
+                        className="mt-0.5 shrink-0"
+                      />
+                    )}
+
+                    <p className="min-w-0 flex-1 break-words">
+                      {formStatus.message}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Smooth hover, focus and status animations */}
       <style>{`
-        .hc-root {
-          --hc-panel: #0c1020;
-          --hc-panel-soft: #11182b;
-          --hc-text: #f1f5f9;
-          --hc-muted: #9ca9c1;
-          --hc-border: rgba(148,163,184,.16);
-          --hc-bot: rgba(30,41,59,.74);
-          font-family: inherit;
+        #contact .contact-gradient-text {
+          background: linear-gradient(
+            110deg,
+            #818cf8 0%,
+            #c084fc 48%,
+            #22d3ee 100%
+          );
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
 
-        html[data-theme="light"] .hc-root {
-          --hc-panel: #fff;
-          --hc-panel-soft: #f6f7ff;
-          --hc-text: #182036;
-          --hc-muted: #68738a;
-          --hc-border: rgba(100,116,139,.2);
-          --hc-bot: #f1f4fb;
-        }
-
-        /* Launcher Button - Same as desktop style for all devices */
-        .hc-launcher {
-          position: fixed;
-          z-index: 9998;
-          right: 24px;
-          bottom: 25px;
-          width: 50px;
-          height: 50px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 0;
-          color: white;
-          border: none;
-          border-radius: 50%;
-          background: linear-gradient(135deg,#6366f1,#8b5cf6 55%,#06b6d4);
-          box-shadow: 0 12px 35px rgba(99, 102, 241, 0.45);
-          cursor: pointer;
-          transform: scale(1);
-          animation: hc-shadow-pulse 2.5s infinite;
-          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-        }
-
-        .hc-launcher:hover {
-          transform: scale(1.05);
-          box-shadow: 0 16px 45px rgba(99, 102, 241, 0.6);
-        }
-
-        .hc-launcher:active {
-          transform: scale(0.92);
-        }
-
-        @keyframes hc-shadow-pulse {
-          0% {
-            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4),
-                        0 12px 35px rgba(99, 102, 241, 0.45);
-          }
-          70% {
-            box-shadow: 0 0 0 14px rgba(99, 102, 241, 0),
-                        0 12px 35px rgba(99, 102, 241, 0.45);
-          }
-          100% {
-            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0),
-                        0 12px 35px rgba(99, 102, 241, 0.45);
-          }
-        }
-
-        .hc-launcher-symbol {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          width: 28px;
-          height: 28px;
-          flex-shrink: 0;
-        }
-
-        .hc-launcher-symbol svg {
-          position: absolute;
-          transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-        }
-
-        .hc-launcher:not(.hc-launcher-open) .hc-icon-msg {
-          opacity: 1;
-          transform: scale(1) rotate(0deg);
-        }
-        .hc-launcher:not(.hc-launcher-open) .hc-icon-cross {
-          opacity: 0;
-          transform: scale(0.5) rotate(-90deg);
-          pointer-events: none;
-        }
-
-        .hc-launcher.hc-launcher-open .hc-icon-msg {
-          opacity: 0;
-          transform: scale(0.5) rotate(90deg);
-          pointer-events: none;
-        }
-        .hc-launcher.hc-launcher-open .hc-icon-cross {
-          opacity: 1;
-          transform: scale(1) rotate(0deg);
-        }
-
-        /* Chat Window - Centered on Mobile, right-aligned on Desktop */
-        .hc-window {
-          position: fixed;
-          z-index: 9997;
-          right: 24px;
-          bottom: 96px;
-          width: 390px;
-          height: 590px;
-          min-height: 340px;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-          color: var(--hc-text);
-          background: var(--hc-panel);
-          border: 1px solid var(--hc-border);
-          border-radius: 22px;
-          box-shadow: 0 24px 90px rgba(0,0,0,.35),
-                      0 0 0 1px rgba(99,102,241,.07);
-          transform-origin: bottom right;
-          opacity: 0;
-          transform: translateY(15px) scale(.97);
-          visibility: hidden;
-          pointer-events: none;
+        #contact .contact-card {
           transition:
-            opacity .26s ease,
-            transform .32s cubic-bezier(.22,1,.36,1),
-            visibility .26s;
+            transform 300ms ease,
+            border-color 300ms ease,
+            box-shadow 300ms ease,
+            background-color 300ms ease;
+          will-change: transform;
         }
 
-        .hc-window.hc-visible {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-          visibility: visible;
-          pointer-events: auto;
+        #contact .contact-social {
+          transition:
+            transform 200ms ease,
+            border-color 200ms ease,
+            background-color 200ms ease,
+            color 200ms ease;
         }
 
-        .hc-window.hc-closing {
-          opacity: 0;
-          transform: translateY(10px) scale(.98);
-          pointer-events: none;
+        #contact .contact-input {
+          transition:
+            border-color 200ms ease,
+            box-shadow 200ms ease,
+            background-color 200ms ease,
+            color 200ms ease;
         }
 
-        @media (max-width: 640px) {
-          .hc-window {
-            right: auto;
-            left: 50%;
-            bottom: 88px;
-            width: calc(100vw - 24px);
-            max-width: 390px;
-            height: min(560px, calc(100dvh - 110px));
-            transform: translateX(-50%) translateY(15px) scale(.97);
-            transform-origin: bottom center;
-          }
-
-          .hc-window.hc-visible {
-            transform: translateX(-50%) translateY(0) scale(1);
-          }
-
-          .hc-window.hc-closing {
-            transform: translateX(-50%) translateY(10px) scale(.98);
-          }
-        }
-
-        .hc-header {
-          flex-shrink: 0;
-          padding: 17px 13px;
-          color: white;
-          background: linear-gradient(120deg,#4f46e5 0%,#7c3aed 56%,#0891b2 120%);
-        }
-
-        .hc-header-top {
-          display: flex;
-          direction: ltr;
-          align-items: center;
-          gap: 6px;
-        }
-
-        .hc-avatar {
-          width: 42px;
-          height: 42px;
-          flex-shrink: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid rgba(255,255,255,.28);
-          border-radius: 14px;
-          background: rgba(255,255,255,.17);
-        }
-
-        .hc-heading {
-          min-width: 0;
-          flex: 1;
-          direction: ltr;
-          text-align: left;
-        }
-
-        .hc-heading h3 {
-          margin: 0;
-          font-size: 14px;
-          line-height: 1.4;
-          font-weight: 750;
-        }
-
-        .hc-heading p {
-          margin: 4px 0 0;
-          font-size: 10px;
-          color: rgba(255,255,255,.83);
-        }
-
-        .hc-online {
-          display: inline-block;
-          width: 7px;
-          height: 7px;
-          margin-right: 5px;
-          border-radius: 50%;
-          background: #4ade80;
-          box-shadow: 0 0 8px rgba(74,222,128,.6);
-        }
-
-        .hc-icon-button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          width: 30px;
-          height: 32px;
-          padding: 0;
-          color: white;
-          border: 1px solid transparent;
-          border-radius: 10px;
-          background: transparent;
-          cursor: pointer;
-          transition: background .25s ease;
-        }
-
-        .hc-icon-button:hover {
-          background: rgba(255,255,255,.18);
-        }
-
-        .hc-close-button {
+        #contact .contact-submit {
           position: relative;
-          top: 0;
-          transform: translateY(0) rotate(0deg);
-          transition: transform .35s ease, background .25s ease;
+          overflow: hidden;
+          transition:
+            transform 200ms ease,
+            box-shadow 200ms ease,
+            opacity 200ms ease;
         }
 
-        .hc-close-button:hover,
-        .hc-close-button:active {
-          top: 0;
-          transform: translateY(0) rotate(90deg);
+        #contact .contact-send-icon,
+        #contact .contact-submit-arrow {
+          transition: transform 200ms ease;
         }
 
-        .hc-language-wrap {
-          position: relative;
-          flex-shrink: 0;
+        #contact .contact-status {
+          animation: contactStatusIn 300ms ease both;
         }
 
-        .hc-language-button {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 5px;
-          min-height: 32px;
-          padding: 0 7px;
-          color: white;
-          font-size: 10px;
-          white-space: nowrap;
-          border: 1px solid rgba(255,255,255,.25);
-          border-radius: 9px;
-          background: rgba(255,255,255,.13);
-          cursor: pointer;
-          transition: background .2s ease;
+        @keyframes contactStatusIn {
+          from {
+            opacity: 0;
+            transform: translate3d(0, 8px, 0);
+          }
+
+          to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+          }
         }
 
-        .hc-language-button:hover {
-          background: rgba(255,255,255,.23);
+        @media (hover: hover) and (pointer: fine) {
+          #contact .contact-card:hover {
+            transform: translate3d(0, -2px, 0);
+            border-color: rgba(129, 140, 248, 0.3);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+          }
+
+          #contact .contact-social:hover {
+            transform: translateY(-2px);
+            border-color: rgba(129, 140, 248, 0.45);
+          }
+
+          #contact .contact-submit:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.25);
+          }
+
+          #contact .contact-submit:not(:disabled):hover .contact-send-icon {
+            transform: translateX(2px);
+          }
+
+          #contact .contact-submit:not(:disabled):hover .contact-submit-arrow {
+            transform: translate(2px, -2px);
+          }
         }
 
-        .hc-language-menu {
-          position: absolute;
-          z-index: 20;
-          top: 39px;
-          right: 0;
-          left: auto;
-          min-width: 125px;
-          padding: 5px;
-          border: 1px solid var(--hc-border);
-          border-radius: 12px;
-          background: var(--hc-panel);
-          box-shadow: 0 12px 35px rgba(0,0,0,.25);
-          animation: hc-menu-in .2s ease both;
+        #contact .contact-submit:active:not(:disabled) {
+          transform: scale(0.99);
         }
 
-        .hc-language-option {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-          padding: 9px 10px;
-          color: var(--hc-text);
-          font-size: 12px;
-          text-align: left;
-          border: 0;
-          border-radius: 8px;
-          background: transparent;
-          cursor: pointer;
+        #contact button:focus-visible,
+        #contact a:focus-visible {
+          outline: 2px solid rgba(129, 140, 248, 0.85);
+          outline-offset: 4px;
         }
 
-        .hc-language-option:hover,
-        .hc-language-option.active {
-          background: rgba(99,102,241,.15);
-          color: #a5b4fc;
-        }
-
-        .hc-feed {
-          flex: 1;
-          min-height: 0;
-          padding: 16px 13px 12px;
-          overflow-y: auto;
-          overscroll-behavior: contain;
-          scrollbar-width: thin;
-          scrollbar-color: rgba(148,163,184,.3) transparent;
-          background:
-            radial-gradient(ellipse at 100% 0%,rgba(99,102,241,.055),transparent 45%),
-            var(--hc-panel);
-        }
-
-        .hc-message-row {
-          display: flex;
-          direction: ltr;
-          align-items: flex-end;
-          gap: 8px;
-          margin-bottom: 14px;
-          animation: hc-message-in .34s cubic-bezier(.22,1,.36,1) both;
-        }
-
-        .hc-message-row.user {
-          justify-content: flex-end;
-        }
-
-        .hc-mini-avatar {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          width: 27px;
-          height: 27px;
-          margin-bottom: 2px;
-          color: white;
-          border-radius: 9px;
-          background: linear-gradient(135deg,#6366f1,#8b5cf6);
-        }
-
-        .hc-bubble-wrap {
-          max-width: 83%;
-          min-width: 0;
-        }
-
-        .hc-message-name {
-          margin: 0 0 5px 2px;
-          color: var(--hc-muted);
-          font-size: 10px;
-          text-align: left;
-        }
-
-        .hc-bubble {
-          padding: 11px 12px;
-          color: var(--hc-text);
-          font-size: 12px;
-          line-height: 1.9;
-          overflow-wrap: anywhere;
-          white-space: pre-wrap;
-          border: 1px solid var(--hc-border);
-          border-radius: 13px 13px 13px 4px;
-          background: var(--hc-bot);
-          text-align: left;
-          unicode-bidi: plaintext;
-        }
-
-        .hc-bubble[dir="rtl"] {
-          direction: rtl;
-          text-align: right;
-          unicode-bidi: plaintext;
-        }
-
-        .hc-message-row.user .hc-bubble {
-          color: white;
-          border-color: rgba(255,255,255,.1);
-          border-radius: 13px 13px 4px 13px;
-          background: linear-gradient(135deg,#6366f1,#8b5cf6);
-        }
-
-        .hc-message-row.user .hc-message-name {
-          text-align: right;
-          margin-right: 2px;
-        }
-
-        .hc-typing {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          min-width: 57px;
-          padding: 13px 14px;
-          border: 1px solid var(--hc-border);
-          border-radius: 13px 13px 13px 4px;
-          background: var(--hc-bot);
-        }
-
-        .hc-typing span {
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background: #a5b4fc;
-          animation: hc-dot 1s ease-in-out infinite;
-        }
-
-        .hc-typing span:nth-child(2) { animation-delay: .15s; }
-        .hc-typing span:nth-child(3) { animation-delay: .3s; }
-
-        .hc-input-area {
-          flex-shrink: 0;
-          padding: 11px 12px 12px;
-          border-top: 1px solid var(--hc-border);
-          background: var(--hc-panel);
-        }
-
-        .hc-input-shell {
-          display: flex;
-          direction: ltr;
-          align-items: center;
-          gap: 5px;
-          min-height: 46px;
-          padding: 5px;
-          border: 1px solid var(--hc-border);
-          border-radius: 14px;
-          background: var(--hc-panel-soft);
-          transition: border-color .2s ease, box-shadow .2s ease;
-        }
-
-        .hc-input-shell:focus-within {
-          border-color: rgba(129,140,248,.7);
-          box-shadow: 0 0 0 3px rgba(99,102,241,.09);
-        }
-
-        .hc-input {
-          flex: 1;
-          min-width: 0;
-          padding: 7px 5px;
-          color: var(--hc-text);
-          font: inherit;
-          font-size: 12px;
-          border: 0;
-          outline: none;
-          background: transparent;
-          direction: auto;
-          text-align: start;
-        }
-
-        .hc-input::placeholder {
-          color: var(--hc-muted);
-          opacity: .8;
-        }
-
-        .hc-tool-button,
-        .hc-send-button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          width: 35px;
-          height: 35px;
-          border: 0;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: background .2s ease, transform .2s ease, color .2s ease;
-        }
-
-        .hc-tool-button {
-          color: var(--hc-muted);
-          background: transparent;
-        }
-
-        .hc-tool-button:hover {
-          color: #a5b4fc;
-          background: rgba(99,102,241,.12);
-        }
-
-        .hc-tool-button.recording {
-          color: white;
-          background: #ef4444;
-          animation: hc-pulse 1.2s infinite;
-        }
-
-        .hc-send-button {
-          color: white;
-          background: linear-gradient(135deg,#6366f1,#8b5cf6 65%,#06b6d4);
-          box-shadow: 0 3px 12px rgba(99,102,241,.25);
-        }
-
-        .hc-send-button:hover:not(:disabled) {
-          transform: translateY(-2px);
-        }
-
-        .hc-send-button:disabled {
-          opacity: .45;
-          cursor: not-allowed;
-          box-shadow: none;
-        }
-
-        .hc-spinner {
-          animation: hc-spinner 1s linear infinite;
-        }
-
-        @keyframes hc-message-in {
-          from { opacity: 0; transform: translateY(8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes hc-dot {
-          0%,60%,100% { opacity: .4; transform: translateY(0); }
-          30% { opacity: 1; transform: translateY(-4px); }
-        }
-
-        @keyframes hc-pulse {
-          0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,.35); }
-          50% { box-shadow: 0 0 0 5px rgba(239,68,68,0); }
-        }
-
-        @keyframes hc-menu-in {
-          from { opacity: 0; transform: translateY(-5px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes hc-spinner {
-          to { transform: rotate(360deg); }
+        #contact button,
+        #contact a {
+          -webkit-tap-highlight-color: transparent;
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .hc-root *,
-          .hc-root *::before,
-          .hc-root *::after {
-            animation-duration: .01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: .01ms !important;
+          #contact *,
+          #contact *::before,
+          #contact *::after {
+            animation: none !important;
+            transition: none !important;
+            scroll-behavior: auto !important;
           }
         }
       `}</style>
-
-      <div className="hc-root" dir="ltr">
-        {isMounted && (
-          <section
-            className={[
-              "hc-window",
-              isOpen && !isClosing ? "hc-visible" : "",
-              isClosing ? "hc-closing" : "",
-            ].join(" ")}
-            role="dialog"
-            aria-label={current.title}
-            aria-hidden={!isOpen}
-          >
-            <header className="hc-header">
-              <div className="hc-header-top">
-                <div className="hc-avatar">
-                  <Bot size={23} strokeWidth={1.8} />
-                </div>
-
-                <div className="hc-heading">
-                  <h3>{current.title}</h3>
-                  <p>
-                    <span className="hc-online" />
-                    {current.online}
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  className="hc-icon-button"
-                  onClick={resetChat}
-                  title={current.reset}
-                  aria-label={current.reset}
-                >
-                  <RotateCcw size={16} />
-                </button>
-
-                <div className="hc-language-wrap">
-                  <button
-                    type="button"
-                    className="hc-language-button"
-                    onClick={() => setShowLanguages((value) => !value)}
-                    aria-label={current.changeLanguage}
-                    aria-expanded={showLanguages}
-                    title={current.changeLanguage}
-                  >
-                    <Globe size={14} />
-                    <span>{isUrdu ? "اردو" : "EN"}</span>
-                  </button>
-
-                  {showLanguages && (
-                    <div className="hc-language-menu">
-                      {LANGUAGES.map((item) => (
-                        <button
-                          type="button"
-                          key={item.code}
-                          className={[
-                            "hc-language-option",
-                            language === item.code ? "active" : "",
-                          ].join(" ")}
-                          onClick={() => changeLanguage(item.code)}
-                        >
-                          <span>{item.label}</span>
-                          {language === item.code && <span>✓</span>}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <button
-                  type="button"
-                  className="hc-icon-button hc-close-button"
-                  onClick={closeChat}
-                  title={current.close}
-                  aria-label={current.close}
-                >
-                  <X size={19} />
-                </button>
-              </div>
-            </header>
-
-            <div className="hc-feed">
-              {messages.map((item) => {
-                const displayText =
-                  item.role === "bot" && item.replyKey
-                    ? CONTENT[language].replies[item.replyKey] ||
-                      CONTENT[language].replies.fallback
-                    : item.text;
-
-                const botTextIsUrdu = item.role === "bot" && isUrdu;
-
-                return (
-                  <div
-                    key={item.id}
-                    className={`hc-message-row ${item.role}`}
-                  >
-                    {item.role === "bot" && (
-                      <div className="hc-mini-avatar">
-                        <Bot size={15} />
-                      </div>
-                    )}
-
-                    <div className="hc-bubble-wrap">
-                      <div
-                        className="hc-message-name"
-                        dir={isUrdu ? "rtl" : "ltr"}
-                        style={{ textAlign: isUrdu ? "right" : "left" }}
-                      >
-                        {item.role === "bot" ? current.assistant : current.you}
-                      </div>
-
-                      <div
-                        className="hc-bubble"
-                        key={`${item.id}-${language}`}
-                        dir={botTextIsUrdu ? "rtl" : "auto"}
-                      >
-                        {displayText}
-                      </div>
-                    </div>
-
-                    {item.role === "user" && (
-                      <div
-                        className="hc-mini-avatar"
-                        style={{ background: "rgba(100,116,139,.35)" }}
-                      >
-                        <User size={15} />
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-
-              {isTyping && (
-                <div className="hc-message-row bot">
-                  <div className="hc-mini-avatar">
-                    <Bot size={15} />
-                  </div>
-
-                  <div className="hc-bubble-wrap">
-                    <div
-                      className="hc-message-name"
-                      dir={isUrdu ? "rtl" : "ltr"}
-                      style={{ textAlign: isUrdu ? "right" : "left" }}
-                    >
-                      {current.assistant}
-                    </div>
-
-                    <div className="hc-typing" aria-label={current.thinking}>
-                      <span />
-                      <span />
-                      <span />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <div ref={messagesEndRef} />
-            </div>
-
-            <form
-              className="hc-input-area"
-              onSubmit={(event) => {
-                event.preventDefault();
-                sendMessage();
-              }}
-            >
-              <div className="hc-input-shell">
-                <input
-                  ref={inputRef}
-                  className="hc-input"
-                  type="text"
-                  value={message}
-                  onChange={(event) => setMessage(event.target.value)}
-                  placeholder={
-                    isListening ? current.listening : current.placeholder
-                  }
-                  aria-label={current.placeholder}
-                  autoComplete="off"
-                  disabled={isTyping}
-                  dir="auto"
-                />
-
-                <button
-                  type="button"
-                  className={`hc-tool-button ${isListening ? "recording" : ""}`}
-                  onClick={startListening}
-                  title={isListening ? current.stopMic : current.speak}
-                  aria-label={isListening ? current.stopMic : current.speak}
-                >
-                  {isListening ? <MicOff size={17} /> : <Mic size={17} />}
-                </button>
-
-                <button
-                  type="submit"
-                  className="hc-send-button"
-                  disabled={!message.trim() || isTyping}
-                  title={current.send}
-                  aria-label={current.send}
-                >
-                  {isTyping ? (
-                    <LoaderCircle size={17} className="hc-spinner" />
-                  ) : (
-                    <Send size={16} />
-                  )}
-                </button>
-              </div>
-            </form>
-          </section>
-        )}
-
-        <button
-          type="button"
-          className={`hc-launcher ${
-            isOpen && !isClosing ? "hc-launcher-open" : ""
-          }`}
-          onClick={isOpen ? closeChat : openChat}
-          aria-label={isOpen ? current.close : current.title}
-          title={isOpen ? current.close : current.title}
-        >
-          <span className="hc-launcher-symbol">
-            <Bot
-              size={24}
-              strokeWidth={2.1}
-              className="hc-icon-msg"
-            />
-
-            <X
-              size={25}
-              strokeWidth={2.2}
-              className="hc-icon-cross"
-            />
-          </span>
-        </button>
-      </div>
-    </>
+    </section>
   );
 }

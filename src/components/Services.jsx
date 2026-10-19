@@ -144,10 +144,10 @@ export default function Services() {
         <div
           style={{
             opacity: isVisible ? 1 : 0,
-            translate: isVisible ? "0 0" : "0 22px",
+            translate: isVisible ? "0 0" : "0 15px",
             transition: `
-              opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
-              translate 800ms cubic-bezier(0.22, 1, 0.36, 1)
+              opacity 500ms ease,
+              translate 500ms ease
             `,
           }}
           className="mx-auto mb-10 max-w-2xl text-center sm:mb-14 md:mb-16"
@@ -184,14 +184,14 @@ export default function Services() {
               key={service.number}
               style={{
                 opacity: isVisible ? 1 : 0,
-                translate: isVisible ? "0 0" : "0 22px",
+                translate: isVisible ? "0 0" : "0 15px",
                 transition: `
-                  opacity 800ms cubic-bezier(0.22, 1, 0.36, 1) ${180 + index * 110}ms,
-                  translate 800ms cubic-bezier(0.22, 1, 0.36, 1) ${180 + index * 110}ms,
-                  transform 550ms cubic-bezier(0.22, 1, 0.36, 1),
-                  border-color 400ms ease,
-                  background-color 400ms ease,
-                  box-shadow 400ms ease
+                  opacity 500ms ease ${100 + index * 60}ms,
+                  translate 500ms ease ${100 + index * 60}ms,
+                  transform 300ms ease,
+                  border-color 250ms ease,
+                  background-color 250ms ease,
+                  box-shadow 250ms ease
                 `,
               }}
               className={`service-card group relative isolate flex min-w-0 flex-col overflow-hidden rounded-2xl border p-5 backdrop-blur-xl sm:rounded-[22px] sm:p-6 lg:p-7 ${
@@ -203,7 +203,7 @@ export default function Services() {
               {/* Subtle hover glow — unchanged */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute -right-12 -top-12 -z-10 h-36 w-36 rounded-full bg-indigo-500/[0.07] blur-3xl transition-colors duration-300 group-hover:bg-cyan-400/[0.10]"
+                className="pointer-events-none absolute -right-12 -top-12 -z-10 h-36 w-36 rounded-full bg-indigo-500/[0.07] blur-3xl transition-colors duration-200 group-hover:bg-cyan-400/[0.10]"
               />
 
               {/* Card top row */}
@@ -228,7 +228,7 @@ export default function Services() {
                 </div>
 
                 <span
-                  className={`font-mono text-xs tracking-widest transition-colors duration-300 group-hover:text-indigo-400 sm:text-sm ${
+                  className={`font-mono text-xs tracking-widest transition-colors duration-200 group-hover:text-indigo-400 sm:text-sm ${
                     isLight
                       ? "text-slate-400"
                       : "text-slate-600 group-hover:text-indigo-300/80"
@@ -240,7 +240,7 @@ export default function Services() {
 
               {/* Card content */}
               <h3
-                className={`break-words text-lg font-semibold leading-snug transition-colors duration-300 group-hover:text-cyan-500 sm:text-xl ${
+                className={`break-words text-lg font-semibold leading-snug transition-colors duration-200 group-hover:text-cyan-500 sm:text-xl ${
                   isLight
                     ? "text-slate-900"
                     : "text-white group-hover:text-cyan-200"
@@ -262,7 +262,7 @@ export default function Services() {
                 {service.tags.map((tag) => (
                   <span
                     key={tag}
-                    className={`max-w-full break-words rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition-colors duration-300 group-hover:border-indigo-400/20 group-hover:text-indigo-500 sm:px-3 sm:text-xs ${
+                    className={`max-w-full break-words rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition-colors duration-200 group-hover:border-indigo-400/20 group-hover:text-indigo-500 sm:px-3 sm:text-xs ${
                       isLight
                         ? "border-slate-200 bg-slate-100 text-slate-600"
                         : "border-white/[0.07] bg-white/[0.035] text-slate-300 group-hover:text-indigo-200"
@@ -288,14 +288,14 @@ export default function Services() {
 
         @media (hover: hover) and (pointer: fine) {
           #services .service-card:hover {
-            transform: translate3d(0, -3px, 0) scale(1.025);
-            border-color: rgba(129, 140, 248, 0.32);
+            transform: translate3d(0, -2px, 0) scale(1.015);
+            border-color: rgba(129, 140, 248, 0.3);
             background-color: ${
               isLight
                 ? "rgba(255, 255, 255, 0.96)"
                 : "rgba(15, 23, 42, 0.8)"
             };
-            box-shadow: 0 20px 50px -25px rgba(99, 102, 241, 0.24);
+            box-shadow: 0 15px 40px -20px rgba(99, 102, 241, 0.2);
           }
         }
 

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 
 export default function Loader({ onComplete }) {
@@ -51,11 +50,11 @@ export default function Loader({ onComplete }) {
     let finishTimer;
 
     const started = performance.now();
-    const duration = 3400;
+    const duration = 2800;
 
     const tick = (now) => {
       const ratio = Math.min((now - started) / duration, 1);
-      const eased = 1 - Math.pow(1 - ratio, 2.4);
+      const eased = 1 - Math.pow(1 - ratio, 2);
       const nextProgress = Math.round(eased * 100);
 
       setProgress(nextProgress);
@@ -70,7 +69,7 @@ export default function Loader({ onComplete }) {
         // Exit animation complete honay par loader remove.
         finishTimer = setTimeout(() => {
           callbackRef.current?.();
-        }, 850);
+        }, 500);
       }
     };
 
@@ -110,7 +109,7 @@ export default function Loader({ onComplete }) {
             BlinkMacSystemFont, "Segoe UI", sans-serif;
           opacity: 1;
           visibility: visible;
-          transition: opacity .85s ease, visibility .85s ease;
+          transition: opacity .5s ease, visibility .5s ease;
         }
 
         .portal-loader *,
@@ -189,10 +188,6 @@ export default function Loader({ onComplete }) {
           color: rgba(51, 65, 85, .78);
         }
 
-        .portal-loader[data-theme="light"] .portal-heading-kicker {
-          color: rgba(91, 33, 182, .85);
-        }
-
         .portal-loader[data-theme="light"] .portal-heading-main {
           color: #0f172a;
           text-shadow: 0 0 22px rgba(124, 58, 237, .08);
@@ -224,10 +219,6 @@ export default function Loader({ onComplete }) {
 
         .portal-loader[data-theme="light"] .portal-footer {
           color: rgba(51, 65, 85, .62);
-        }
-
-        .portal-loader[data-theme="light"] .portal-footer-brand svg {
-          color: rgba(109, 40, 217, .9);
         }
 
         .portal-loader[data-theme="light"] .portal-frame-inner {
@@ -276,6 +267,7 @@ export default function Loader({ onComplete }) {
           box-shadow: 0 0 9px rgba(167, 139, 250, .8);
           animation: starFloat var(--time, 5s) ease-in-out infinite;
           animation-delay: var(--delay, 0s);
+          will-change: transform, opacity;
         }
 
         .portal-grid {
@@ -304,8 +296,9 @@ export default function Loader({ onComplete }) {
             black 22%,
             transparent 85%
           );
-          animation: gridTravel 12s linear infinite;
+          animation: gridTravel 10s linear infinite;
           pointer-events: none;
+          will-change: background-position;
         }
 
         .portal-glow {
@@ -322,6 +315,7 @@ export default function Loader({ onComplete }) {
           filter: blur(15px);
           animation: glowBreath 5s ease-in-out infinite;
           pointer-events: none;
+          will-change: transform, opacity;
         }
 
         /* MAIN LAYOUT */
@@ -336,7 +330,7 @@ export default function Loader({ onComplete }) {
           padding: 26px 0 45px;
           overflow: visible;
           text-align: center;
-          animation: layoutEnter 1s cubic-bezier(.16, 1, .3, 1) both;
+          animation: layoutEnter 0.6s cubic-bezier(.16, 1, .3, 1) both;
         }
 
         .portal-top-label {
@@ -350,16 +344,6 @@ export default function Loader({ onComplete }) {
           font-weight: 650;
           letter-spacing: .27em;
           text-transform: uppercase;
-        }
-
-        .portal-live {
-          width: 6px;
-          height: 6px;
-          flex-shrink: 0;
-          border-radius: 50%;
-          background: var(--blue);
-          box-shadow: 0 0 12px var(--blue);
-          animation: livePulse 1.8s ease-in-out infinite;
         }
 
         /* 3D PORTAL */
@@ -387,6 +371,7 @@ export default function Loader({ onComplete }) {
           );
           filter: blur(14px);
           animation: haloPulse 4s ease-in-out infinite;
+          will-change: transform, opacity;
         }
 
         .portal-ring {
@@ -406,7 +391,8 @@ export default function Loader({ onComplete }) {
           border-right-color: rgba(167, 139, 250, .5);
           box-shadow: 0 0 20px rgba(103, 232, 249, .06);
           transform: translate(-50%, -50%) rotateY(67deg) rotateX(12deg);
-          animation: ringBack 11s linear infinite;
+          animation: ringBack 10s linear infinite;
+          will-change: transform;
         }
 
         .portal-ring--middle {
@@ -416,7 +402,8 @@ export default function Loader({ onComplete }) {
           border-bottom-color: rgba(103, 232, 249, .8);
           box-shadow: 0 0 20px rgba(167, 139, 250, .08);
           transform: translate(-50%, -50%) rotateX(68deg) rotateZ(-20deg);
-          animation: ringMiddle 10s linear infinite;
+          animation: ringMiddle 9s linear infinite;
+          will-change: transform;
         }
 
         .portal-ring--front {
@@ -425,7 +412,8 @@ export default function Loader({ onComplete }) {
           border-top-color: rgba(103, 232, 249, .8);
           border-bottom-color: rgba(167, 139, 250, .8);
           transform: translate(-50%, -50%) rotateY(68deg) rotateX(17deg);
-          animation: ringFront 8s linear infinite;
+          animation: ringFront 7s linear infinite;
+          will-change: transform;
         }
 
         .portal-ring--thin {
@@ -434,7 +422,8 @@ export default function Loader({ onComplete }) {
           border-top-color: rgba(167, 139, 250, .7);
           border-bottom-color: rgba(103, 232, 249, .55);
           transform: translate(-50%, -50%) rotateX(75deg) rotateZ(25deg);
-          animation: ringThin 13s linear infinite;
+          animation: ringThin 11s linear infinite;
+          will-change: transform;
         }
 
         .portal-ring-light {
@@ -485,8 +474,9 @@ export default function Loader({ onComplete }) {
             inset 0 0 12px rgba(255, 255, 255, .28);
           transform: translateZ(50px) rotate(-4deg);
           animation:
-            frameFloat 4.2s ease-in-out infinite,
-            frameGradient 7s linear infinite;
+            frameFloat 4s ease-in-out infinite,
+            frameGradient 6s linear infinite;
+          will-change: transform;
         }
 
         .portal-frame-inner {
@@ -521,7 +511,7 @@ export default function Loader({ onComplete }) {
             transparent 65%
           );
           transform: translateX(-130%);
-          animation: frameShine 4.5s ease-in-out infinite;
+          animation: frameShine 4s ease-in-out infinite;
           pointer-events: none;
         }
 
@@ -572,89 +562,19 @@ export default function Loader({ onComplete }) {
           background: var(--purple);
           box-shadow: 0 0 12px var(--purple);
           animation: particleDrift 4s ease-in-out infinite;
+          will-change: transform, opacity;
         }
 
-        .portal-particle--1 {
-          top: 13%;
-          left: 18%;
-          animation-delay: -.5s;
-        }
-
-        .portal-particle--2 {
-          top: 23%;
-          right: 13%;
-          background: var(--blue);
-          box-shadow: 0 0 12px var(--blue);
-          animation-delay: -1.4s;
-        }
-
-        .portal-particle--3 {
-          right: 11%;
-          bottom: 23%;
-          animation-delay: -2.2s;
-        }
-
-        .portal-particle--4 {
-          left: 14%;
-          bottom: 18%;
-          background: var(--blue);
-          box-shadow: 0 0 12px var(--blue);
-          animation-delay: -.8s;
-        }
-
-        .portal-particle--5 {
-          top: 45%;
-          left: 2%;
-          animation-delay: -2.7s;
-        }
-
-        .portal-particle--6 {
-          top: 60%;
-          right: 2%;
-          background: var(--blue);
-          box-shadow: 0 0 12px var(--blue);
-          animation-delay: -1.9s;
-        }
-
-        .portal-particle--7 {
-          top: 7%;
-          left: 49%;
-          background: var(--pink);
-          box-shadow: 0 0 12px var(--pink);
-          animation-delay: -1.2s;
-        }
-
-        .portal-particle--8 {
-          right: 29%;
-          bottom: 7%;
-          animation-delay: -3s;
-        }
+        .portal-particle--1 { top: 13%; left: 18%; animation-delay: -.5s; }
+        .portal-particle--2 { top: 23%; right: 13%; background: var(--blue); box-shadow: 0 0 12px var(--blue); animation-delay: -1.4s; }
+        .portal-particle--3 { right: 11%; bottom: 23%; animation-delay: -2.2s; }
+        .portal-particle--4 { left: 14%; bottom: 18%; background: var(--blue); box-shadow: 0 0 12px var(--blue); animation-delay: -.8s; }
+        .portal-particle--5 { top: 45%; left: 2%; animation-delay: -2.7s; }
+        .portal-particle--6 { top: 60%; right: 2%; background: var(--blue); box-shadow: 0 0 12px var(--blue); animation-delay: -1.9s; }
+        .portal-particle--7 { top: 7%; left: 49%; background: var(--pink); box-shadow: 0 0 12px var(--pink); animation-delay: -1.2s; }
+        .portal-particle--8 { right: 29%; bottom: 7%; animation-delay: -3s; }
 
         /* HEADING */
-        .portal-heading-kicker {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 11px;
-          margin: 0 0 12px;
-          color: rgba(199, 190, 255, .82);
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: .25em;
-          text-transform: uppercase;
-          animation: textReveal .8s .15s both;
-        }
-
-        .portal-heading-kicker span {
-          width: 22px;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, #a78bfa);
-        }
-
-        .portal-heading-kicker span:last-child {
-          background: linear-gradient(90deg, #67e8f9, transparent);
-        }
-
         .portal-heading {
           display: flex;
           flex-direction: column;
@@ -666,7 +586,7 @@ export default function Loader({ onComplete }) {
           line-height: 1.08;
           letter-spacing: -.06em;
           text-align: center;
-          animation: textReveal .9s .22s both;
+          animation: textReveal 0.6s 0.1s both;
         }
 
         .portal-heading-main {
@@ -700,19 +620,14 @@ export default function Loader({ onComplete }) {
           font-size: 11px;
           line-height: 1.85;
           letter-spacing: .035em;
-          animation: textReveal .9s .32s both;
-        }
-
-        .portal-description strong {
-          color: rgba(226, 232, 255, .92);
-          font-weight: 600;
+          animation: textReveal 0.6s 0.15s both;
         }
 
         /* PROGRESS BAR */
         .portal-progress {
           width: min(100%, 300px);
           margin-top: 22px;
-          animation: textReveal .9s .4s both;
+          animation: textReveal 0.6s 0.2s both;
         }
 
         .portal-progress-meta {
@@ -752,7 +667,7 @@ export default function Loader({ onComplete }) {
             #67e8f9
           );
           box-shadow: 0 0 14px rgba(139, 92, 246, .6);
-          transition: width .12s linear;
+          transition: width .1s linear;
         }
 
         .portal-progress-fill::after {
@@ -766,35 +681,6 @@ export default function Loader({ onComplete }) {
           filter: blur(5px);
         }
 
-        /* FOOTER */
-        .portal-footer {
-          position: absolute;
-          right: 20px;
-          bottom: max(20px, env(safe-area-inset-bottom));
-          left: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          color: rgba(203, 213, 225, .37);
-          font-size: 8px;
-          font-weight: 600;
-          letter-spacing: .13em;
-          text-transform: uppercase;
-        }
-
-        .portal-footer-brand {
-          display: inline-flex;
-          align-items: center;
-          gap: 7px;
-        }
-
-        .portal-footer-brand svg {
-          width: 13px;
-          height: 13px;
-          color: rgba(167, 139, 250, .85);
-        }
-
         /* EXIT ANIMATION */
         .portal-loader--exit {
           opacity: 0;
@@ -803,24 +689,17 @@ export default function Loader({ onComplete }) {
         }
 
         .portal-loader--exit .portal-layout {
-          animation: layoutExit .85s cubic-bezier(.7, 0, .3, 1) both;
+          animation: layoutExit 0.5s cubic-bezier(.7, 0, .3, 1) both;
         }
 
         .portal-loader--exit .portal-scene {
-          animation: sceneExit .85s cubic-bezier(.7, 0, .3, 1) both;
+          animation: sceneExit 0.5s cubic-bezier(.7, 0, .3, 1) both;
         }
 
         /* KEYFRAMES */
         @keyframes starFloat {
-          0%, 100% {
-            opacity: .15;
-            transform: translateY(0) scale(.8);
-          }
-
-          50% {
-            opacity: .9;
-            transform: translateY(-12px) scale(1.4);
-          }
+          0%, 100% { opacity: .15; transform: translate3d(0, 0, 0) scale(.8); }
+          50% { opacity: .9; transform: translate3d(0, -10px, 0) scale(1.3); }
         }
 
         @keyframes gridTravel {
@@ -829,111 +708,43 @@ export default function Loader({ onComplete }) {
         }
 
         @keyframes glowBreath {
-          0%, 100% {
-            opacity: .55;
-            transform: scale(.92);
-          }
-
-          50% {
-            opacity: 1;
-            transform: scale(1.08);
-          }
+          0%, 100% { opacity: .55; transform: scale(.92); }
+          50% { opacity: 1; transform: scale(1.08); }
         }
 
         @keyframes layoutEnter {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-            filter: blur(7px);
-          }
-
-          to {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-          }
-        }
-
-        @keyframes livePulse {
-          0%, 100% {
-            opacity: .65;
-            box-shadow: 0 0 5px var(--blue);
-          }
-
-          50% {
-            opacity: 1;
-            box-shadow: 0 0 15px var(--blue);
-          }
+          from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+          to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
         @keyframes haloPulse {
-          0%, 100% {
-            opacity: .65;
-            transform: scale(.92);
-          }
-
-          50% {
-            opacity: 1;
-            transform: scale(1.08);
-          }
+          0%, 100% { opacity: .65; transform: scale(.92); }
+          50% { opacity: 1; transform: scale(1.08); }
         }
 
         @keyframes ringBack {
-          from {
-            transform: translate(-50%, -50%)
-              rotateY(67deg) rotateX(12deg) rotate(0deg);
-          }
-
-          to {
-            transform: translate(-50%, -50%)
-              rotateY(67deg) rotateX(12deg) rotate(360deg);
-          }
+          from { transform: translate(-50%, -50%) rotateY(67deg) rotateX(12deg) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotateY(67deg) rotateX(12deg) rotate(360deg); }
         }
 
         @keyframes ringMiddle {
-          from {
-            transform: translate(-50%, -50%)
-              rotateX(68deg) rotateZ(-20deg) rotate(0deg);
-          }
-
-          to {
-            transform: translate(-50%, -50%)
-              rotateX(68deg) rotateZ(-20deg) rotate(-360deg);
-          }
+          from { transform: translate(-50%, -50%) rotateX(68deg) rotateZ(-20deg) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotateX(68deg) rotateZ(-20deg) rotate(-360deg); }
         }
 
         @keyframes ringFront {
-          from {
-            transform: translate(-50%, -50%)
-              rotateY(68deg) rotateX(17deg) rotate(0deg);
-          }
-
-          to {
-            transform: translate(-50%, -50%)
-              rotateY(68deg) rotateX(17deg) rotate(360deg);
-          }
+          from { transform: translate(-50%, -50%) rotateY(68deg) rotateX(17deg) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotateY(68deg) rotateX(17deg) rotate(360deg); }
         }
 
         @keyframes ringThin {
-          from {
-            transform: translate(-50%, -50%)
-              rotateX(75deg) rotateZ(25deg) rotate(0deg);
-          }
-
-          to {
-            transform: translate(-50%, -50%)
-              rotateX(75deg) rotateZ(25deg) rotate(-360deg);
-          }
+          from { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(25deg) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(25deg) rotate(-360deg); }
         }
 
         @keyframes frameFloat {
-          0%, 100% {
-            transform: translateY(0) translateZ(50px) rotate(-4deg);
-          }
-
-          50% {
-            transform: translateY(-9px) translateZ(65px) rotate(2deg);
-          }
+          0%, 100% { transform: translateY(0) translateZ(50px) rotate(-4deg); }
+          50% { transform: translateY(-7px) translateZ(60px) rotate(2deg); }
         }
 
         @keyframes frameGradient {
@@ -947,29 +758,13 @@ export default function Loader({ onComplete }) {
         }
 
         @keyframes particleDrift {
-          0%, 100% {
-            opacity: .25;
-            transform: translate3d(0, 0, 0) scale(.8);
-          }
-
-          50% {
-            opacity: 1;
-            transform: translate3d(0, -13px, 0) scale(1.4);
-          }
+          0%, 100% { opacity: .25; transform: translate3d(0, 0, 0) scale(.8); }
+          50% { opacity: 1; transform: translate3d(0, -10px, 0) scale(1.3); }
         }
 
         @keyframes textReveal {
-          from {
-            opacity: 0;
-            transform: translateY(12px);
-            filter: blur(4px);
-          }
-
-          to {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-          }
+          from { opacity: 0; transform: translateY(8px); filter: blur(2px); }
+          to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
         @keyframes headingShimmer {
@@ -978,19 +773,11 @@ export default function Loader({ onComplete }) {
         }
 
         @keyframes layoutExit {
-          to {
-            opacity: 0;
-            transform: translateY(-12px) scale(.97);
-            filter: blur(8px);
-          }
+          to { opacity: 0; transform: translateY(-8px) scale(.98); filter: blur(4px); }
         }
 
         @keyframes sceneExit {
-          to {
-            opacity: 0;
-            transform: scale(1.1);
-            filter: blur(6px);
-          }
+          to { opacity: 0; transform: scale(1.05); filter: blur(4px); }
         }
 
         /* SMALL SCREENS */
@@ -1001,27 +788,12 @@ export default function Loader({ onComplete }) {
             padding-bottom: 48px;
           }
 
-          .portal-top-label {
-            font-size: 8px;
-            letter-spacing: .2em;
-          }
-
           .portal-scene {
             width: min(75vw, 270px);
           }
 
           .portal-heading {
             font-size: clamp(27px, 7.4vw, 35px);
-          }
-
-          .portal-heading-kicker {
-            gap: 8px;
-            font-size: 8px;
-            letter-spacing: .17em;
-          }
-
-          .portal-heading-kicker span {
-            width: 15px;
           }
 
           .portal-description {
@@ -1032,37 +804,6 @@ export default function Loader({ onComplete }) {
           .portal-progress {
             width: min(100%, 260px);
             margin-top: 19px;
-          }
-
-          .portal-footer {
-            right: 13px;
-            left: 13px;
-            font-size: 7px;
-            letter-spacing: .07em;
-          }
-        }
-
-        /* SHORT HEIGHT SCREENS */
-        @media (max-height: 720px) {
-          .portal-layout {
-            padding-top: 8px;
-            padding-bottom: 34px;
-          }
-
-          .portal-top-label {
-            margin-bottom: 0;
-          }
-
-          .portal-scene {
-            width: min(47vh, 255px);
-          }
-
-          .portal-description {
-            margin-top: 6px;
-          }
-
-          .portal-progress {
-            margin-top: 15px;
           }
         }
 
@@ -1153,8 +894,6 @@ export default function Loader({ onComplete }) {
         </div>
 
         {/* HEADING */}
-        <div className="portal-heading-kicker" />
-
         <h1 className="portal-heading">
           <span className="portal-heading-main">
             WELCOME TO MY
@@ -1165,14 +904,12 @@ export default function Loader({ onComplete }) {
           </span>
         </h1>
 
-        
-{/* DESCRIPTION */}
-<p className="portal-description">
-  Turning ideas into digital experiences.
-  <br />
-  Explore my work in modern web development, creative design, and innovation.
-</p>
-
+        {/* DESCRIPTION */}
+        <p className="portal-description">
+          Turning ideas into digital experiences.
+          <br />
+          Explore my work in modern web development, creative design, and innovation.
+        </p>
 
         {/* LOADING PROGRESS */}
         <div className="portal-progress">
