@@ -87,7 +87,7 @@ export default function App() {
       ticking = true;
 
       window.requestAnimationFrame(() => {
-        setShowBackToTop(window.scrollY > 400);
+        setShowBackToTop(window.scrollY > 500);
         ticking = false;
       });
     };
@@ -256,7 +256,8 @@ export default function App() {
           visibility: visible;
           opacity: 1;
           pointer-events: auto;
-          animation: portfolioShellReveal 400ms ease both;
+          animation: portfolioShellReveal 500ms
+            cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
         @keyframes portfolioShellReveal {
@@ -266,8 +267,8 @@ export default function App() {
 
         .portfolio-page-content {
           opacity: 0;
-          transform: translate3d(0, 15px, 0);
-          filter: blur(2px);
+          transform: translate3d(0, 18px, 0);
+          filter: blur(3px);
           visibility: hidden;
           pointer-events: none;
         }
@@ -275,14 +276,19 @@ export default function App() {
         .portfolio-page-content--visible {
           visibility: visible;
           pointer-events: auto;
-          animation: portfolioPageReveal 500ms ease both;
+          animation: portfolioPageReveal 800ms
+            cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
         @keyframes portfolioPageReveal {
           0% {
             opacity: 0;
-            transform: translate3d(0, 15px, 0);
-            filter: blur(2px);
+            transform: translate3d(0, 18px, 0);
+            filter: blur(3px);
+          }
+          60% {
+            opacity: 1;
+            filter: blur(0);
           }
           100% {
             opacity: 1;
@@ -295,11 +301,11 @@ export default function App() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transform: translate3d(0, 10px, 0) scale(0.95);
+          transform: translate3d(0, 12px, 0) scale(0.92);
           transition:
-            opacity 200ms ease,
-            transform 250ms ease,
-            visibility 200ms ease;
+            opacity 250ms ease,
+            transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+            visibility 250ms ease;
         }
 
         .back-to-top--visible {
@@ -312,6 +318,14 @@ export default function App() {
         @media (max-width: 640px) {
           html {
             scroll-padding-top: 68px;
+          }
+
+          .portfolio-shell--visible {
+            animation-duration: 400ms;
+          }
+
+          .portfolio-page-content--visible {
+            animation-duration: 650ms;
           }
         }
 
@@ -432,25 +446,25 @@ export default function App() {
           aria-label="Scroll back to top"
           title="Back to top"
           tabIndex={showBackToTop ? 0 : -1}
-          className={`group fixed bottom-[90px] right-6 z-50 flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transition-none ${
+          className={`group fixed bottom-[90px] right-6 z-50 flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transition-none ${
             isLight
               ? "border-slate-200 bg-white/90 text-indigo-700 shadow-lg shadow-slate-300/40 hover:border-indigo-400/50 hover:bg-indigo-600 hover:text-white hover:shadow-[0_8px_30px_-8px_rgba(99,102,241,0.45)] focus-visible:ring-offset-slate-50"
               : "border-white/10 bg-slate-900/85 text-white shadow-lg shadow-black/20 hover:border-indigo-400/50 hover:bg-indigo-600 hover:shadow-[0_8px_30px_-8px_rgba(99,102,241,0.65)] focus-visible:ring-offset-[#080b14]"
           } ${
             showBackToTop
               ? "translate-y-0 scale-100 opacity-100"
-              : "pointer-events-none translate-y-4 scale-95 opacity-0"
+              : "pointer-events-none translate-y-5 scale-75 opacity-0"
           }`}
         >
           <span
             aria-hidden="true"
-            className="absolute inset-0 -translate-y-full bg-gradient-to-b from-violet-500/30 to-transparent transition-transform duration-300 group-hover:translate-y-0"
+            className="absolute inset-0 -translate-y-full bg-gradient-to-b from-violet-500/30 to-transparent transition-transform duration-500 group-hover:translate-y-0"
           />
 
           <ArrowUp
             size={19}
             strokeWidth={2}
-            className="relative transition-transform duration-200 group-hover:-translate-y-0.5"
+            className="relative transition-transform duration-300 group-hover:-translate-y-1"
           />
         </button>
         <Chatbot />
