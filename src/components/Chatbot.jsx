@@ -458,7 +458,7 @@ export default function Chatbot() {
           --hc-bot: #f1f4fb;
         }
 
-        /* Circular Launcher Button with Smooth Hover Zoom & Pulsing Shadow */
+        /* Launcher Button - Same as desktop style for all devices */
         .hc-launcher {
           position: fixed;
           z-index: 9998;
@@ -540,13 +540,14 @@ export default function Chatbot() {
           transform: scale(1) rotate(0deg);
         }
 
+        /* Fully Responsive Chat Window for All Screen Sizes */
         .hc-window {
           position: fixed;
           z-index: 9997;
           right: 24px;
           bottom: 96px;
-          width: 390px;
-          height: 590px;
+          width: min(390px, calc(100vw - 32px));
+          height: min(590px, calc(100dvh - 120px));
           min-height: 340px;
           display: flex;
           flex-direction: column;
