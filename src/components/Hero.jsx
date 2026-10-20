@@ -125,10 +125,10 @@ export default function Hero() {
     }
 
     const delay = isDeleting
-      ? 30
+      ? 35
       : text === currentWord
-        ? 1200
-        : 60;
+        ? 1500
+        : 75;
 
     const timer = setTimeout(() => {
       if (!isDeleting) {
@@ -165,8 +165,8 @@ export default function Hero() {
     const y = (event.clientY - rect.top) / rect.height;
 
     setTilt({
-      x: (0.5 - y) * 2,
-      y: (x - 0.5) * 2,
+      x: (0.5 - y) * 3,
+      y: (x - 0.5) * 3,
     });
   };
 
@@ -240,15 +240,15 @@ export default function Hero() {
       <div className="relative mx-auto grid w-full max-w-[1300px] grid-cols-1 items-center gap-10 px-5 sm:px-8 md:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:gap-10 lg:px-10 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] xl:gap-14 xl:px-14 2xl:gap-20 2xl:px-16">
         {/* Left: Hero content */}
         <div
-          className={`relative z-10 min-w-0 transition-all duration-500 ease-out motion-reduce:transition-none ${
+          className={`relative z-10 min-w-0 transition-all duration-700 ease-out motion-reduce:transition-none ${
             isVisible
               ? "translate-y-0 opacity-100"
-              : "translate-y-5 opacity-0"
+              : "translate-y-6 opacity-0"
           }`}
         >
           {/* Availability badge */}
           <div
-            className={`mb-4 inline-flex max-w-full items-center gap-2.5 rounded-full border px-3.5 py-2.5 text-xs font-medium shadow-lg backdrop-blur-md transition-colors duration-300 sm:mb-6 sm:px-4 sm:text-sm ${
+            className={`mb-5 inline-flex max-w-full items-center gap-2.5 rounded-full border px-3.5 py-2.5 text-xs font-medium shadow-lg backdrop-blur-md transition-colors duration-300 sm:mb-6 sm:px-4 sm:text-sm ${
               isLight
                 ? "border-indigo-200 bg-indigo-50 text-indigo-700 shadow-indigo-100/40"
                 : "border-indigo-400/20 bg-indigo-400/[0.07] text-indigo-200 shadow-indigo-950/10"
@@ -263,18 +263,18 @@ export default function Hero() {
           </div>
 
           <h1
-            className={`text-4xl font-black leading-[1.1] tracking-tight min-[420px]:text-5xl sm:text-6xl xl:text-7xl 2xl:text-[5rem] ${theme.greeting}`}
+            className={`text-4xl font-black leading-[1.12] tracking-tight min-[420px]:text-5xl sm:text-6xl xl:text-7xl 2xl:text-[5rem] ${theme.greeting}`}
           >
             <span className="inline-block">Hi, I&apos;m</span>
 
-            <span className="hero-gradient-text mt-1 block bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text pb-1 text-transparent">
+            <span className="hero-gradient-text mt-2 block bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text pb-2 text-transparent">
               Hassan Ali
             </span>
           </h1>
 
           {/* Typing text */}
           <div
-            className={`mt-2.5 flex min-h-[32px] flex-wrap items-center gap-x-2 text-lg font-semibold leading-normal min-[420px]:text-xl sm:mt-5 sm:min-h-[42px] sm:text-2xl xl:text-[1.65rem] ${theme.subtitle}`}
+            className={`mt-4 flex min-h-[76px] flex-wrap items-center gap-x-2 text-lg font-semibold leading-relaxed min-[420px]:text-xl sm:mt-5 sm:min-h-[42px] sm:text-2xl xl:text-[1.65rem] ${theme.subtitle}`}
           >
             <span>I&apos;m a</span>
 
@@ -287,13 +287,13 @@ export default function Hero() {
 
               <span
                 aria-hidden="true"
-                className="ml-1 inline-block h-5 w-[2px] shrink-0 animate-pulse bg-cyan-400 sm:h-7 motion-reduce:animate-none"
+                className="ml-1 inline-block h-6 w-[2px] shrink-0 animate-pulse bg-cyan-400 sm:h-7 motion-reduce:animate-none"
               />
             </span>
           </div>
 
           <p
-            className={`mt-2.5 max-w-[620px] text-sm leading-6 transition-colors duration-300 sm:mt-6 sm:text-base sm:leading-8 ${theme.paragraph}`}
+            className={`mt-4 max-w-[620px] text-sm leading-7 transition-colors duration-300 sm:mt-6 sm:text-base sm:leading-8 ${theme.paragraph}`}
           >
             BSCS student at Lahore Garrison University and Full Stack Web
             Developer trained at NexSkill, Arfa Tower Lahore. I specialize
@@ -301,10 +301,10 @@ export default function Hero() {
           </p>
 
           {/* Action buttons */}
-          <div className="mt-6 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap sm:mt-8 sm:gap-4">
+          <div className="mt-7 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap sm:mt-8 sm:gap-4">
             <a
               href="#projects"
-              className="group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6"
+              className="group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6"
             >
               <Code2 size={18} />
               View My Work
@@ -312,7 +312,7 @@ export default function Hero() {
 
             <a
               href="#contact"
-              className={`group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 text-sm font-semibold backdrop-blur-md transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6 ${theme.secondaryButton}`}
+              className={`group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 text-sm font-semibold backdrop-blur-md transition duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6 ${theme.secondaryButton}`}
             >
               <Send size={15} />
               Contact Me
@@ -322,11 +322,11 @@ export default function Hero() {
             <a
               href="/WhatsApp%20Image%202026-10-09%20at%206.43.58%20PM.pdf"
               download="Hassan-Ali-CV.pdf"
-              className={`group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 text-sm font-semibold backdrop-blur-md transition duration-200 hover:-translate-y-0.5 hover:border-indigo-400/50 hover:bg-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6 ${theme.secondaryButton}`}
+              className={`group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 text-sm font-semibold backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-indigo-400/50 hover:bg-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6 ${theme.secondaryButton}`}
             >
               <Download
                 size={18}
-                className="transition-transform duration-200 group-hover:translate-y-0.5"
+                className="transition-transform duration-300 group-hover:translate-y-0.5"
               />
               Download CV
             </a>
@@ -349,7 +349,7 @@ export default function Hero() {
             style={{
               transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
               transitionProperty: "transform, border-color, box-shadow",
-              transitionDuration: "180ms",
+              transitionDuration: "220ms",
               transitionTimingFunction: "ease-out",
               willChange: "transform",
             }}
@@ -500,12 +500,12 @@ export default function Hero() {
       {/* Animations */}
       <style>{`
         .hero-orb {
-          animation: heroOrbFloat 12s ease-in-out infinite alternate;
+          animation: heroOrbFloat 10s ease-in-out infinite alternate;
           will-change: transform;
         }
 
         .hero-orb-delay {
-          animation-delay: -5s;
+          animation-delay: -4s;
         }
 
         .hero-gradient-text {
@@ -515,20 +515,33 @@ export default function Hero() {
 
         .hero-card-float {
           opacity: 0;
-          transform: translate3d(0, 20px, 0);
+          transform: translate3d(0, 24px, 0);
           transition:
-            opacity 500ms ease-out,
-            transform 500ms ease-out;
+            opacity 700ms ease-out,
+            transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .hero-card-float.hero-card-visible {
           opacity: 1;
           transform: translate3d(0, 0, 0);
+          animation: heroCardFloat 5s ease-in-out 5000ms infinite;
         }
 
         .hero-card-float.hero-card-hidden {
           opacity: 0;
-          transform: translate3d(0, 20px, 0);
+          transform: translate3d(0, 24px, 0);
+          animation: none;
+        }
+
+        @keyframes heroCardFloat {
+          0%,
+          100% {
+            translate: 0 0;
+          }
+
+          50% {
+            translate: 0 -8px;
+          }
         }
 
         @keyframes heroOrbFloat {
@@ -537,7 +550,7 @@ export default function Hero() {
           }
 
           to {
-            transform: translate3d(16px, -18px, 0) scale(1.06);
+            transform: translate3d(20px, -25px, 0) scale(1.08);
           }
         }
 
@@ -554,9 +567,14 @@ export default function Hero() {
         @media (prefers-reduced-motion: reduce) {
           .hero-orb,
           .hero-gradient-text,
-          .hero-card-float {
+          .hero-card-float,
+          .hero-card-float.hero-card-visible {
             animation: none !important;
             transition: none !important;
+          }
+
+          .hero-card-float {
+            translate: none !important;
           }
         }
       `}</style>
