@@ -3,14 +3,12 @@ import {
   Bot,
   X,
   Send,
-  MessageCircle,
-  Sparkles,
-  User,
   RotateCcw,
   Globe,
   Mic,
   MicOff,
   LoaderCircle,
+  User,
 } from "lucide-react";
 
 const LANGUAGES = [
@@ -28,13 +26,15 @@ const LANGUAGES = [
   { code: "it", label: "Italiano (Italian)" },
   { code: "tr", label: "Türkçe (Turkish)" },
   { code: "ko", label: "한국어 (Korean)" },
+  { code: "fa", label: "فارسی (Persian)" },
+  { code: "nl", label: "Nederlands (Dutch)" },
+  { code: "id", label: "Bahasa Indonesia (Indonesian)" },
+  { code: "ms", label: "Bahasa Melayu (Malay)" },
 ];
 
 const CONTENT = {
   en: {
-    subtitle: "Portfolio Assistant",
     placeholder: "Type your message...",
-    suggestions: ["About Hassan", "Skills", "Projects", "Education"],
     welcome: "How can I help you today?",
     listening: "Listening... Speak now",
     thinking: "Thinking...",
@@ -47,7 +47,6 @@ const CONTENT = {
     send: "Send message",
     speak: "Speak a message",
     stopMic: "Stop microphone",
-    footer: "Portfolio assistant · Text replies only",
     replies: {
       greeting:
         "Hi! 👋 Welcome to Hassan Ali portfolio. I'm your virtual assistant. How can I help you?",
@@ -56,24 +55,22 @@ const CONTENT = {
       skills:
         "Hassan works with HTML5, CSS3, JavaScript and React.js. He is also learning Node.js, backend development and MongoDB.",
       projects:
-        "Hassan's portfolio showcases his web development journey. His projects include a modern portfolio, an e-commerce website concept and a full-stack web application and other many projects. You can see his all projects in his work section",
+        "Hassan's portfolio showcases his web development journey. His projects include a modern portfolio, an e-commerce website concept and a full-stack web application and other many projects. You can see his all projects in his work section.",
       education:
         "Hassan is studying BS Computer Science at Lahore Garrison University. He completed Intermediate ICS with Physics at Government Islamia Graduate College, Civil Lines, Lahore. He is also learning full-stack development at NexSkill, Arfa Tower, Lahore.",
       contact:
         "You can contact Hassan through the Contact section of this portfolio. Use the available contact details and social links.",
       help:
-        "You can ask about Hassan's background, education, skills, projects or web development. You can also use the microphone if your browser supports voice input.",
+        "You can ask about Hassan's background, education, skills, projects or web development.",
       thanks:
         "You're welcome! 😊 Feel free to ask anything else about Hassan's portfolio.",
       fallback:
-        "I can answer questions about Hassan's portfolio, skills, education and projects. So kindly ask me about these questions",
+        "I can answer questions about Hassan's portfolio, skills, education and projects. So kindly ask me about these questions.",
     },
   },
 
   ur: {
-    subtitle: "پورٹ فولیو معاون",
     placeholder: "اپنا پیغام لکھیں...",
-    suggestions: ["حسن کا تعارف", "مہارتیں", "پروجیکٹس", "تعلیم"],
     welcome: "میں آج آپ کی کیا مدد کر سکتا ہوں؟",
     listening: "سن رہا ہوں... اب بولیے",
     thinking: "جواب تیار ہو رہا ہے...",
@@ -86,7 +83,6 @@ const CONTENT = {
     send: "پیغام بھیجیں",
     speak: "بول کر پیغام دیں",
     stopMic: "مائیکروفون بند کریں",
-    footer: "پورٹ فولیو معاون · جوابات صرف تحریر میں",
     replies: {
       greeting:
         "السلام علیکم! 👋 حسن علی کے پورٹ فولیو میں خوش آمدید۔ میں آپ کا ورچوئل معاون ہوں۔ آپ کیا جاننا چاہتے ہیں؟",
@@ -101,7 +97,7 @@ const CONTENT = {
       contact:
         "آپ اس پورٹ فولیو کے رابطہ سیکشن کے ذریعے حسن سے رابطہ کر سکتے ہیں۔ وہاں موجود رابطے کی تفصیلات اور سوشل لنکس استعمال کریں۔",
       help:
-        "آپ حسن کی تعلیم، مہارتوں، پروجیکٹس اور ویب ڈویلپمنٹ کے بارے میں پوچھ سکتے ہیں۔ اگر آپ کا براؤزر سپورٹ کرتا ہے تو مائیکروفون سے بھی سوال کر سکتے ہیں۔",
+        "آپ حسن کی تعلیم، مہارتوں، پروجیکٹس اور ویب ڈویلپمنٹ کے بارے میں پوچھ سکتے ہیں۔",
       thanks:
         "آپ کا خیر مقدم ہے! 😊 حسن کے پورٹ فولیو کے بارے میں مزید کچھ پوچھنا ہو تو ضرور پوچھیں۔",
       fallback:
@@ -110,470 +106,434 @@ const CONTENT = {
   },
 
   es: {
-    subtitle: "Asistente de Portafolio",
     placeholder: "Escribe tu mensaje...",
-    suggestions: ["Sobre Hassan", "Habilidades", "Proyectos", "Educación"],
     welcome: "¿Cómo puedo ayudarte hoy?",
     listening: "Escuchando... Habla ahora",
     thinking: "Pensando...",
     micUnsupported: "La entrada de voz no es compatible con este navegador.",
-    assistant: "Asistente AI de Hassan",
+    assistant: "Hassan AI Assistant",
     you: "Tú",
-    reset: "Iniciar una nueva conversación",
+    reset: "Iniciar nueva conversación",
     close: "Cerrar chat",
     changeLanguage: "Cambiar idioma",
     send: "Enviar mensaje",
     speak: "Hablar un mensaje",
     stopMic: "Detener micrófono",
-    footer: "Asistente de portafolio · Solo respuestas de texto",
     replies: {
-      greeting:
-        "¡Hola! 👋 Bienvenido al portafolio de Hassan Ali. Soy tu asistente virtual. ¿Cómo puedo ayudarte?",
-      about:
-        "Hassan Ali es estudiante de Licenciatura en Ciencias de la Computación en la Universidad Lahore Garrison en Lahore, Pakistán. Está aprendiendo desarrollo web full-stack.",
-      skills:
-        "Hassan trabaja con HTML5, CSS3, JavaScript y React.js. También está aprendiendo Node.js, desarrollo backend y MongoDB.",
-      projects:
-        "El portafolio de Hassan muestra su viaje en el desarrollo web, incluyendo portafolios modernos, conceptos de comercio electrónico y aplicaciones full-stack.",
-      education:
-        "Hassan estudia Ciencias de la Computación en la Universidad Lahore Garrison y desarrollo full-stack en NexSkill, Arfa Tower, Lahore.",
-      contact:
-        "Puedes contactar a Hassan a través de la sección de contacto de este portafolio utilizando sus enlaces sociales.",
-      help:
-        "Puedes preguntar sobre los antecedentes, educación, habilidades, proyectos o desarrollo web de Hassan.",
-      thanks:
-        "¡De nada! 😊 No dudes en preguntar cualquier otra cosa sobre el portafolio de Hassan.",
-      fallback:
-        "Puedo responder preguntas sobre el portafolio, habilidades, educación y proyectos de Hassan.",
+      greeting: "¡Hola! 👋 Bienvenido al portafolio de Hassan Ali.",
+      about: "Hassan Ali es estudiante de ciencias de la computación en Lahore.",
+      skills: "Hassan trabaja con HTML5, CSS3, JavaScript y React.js.",
+      projects: "Los proyectos de Hassan muestran su viaje de desarrollo web.",
+      education: "Hassan estudia informática en la Universidad Lahore Garrison.",
+      contact: "Puedes contactar a Hassan a través de la sección de contacto.",
+      help: "Puedes preguntar sobre los antecedentes o proyectos de Hassan.",
+      thanks: "¡De nada! 😊",
+      fallback: "Puedo responder preguntas sobre el portafolio de Hassan.",
     },
   },
 
   fr: {
-    subtitle: "Assistant Portfolio",
-    placeholder: "Tapez votre message...",
-    suggestions: ["À propos de Hassan", "Compétences", "Projets", "Éducation"],
+    placeholder: "Écrivez votre message...",
     welcome: "Comment puis-je vous aider aujourd'hui?",
     listening: "Écoute... Parlez maintenant",
     thinking: "Réflexion...",
-    micUnsupported: "La saisie vocale n'est pas prise en charge dans ce navigateur.",
-    assistant: "Assistant IA de Hassan",
+    micUnsupported: "L'entrée vocale n'est pas prise en charge.",
+    assistant: "Hassan AI Assistant",
     you: "Vous",
-    reset: "Démarrer une nouvelle conversation",
-    close: "Fermer le chat",
+    reset: "Nouvelle conversation",
+    close: "Fermer",
     changeLanguage: "Changer de langue",
-    send: "Envoyer le message",
-    speak: "Parler un message",
+    send: "Envoyer",
+    speak: "Parler",
     stopMic: "Arrêter le micro",
-    footer: "Assistant portfolio · Réponses textuelles uniquement",
     replies: {
-      greeting:
-        "Salut ! 👋 Bienvenue sur le portfolio de Hassan Ali. Je suis votre assistant virtuel. Comment puis-je vous aider ?",
-      about:
-        "Hassan Ali est étudiant en licence d'informatique à la Lahore Garrison University à Lahore, au Pakistan.",
-      skills:
-        "Hassan travaille avec HTML5, CSS3, JavaScript et React.js. Il apprend également Node.js et MongoDB.",
-      projects:
-        "Le portfolio de Hassan présente son parcours de développement web, incluant des projets full-stack et e-commerce.",
-      education:
-        "Hassan étudie l'informatique à la Lahore Garrison University et le développement web chez NexSkill, Arfa Tower, Lahore.",
-      contact:
-        "Vous pouvez contacter Hassan via la section contact de ce portfolio en utilisant ses liens sociaux.",
-      help:
-        "Vous pouvez poser des questions sur le parcours, l'éducation, les compétences ou les projets de Hassan.",
-      thanks:
-        "De rien ! 😊 N'hésitez pas à poser d'autres questions sur le portfolio de Hassan.",
-      fallback:
-        "Je peux répondre aux questions concernant le portfolio, les compétences et les projets de Hassan.",
+      greeting: "Bonjour ! 👋 Bienvenue sur le portfolio de Hassan Ali.",
+      about: "Hassan Ali étudie l'informatique à Lahore, au Pakistan.",
+      skills: "Hassan utilise HTML5, CSS3, JavaScript et React.js.",
+      projects: "Les projets de Hassan incluent un portfolio moderne.",
+      education: "Hassan étudie à l'Université Lahore Garrison.",
+      contact: "Vous pouvez contacter Hassan via la section contact.",
+      help: "Vous pouvez poser des questions sur les compétences de Hassan.",
+      thanks: "De rien ! 😊",
+      fallback: "Je peux répondre aux questions sur le portfolio de Hassan.",
     },
   },
 
   de: {
-    subtitle: "Portfolio-Assistent",
-    placeholder: "Geben Sie Ihre Nachricht ein...",
-    suggestions: ["Über Hassan", "Fähigkeiten", "Projekte", "Bildung"],
+    placeholder: "Nachricht eingeben...",
     welcome: "Wie kann ich Ihnen heute helfen?",
-    listening: "Höre zu... Sprechen Sie jetzt",
-    thinking: "Denke nach...",
-    micUnsupported: "Spracheingabe wird in diesem Browser nicht unterstützt.",
-    assistant: "Hassans KI-Assistent",
+    listening: "Zuhören... Sprechen Sie jetzt",
+    thinking: "Denken...",
+    micUnsupported: "Spracheingabe wird nicht unterstützt.",
+    assistant: "Hassan AI Assistant",
     you: "Sie",
-    reset: "Neues Gespräch beginnen",
-    close: "Chat schließen",
+    reset: "Neue Konversation",
+    close: "Schließen",
     changeLanguage: "Sprache ändern",
-    send: "Nachricht senden",
-    speak: "Nachricht sprechen",
+    send: "Senden",
+    speak: "Sprechen",
     stopMic: "Mikrofon stoppen",
-    footer: "Portfolio-Assistent · Nur Textantworten",
     replies: {
-      greeting:
-        "Hallo! 👋 Willkommen im Portfolio von Hassan Ali. Ich bin Ihr virtueller Assistent. Wie kann ich Ihnen helfen?",
-      about:
-        "Hassan Ali studiert Informatik an der Lahore Garrison University in Lahore, Pakistan, und lernt Full-Stack-Webentwicklung.",
-      skills:
-        "Hassan arbeitet mit HTML5, CSS3, JavaScript und React.js sowie Node.js und MongoDB.",
-      projects:
-        "Hassans Portfolio zeigt seine Webentwicklungsprojekte, darunter moderne Portfolios und E-Commerce-Konzepte.",
-      education:
-        "Hassan studiert Informatik an der Lahore Garrison University und Full-Stack-Entwicklung bei NexSkill, Arfa Tower, Lahore.",
-      contact:
-        "Sie können Hassan über den Kontaktbereich dieses Portfolios und seine Social Links erreichen.",
-      help:
-        "Sie können Fragen zu Hassans Hintergrund, Bildung, Fähigkeiten oder Projekten stellen.",
-      thanks:
-        "Gern geschehen! 😊 Fragen Sie ruhig weiter nach Hassans Portfolio.",
-      fallback:
-        "Ich kann Fragen zu Hassans Portfolio, Fähigkeiten, Bildung und Projekten beantworten.",
+      greeting: "Hallo! 👋 Willkommen im Portfolio von Hassan Ali.",
+      about: "Hassan Ali studiert Informatik in Lahore, Pakistan.",
+      skills: "Hassan arbeitet mit HTML5, CSS3, JavaScript und React.js.",
+      projects: "Hassans Projekte zeigen seine Webentwicklungsreise.",
+      education: "Hassan studiert an der Lahore Garrison University.",
+      contact: "Sie können Hassan über den Kontaktbereich erreichen.",
+      help: "Sie können Fragen zu Hassans Hintergrund stellen.",
+      thanks: "Gern geschehen! 😊",
+      fallback: "Ich kann Fragen zu Hassans Portfolio beantworten.",
     },
   },
 
   ar: {
-    subtitle: "مساعد البورتفوليو",
     placeholder: "اكتب رسالتك...",
-    suggestions: ["عن حسان", "المهارات", "المشاريع", "التعليم"],
     welcome: "كيف يمكنني مساعدتك اليوم؟",
     listening: "جاري الاستماع... تحدث الآن",
     thinking: "جاري التفكير...",
-    micUnsupported: "الإدخال الصوتي غير مدعوم في هذا المتصفح.",
-    assistant: "مساعد حسان الذكي",
+    micUnsupported: "إدخال الصوت غير مدعوم في هذا المتصفح.",
+    assistant: "Hassan AI Assistant",
     you: "أنت",
     reset: "بدء محادثة جديدة",
-    close: "إغلاق المحادثة",
+    close: "إغلاق الدردشة",
     changeLanguage: "تغيير اللغة",
     send: "إرسال الرسالة",
     speak: "تحدث برسالة",
     stopMic: "إيقاف الميكروفون",
-    footer: "مساعد البورتفوليو · ردود نصية فقط",
     replies: {
-      greeting:
-        "أهلاً بك! 👋 مرحباً بك في بورتفوليو حسان علي. أنا مساعدك الافتراضي. كيف يمكنني مساعدتك؟",
-      about:
-        "حسان علي طالب يدرس علوم الحاسب في جامعة لاهور غاريسون في لاهور، باكستان. وهو يتعلم تطوير الويب المتكامل.",
-      skills:
-        "يعمل حسان بـ HTML5 و CSS3 و JavaScript و React.js، كما يتعلم Node.js و MongoDB.",
-      projects:
-        "يعرض بورتفوليو حسان رحلته في تطوير الويب بما في ذلك المشاريع الحديثة ومفاهيم التجارة الإلكترونية.",
-      education:
-        "يدرس حسان علوم الحاسب في جامعة لاهور غاريسون وتطوير الويب في NexSkill، أرفا تاور، لاهور.",
-      contact:
-        "يمكنك التواصل مع حسان عبر قسم الاتصال في هذا البورتفوليو وروابطه الاجتماعية.",
-      help:
-        "يمكنك طرح أسئلة حول خلفية حسان أو تعليمه أو مهاراته أو مشاريعه.",
-      thanks:
-        "عفواً! 😊 لا تتردد في طرح أي أسئلة أخرى حول بورتفوليو حسان.",
-      fallback:
-        "يمكنني الإجابة على الأسئلة المتعلقة ببورتفوليو حسان ومهاراته وتعليمه وماريعه.",
+      greeting: "أهلاً بك! 👋 أنا مساعد حسن علي الافتراضي. كيف يمكنني مساعدتك؟",
+      about: "حسن علي هو طالب في علوم الكمبيوتر في جامعة لاهور جارسون في باكستان.",
+      skills: "يعمل حسن باستخدام HTML5، CSS3، JavaScript و React.js.",
+      projects: "تتضمن مشاريع حسن محفظة حديثة ومفهوم متجر إلكتروني.",
+      education: "يدرس حسن علوم الكمبيوتر في جامعة لاهور جارسون.",
+      contact: "يمكنك التواصل مع حسن عبر قسم الاتصال.",
+      help: "يمكنك السؤال عن خلفية حسن أو تعليمه أو مهاراته أو مشاريعه.",
+      thanks: "على الرحب والسعة! 😊",
+      fallback: "يمكنني الإجابة على الأسئلة المتعلقة بمحفظة حسن ومهاراته.",
     },
   },
 
   zh: {
-    subtitle: "作品集助手",
     placeholder: "输入您的消息...",
-    suggestions: ["关于哈桑", "技能", "项目", "教育"],
-    welcome: "今天我能为您做些什么？",
-    listening: "正在倾听...请说话",
+    welcome: "今天有什么我可以帮您的吗？",
+    listening: "正在聆听...请说话",
     thinking: "思考中...",
     micUnsupported: "此浏览器不支持语音输入。",
-    assistant: "哈桑AI助手",
-    you: "你",
+    assistant: "Hassan AI Assistant",
+    you: "您",
     reset: "开始新对话",
-    close: "关闭聊天",
+    close: "关闭",
     changeLanguage: "更改语言",
-    send: "发送消息",
+    send: "发送",
     speak: "语音输入",
     stopMic: "停止麦克风",
-    footer: "作品集助手 · 仅限文本回复",
     replies: {
-      greeting:
-        "你好！👋 欢迎来到 Hassan Ali 的作品集。我是您的虚拟助手，有什么我可以帮您的？",
-      about:
-        "Hassan Ali 是巴基斯坦拉合尔加里森大学计算机科学专业的学生，正在学习全栈网页开发。",
-      skills:
-        "哈桑使用 HTML5、CSS3、JavaScript 和 React.js，同时也在学习 Node.js 和 MongoDB。",
-      projects:
-        "哈桑的作品集展示了他的网页开发历程，包括现代作品集、电商概念和全栈应用。",
-      education:
-        "哈桑在拉合尔加里森大学攻读计算机科学，并在拉合尔阿法大厦的 NexSkill 学习全栈开发。",
-      contact:
-        "您可以通过此作品集的联系方式部分与哈桑取得联系。",
-      help:
-        "您可以询问有关哈桑的背景、教育、技能、项目或网页开发的问题。",
-      thanks:
-        "不客气！😊 欢迎随时询问有关哈桑作品集的其他问题。",
-      fallback:
-        "我可以回答有关哈桑的作品集、技能、教育和项目的问题。",
+      greeting: "你好！👋 欢迎来到 Hassan Ali 的作品集。",
+      about: "Hassan Ali 是巴基斯坦拉合尔加里森大学的计算机科学专业学生。",
+      skills: "Hassan 使用 HTML5、CSS3、JavaScript 和 React.js 进行开发。",
+      projects: "Hassan 的项目展示了他的全栈开发历程。",
+      education: "Hassan 正在拉合尔加里森大学攻读计算机科学学士学位。",
+      contact: "您可以通过联系方式与 Hassan 取得联系。",
+      help: "您可以询问有关 Hassan 背景或技能的问题。",
+      thanks: "不客气！ 😊",
+      fallback: "我可以回答有关 Hassan 作品集的问题。",
     },
   },
 
   hi: {
-    subtitle: "पोर्टफोलियो सहायक",
     placeholder: "अपना संदेश टाइप करें...",
-    suggestions: ["हसन के बारे में", "कौशल", "प्रोजेक्ट्स", "शिक्षा"],
     welcome: "आज मैं आपकी क्या सहायता कर सकता हूँ?",
-    listening: "सुन रहा हूँ... अब बोलें",
+    listening: "सुन रहा हूँ... अब बोलिए",
     thinking: "सोच रहा हूँ...",
-    micUnsupported: "इस ब्राउज़र में वॉइस इनपुट समर्थित नहीं है।",
-    assistant: "हसन का AI सहायक",
+    micUnsupported: "इस ब्राउज़र में वॉयस इनपुट समर्थित नहीं है।",
+    assistant: "Hassan AI Assistant",
     you: "आप",
-    reset: "नई बातचीत शुरू करें",
-    close: "चैट बंद करें",
+    reset: "नया संवाद शुरू करें",
+    close: "बंद करें",
     changeLanguage: "भाषा बदलें",
     send: "संदेश भेजें",
     speak: "बोलकर संदेश दें",
     stopMic: "माइक्रोफ़ोन बंद करें",
-    footer: "पोर्टफोलियो सहायक · केवल टेक्स्ट उत्तर",
     replies: {
-      greeting:
-        "नमस्ते! 👋 हसन अली के पोर्टफोलियो में आपका स्वागत है। मैं आपका वर्चुअल सहायक हूँ। मैं आपकी क्या मदद कर सकता हूँ?",
-      about:
-        "हसन अली लाहौर, पाकिस्तान में लाहौर गैरिसन यूनिवर्सिटी में बीएस कंप्यूटर साइंस के छात्र हैं।",
-      skills:
-        "हसन HTML5, CSS3, JavaScript और React.js के साथ काम करते हैं। वह Node.js और MongoDB भी सीख रहे हैं।",
-      projects:
-        "हसन के पोर्टफोलियो में उनके वेब डेवलपमेंट प्रोजेक्ट्स, ई-कॉमर्स कॉन्सेप्ट्स और फुल-स्टैक ऐप्स शामिल हैं।",
-      education:
-        "हसन लाहौर गैरिसन यूनिवर्सिटी से कंप्यूटर साइंस की पढ़ाई कर रहे हैं और NexSkill, अर्फा टॉवर, लाहौर से फुल-स्टैक डेवलपमेंट सीख रहे हैं।",
-      contact:
-        "आप इस पोर्टफोलियो के संपर्क अनुभाग के माध्यम से हसन से संपर्क कर सकते हैं।",
-      help:
-        "आप हसन की पृष्ठभूमि, शिक्षा, कौशल या प्रोजेक्ट्स के बारे में पूछ सकते हैं।",
-      thanks:
-        "आपका स्वागत है! 😊 हसन के पोर्टफोलियो के बारे में कुछ भी और पूछने के लिए स्वतंत्र महसूस करें।",
-      fallback:
-        "मैं हसन के पोर्टफोलियो, कौशल, शिक्षा और प्रोजेक्ट्स के बारे में प्रश्नों के उत्तर दे सकता हूँ।",
+      greeting: "नमस्ते! 👋 हसन अली के पोर्टफोलियो में आपका स्वागत है।",
+      about: "हसन अली लाहौर, पाकिस्तान में कंप्यूटर साइंस के छात्र हैं।",
+      skills: "हसन HTML5, CSS3, JavaScript और React.js के साथ काम करते हैं।",
+      projects: "हसन के प्रोजेक्ट्स उनके वेब डेवलपमेंट सफर को दर्शाते हैं।",
+      education: "हसन लाहौर गैरिसन यूनिवर्सिटी से पढ़ाई कर रहे हैं।",
+      contact: "आप संपर्क अनुभाग के माध्यम से हसन से जुड़ सकते हैं।",
+      help: "आप हसन की शिक्षा और प्रोजेक्ट्स के बारे में पूछ सकते हैं।",
+      thanks: "आपका स्वागत है! 😊",
+      fallback: "मैं हसन के पोर्टफोलियो के बारे में प्रश्नों के उत्तर दे सकता हूँ।",
     },
   },
 
   ja: {
-    subtitle: "ポートフォリオアシスタント",
     placeholder: "メッセージを入力...",
-    suggestions: ["ハサンについて", "スキル", "プロジェクト", "学歴"],
     welcome: "本日はどのようなご用件でしょうか？",
     listening: "聞いています...お話しください",
-    thinking: "考え中...",
+    thinking: "考えています...",
     micUnsupported: "このブラウザでは音声入力がサポートされていません。",
-    assistant: "ハサンAIアシスタント",
+    assistant: "Hassan AI Assistant",
     you: "あなた",
     reset: "新しい会話を開始",
-    close: "チャットを閉じる",
+    close: "閉じる",
     changeLanguage: "言語を変更",
-    send: "メッセージを送信",
-    speak: "音声で入力",
+    send: "送信",
+    speak: "音声入力",
     stopMic: "マイクを停止",
-    footer: "ポートフォリオアシスタント · テキスト返信のみ",
     replies: {
-      greeting:
-        "こんにちは！👋 Hassan Aliのポートフォリオへようこそ。バーチャルアシスタントです。何かお手伝いできますか？",
-      about:
-        "Hassan Aliはパキスタンのラホール・ガリソン大学でコンピュータサイエンスを専攻する学生です。",
-      skills:
-        "ハサンはHTML5、CSS3、JavaScript、React.jsを使用し、Node.jsやMongoDBも学習しています。",
-      projects:
-        "ハサンのポートフォリオでは、モダンなウェブ開発プロジェクトやフルスタックアプリを紹介しています。",
-      education:
-        "ラホール・ガリソン大学でコンピュータサイエンスを学び、NexSkill（アルファタワー、ラホール）でフルスタック開発を学んでいます。",
-      contact:
-        "ポートフォリオのコンタクトセクションからハサンにご連絡いただけます。",
-      help:
-        "ハサンの経歴、学歴、スキル、プロジェクトについて質問できます。",
-      thanks:
-        "どういたしまして！😊 ハサンのポートフォリオについて他にお気軽にご質問ください。",
-      fallback:
-        "ハサンのポートフォリオ、スキル、学歴、プロジェクトについてお答えできます。",
+      greeting: "こんにちは！👋 ハッサン・アリのポートフォリオへようこそ。",
+      about: "ハッサン・アリはパキスタンのラホール・ガリソン大学の学生です。",
+      skills: "ハッサンはHTML5、CSS3、JavaScript、React.jsを使っています。",
+      projects: "ハッサンのプロジェクトにはモダンなポートフォリオが含まれます。",
+      education: "ハッサンはラホール・ガリソン大学でコンピュータサイエンスを学んでいます。",
+      contact: "お問い合わせセクションからハッサンにご連絡いただけます。",
+      help: "ハッサンの経歴やスキルについてご質問ください。",
+      thanks: "どういたしまして！ 😊",
+      fallback: "ハッサンのポートフォリオについてお答えできます。",
     },
   },
 
   ru: {
-    subtitle: "Помощник по портфолио",
-    placeholder: "Введите ваше сообщение...",
-    suggestions: ["О Хасане", "Навыки", "Проекты", "Образование"],
+    placeholder: "Введите сообщение...",
     welcome: "Чем я могу помочь вам сегодня?",
     listening: "Слушаю... Говорите",
     thinking: "Думаю...",
     micUnsupported: "Голосовой ввод не поддерживается в этом браузере.",
-    assistant: "ИИ-ассистент Хасана",
+    assistant: "Hassan AI Assistant",
     you: "Вы",
     reset: "Начать новый разговор",
-    close: "Закрыть чат",
-    changeLanguage: "Изменить язык",
-    send: "Отправить сообщение",
-    speak: "Произнести сообщение",
+    close: "Закрыть",
+    changeLanguage: "Сменить язык",
+    send: "Отправить",
+    speak: "Говорить",
     stopMic: "Остановить микрофон",
-    footer: "Помощник по портфолио · Только текстовые ответы",
     replies: {
-      greeting:
-        "Привет! 👋 Добро пожаловать в портфолио Хасана Али. Я ваш виртуальный помощник. Чем могу помочь?",
-      about:
-        "Хасан Али — студент бакалавриата по компьютерным наукам в Университете Лахора Гаррисон в Лахоре, Пакистан.",
-      skills:
-        "Хасан работает с HTML5, CSS3, JavaScript и React.js, а также изучает Node.js и MongoDB.",
-      projects:
-        "В портфолио Хасана представлены его проекты по веб-разработке и фулл-стек приложения.",
-      education:
-        "Хасан изучает компьютерные науки в Университете Лахора Гаррисон и веб-разработку в NexSkill (Арфа Тауэр, Лахор).",
-      contact:
-        "Вы можете связаться с Хасаном через раздел контактов в этом портфолио.",
-      help:
-        "Вы можете задать вопросы об образовании, навыках или проектах Хасана.",
-      thanks:
-        "Пожалуйста! 😊 Не стесняйтесь задавать любые другие вопросы о портфолио Хасана.",
-      fallback:
-        "Я могу ответить на вопросы о портфолио, навыках, образовании и проектах Хасана.",
+      greeting: "Привет! 👋 Добро пожаловать в портфолио Хасана Али.",
+      about: "Хасан Али изучает компьютерные науки в Лахоре, Пакистан.",
+      skills: "Хасан работает с HTML5, CSS3, JavaScript и React.js.",
+      projects: "Проекты Хасана демонстрируют его навыки веб-разработки.",
+      education: "Хасан учится в Университете Лахора Гаррисон.",
+      contact: "Вы можете связаться с Хасаном через раздел контактов.",
+      help: "Вы можете задать вопросы об образовании или навыках Хасана.",
+      thanks: "Пожалуйста! 😊",
+      fallback: "Я могу ответить на вопросы о портфолио Хасана.",
     },
   },
 
   pt: {
-    subtitle: "Assistente de Portfólio",
     placeholder: "Digite sua mensagem...",
-    suggestions: ["Sobre Hassan", "Habilidades", "Projetos", "Educação"],
     welcome: "Como posso ajudar você hoje?",
     listening: "Ouvindo... Fale agora",
     thinking: "Pensando...",
-    micUnsupported: "A entrada de voz não é suportada neste navegador.",
-    assistant: "Assistente de IA do Hassan",
+    micUnsupported: "Entrada de voz não suportada neste navegador.",
+    assistant: "Hassan AI Assistant",
     you: "Você",
     reset: "Iniciar nova conversa",
-    close: "Fechar chat",
+    close: "Fechar",
     changeLanguage: "Mudar idioma",
-    send: "Enviar mensagem",
-    speak: "Falar uma mensagem",
+    send: "Enviar",
+    speak: "Falar",
     stopMic: "Parar microfone",
-    footer: "Assistente de portfólio · Apenas respostas em texto",
     replies: {
-      greeting:
-        "Olá! 👋 Bem-vindo ao portfólio de Hassan Ali. Sou seu assistente virtual. Como posso ajudar?",
-      about:
-        "Hassan Ali é estudante de Ciência da Computação na Lahore Garrison University em Lahore, Paquistão.",
-      skills:
-        "Hassan trabalha com HTML5, CSS3, JavaScript e React.js, e está aprendendo Node.js e MongoDB.",
-      projects:
-        "O portfólio de Hassan exibe sua jornada de desenvolvimento web, incluindo aplicativos full-stack.",
-      education:
-        "Hassan estuda Ciência da Computação na Lahore Garrison University e desenvolvimento full-stack no NexSkill, Arfa Tower, Lahore.",
-      contact:
-        "Você pode entrar em contato com Hassan através da seção de contato deste portfólio.",
-      help:
-        "Você pode fazer perguntas sobre a formação, educação, habilidades ou projetos de Hassan.",
-      thanks:
-        "De nada! 😊 Fique à vontade para perguntar qualquer outra coisa sobre o portfólio.",
-      fallback:
-        "Posso responder a perguntas sobre o portfólio, habilidades, educação e projetos de Hassan.",
+      greeting: "Olá! 👋 Bem-vindo ao portfólio de Hassan Ali.",
+      about: "Hassan Ali é estudante de ciência da computação em Lahore, Paquistão.",
+      skills: "Hassan trabalha com HTML5, CSS3, JavaScript e React.js.",
+      projects: "Os projetos de Hassan mostram sua jornada de desenvolvimento web.",
+      education: "Hassan estuda na Lahore Garrison University.",
+      contact: "Você pode entrar em contato com Hassan pela seção de contato.",
+      help: "Você pode perguntar sobre a formação ou habilidades de Hassan.",
+      thanks: "De nada! 😊",
+      fallback: "Posso responder perguntas sobre o portfólio de Hassan.",
     },
   },
 
   it: {
-    subtitle: "Assistente Portfolio",
-    placeholder: "Digita il tuo messaggio...",
-    suggestions: ["Su Hassan", "Competenze", "Progetti", "Formazione"],
+    placeholder: "Scrivi il tuo messaggio...",
     welcome: "Come posso aiutarti oggi?",
     listening: "Ascoltando... Parla ora",
     thinking: "Sto pensando...",
     micUnsupported: "L'input vocale non è supportato in questo browser.",
-    assistant: "Assistente IA di Hassan",
+    assistant: "Hassan AI Assistant",
     you: "Tu",
-    reset: "Inizia una nuova conversazione",
-    close: "Chiudi chat",
+    reset: "Nuova conversazione",
+    close: "Chiudi",
     changeLanguage: "Cambia lingua",
-    send: "Invia messaggio",
-    speak: "Pronuncia un messaggio",
+    send: "Invia",
+    speak: "Parla",
     stopMic: "Ferma microfono",
-    footer: "Assistente portfolio · Solo risposte testuali",
     replies: {
-      greeting:
-        "Ciao! 👋 Benvenuto nel portfolio di Hassan Ali. Sono il tuo assistente virtuale. Come posso aiutarti?",
-      about:
-        "Hassan Ali è uno studente di Informatica presso la Lahore Garrison University a Lahore, in Pakistan.",
-      skills:
-        "Hassan lavora con HTML5, CSS3, JavaScript e React.js, e sta studiando Node.js e MongoDB.",
-      projects:
-        "Il portfolio di Hassan mostra i suoi progetti di sviluppo web e applicazioni full-stack.",
-      education:
-        "Hassan studia Informatica alla Lahore Garrison University e sviluppo full-stack presso NexSkill, Arfa Tower, Lahore.",
-      contact:
-        "Puoi contattare Hassan tramite la sezione contatti di questo portfolio.",
-      help:
-        "Puoi fare domande sul background, sull'istruzione, sulle competenze o sui progetti di Hassan.",
-      thanks:
-        "Prego! 😊 Non esitare a chiedere altro sul portfolio di Hassan.",
-      fallback:
-        "Posso rispondere a domande sul portfolio, sulle competenze, sull'istruzione e sui progetti di Hassan.",
+      greeting: "Ciao! 👋 Benvenuto nel portfolio di Hassan Ali.",
+      about: "Hassan Ali studia informatica a Lahore, in Pakistan.",
+      skills: "Hassan lavora con HTML5, CSS3, JavaScript e React.js.",
+      projects: "I progetti di Hassan mostrano il suo percorso di sviluppo web.",
+      education: "Hassan studia presso la Lahore Garrison University.",
+      contact: "Puoi contattare Hassan tramite la sezione contatti.",
+      help: "Puoi fare domande sul background o sulle competenze di Hassan.",
+      thanks: "Prego! 😊",
+      fallback: "Posso rispondere alle domande sul portfolio di Hassan.",
     },
   },
 
   tr: {
-    subtitle: "Portfolyo Asistanı",
     placeholder: "Mesajınızı yazın...",
-    suggestions: ["Hassan Hakkında", "Yetenekler", "Projeler", "Eğitim"],
     welcome: "Bugün size nasıl yardımcı olabilirim?",
-    listening: "Dinliyor... Şimdi konuşun",
+    listening: "Dinleniyor... Şimdi konuşun",
     thinking: "Düşünüyor...",
     micUnsupported: "Bu tarayıcıda sesli giriş desteklenmiyor.",
-    assistant: "Hassan Yapay Zeka Asistanı",
-    you: "Siz",
+    assistant: "Hassan AI Assistant",
+    you: "Sen",
     reset: "Yeni sohbet başlat",
-    close: "Sohbeti kapat",
+    close: "Kapat",
     changeLanguage: "Dili değiştir",
-    send: "Mesaj gönder",
+    send: "Gönder",
     speak: "Mesaj söyle",
     stopMic: "Mikrofonu durdur",
-    footer: "Portfolyo asistanı · Yalnızca metin yanıtları",
     replies: {
-      greeting:
-        "Merhaba! 👋 Hassan Ali'nin portfolyosuna hoş geldiniz. Ben sanal asistanınızım. Size nasıl yardımcı olabilirim?",
-      about:
-        "Hassan Ali, Pakistan'ın Lahor şehrindeki Lahore Garrison Üniversitesi'nde Bilgisayar Bilimleri öğrencisidir.",
-      skills:
-        "Hassan HTML5, CSS3, JavaScript ve React.js ile çalışmaktadır. Ayrıca Node.js ve MongoDB öğrenmektedir.",
-      projects:
-        "Hassan'ın portfolyosu, web geliştirme yolculuğunu ve modern projelerini sergilemektedir.",
-      education:
-        "Hassan, Lahore Garrison University'de Bilgisayar Bilimleri okuyor ve NexSkill'de full-stack geliştirme eğitimi alıyor.",
-      contact:
-        "Bu portfolyonun iletişim bölümü aracılığıyla Hassan ile iletişime geçebilirsiniz.",
-      help:
-        "Hassan'ın geçmişi, eğitimi, yetenekleri veya projeleri hakkında sorular sorabilirsiniz.",
-      thanks:
-        "Rica ederim! 😊 Hassan'ın portfolyosu hakkında başka şeyler sormaktan çekinmeyin.",
-      fallback:
-        "Hassan'ın portfolyosu, yetenekleri, eğitimi ve projeleri hakkında soruları yanıtlayabilirim.",
+      greeting: "Merhaba! 👋 Hassan Ali'nin portfolyosuna hoş geldiniz.",
+      about: "Hassan Ali, Lahore Pakistan'da Bilgisayar Bilimleri öğrencisidir.",
+      skills: "Hassan HTML5, CSS3, JavaScript ve React.js ile çalışmaktadır.",
+      projects: "Hassan'ın projeleri modern web geliştirme çalışmalarını gösterir.",
+      education: "Hassan, Lahore Garrison Üniversitesi'nde okumaktadır.",
+      contact: "İletişim bölümünden Hassan ile iletişime geçebilirsiniz.",
+      help: "Hassan'ın eğitimi veya projeleri hakkında sorular sorabilirsiniz.",
+      thanks: "Rica ederim! 😊",
+      fallback: "Hassan'ın portfolyosu hakkında soruları yanıtlayabilirim.",
     },
   },
 
   ko: {
-    subtitle: "포트폴리오 어시스턴트",
     placeholder: "메시지를 입력하세요...",
-    suggestions: ["하산 소개", "기술", "프로젝트", "학력"],
     welcome: "오늘 무엇을 도와드릴까요?",
-    listening: "듣는 중... 말씀하세요",
+    listening: "듣고 있습니다... 말씀하세요",
     thinking: "생각 중...",
-    micUnsupported: "이 브라우저에서는 음성 입력을 지원하지 않습니다.",
-    assistant: "하산 AI 어시스턴트",
-    you: "나",
+    micUnsupported: "이 브라우저는 음성 입력을 지원하지 않습니다.",
+    assistant: "Hassan AI Assistant",
+    you: "사용자",
     reset: "새 대화 시작",
-    close: "채팅 닫기",
+    close: "닫기",
     changeLanguage: "언어 변경",
-    send: "메시지 전송",
-    speak: "음성으로 말하기",
+    send: "전송",
+    speak: "음성 입력",
     stopMic: "마이크 중지",
-    footer: "포트폴리오 어시스턴트 · 텍스트 응답 전용",
     replies: {
-      greeting:
-        "안녕하세요! 👋 Hassan Ali의 포트폴리오에 오신 것을 환영합니다. 가상 어시스턴트입니다. 무엇을 도와드릴까요?",
-      about:
-        "Hassan Ali는 파키스탄 라호르의 Lahore Garrison University에서 컴퓨터 과학을 전공하는 학생입니다.",
-      skills:
-        "하산은 HTML5, CSS3, JavaScript, React.js를 사용하며 Node.js와 MongoDB를 배우고 있습니다.",
-      projects:
-        "하산의 포트폴리오는 웹 개발 여정과 다양한 프로젝트 및 풀스택 앱을 보여줍니다.",
-      education:
-        "Lahore Garrison University에서 컴퓨터 과학을 공부하고 NexSkill에서 풀스택 개발을 배우고 있습니다.",
-      contact:
-        "이 포트폴리오의 연락처 섹션을 통해 하산에게 연락할 수 있습니다.",
-      help:
-        "하산의 배경, 교육, 기술 또는 프로젝트에 대해 물어볼 수 있습니다.",
-      thanks:
-        "천만에요! 😊 하산의 포트폴리오에 대해 자유롭게 더 질문해 주세요.",
-      fallback:
-        "하산의 포트폴리오, 기술, 학력 및 프로젝트에 관한 질문에 답변할 수 있습니다.",
+      greeting: "안녕하세요! 👋 Hassan Ali의 포트폴리오에 오신 것을 환영합니다.",
+      about: "Hassan Ali는 파키스탄 라호르 가리슨 대학교의 컴퓨터 과학 학생입니다.",
+      skills: "Hassan은 HTML5, CSS3, JavaScript 및 React.js를 사용합니다.",
+      projects: "Hassan의 프로젝트는 웹 개발 여정을 보여줍니다.",
+      education: "Hassan은 라호르 가리슨 대학교에서 공부하고 있습니다.",
+      contact: "연락처 섹션을 통해 Hassan에게 연락할 수 있습니다.",
+      help: "Hassan의 배경이나 기술에 대해 질문하실 수 있습니다.",
+      thanks: "천만에요! 😊",
+      fallback: "Hassan의 포트폴리오에 대해 답변해 드릴 수 있습니다.",
+    },
+  },
+
+  fa: {
+    placeholder: "پیام خود را بنویسید...",
+    welcome: "امروز چطور می‌توانم به شما کمک کنم؟",
+    listening: "در حال گوش دادن... صحبت کنید",
+    thinking: "در حال تفکر...",
+    micUnsupported: "ورودی صدا در این مرورگر پشتیبانی نمی‌شود.",
+    assistant: "Hassan AI Assistant",
+    you: "شما",
+    reset: "شروع گفتگوی جدید",
+    close: "بستن",
+    changeLanguage: "تغییر زبان",
+    send: "ارسال پیام",
+    speak: "ارسال پیام صوتی",
+    stopMic: "متوقف کردن میکروفون",
+    replies: {
+      greeting: "سلام! 👋 به پورتفولیوی حسن علی خوش آمدید.",
+      about: "حسن علی دانشجوی علوم کامپیوتر در لاهور پاکستان است.",
+      skills: "حسن با HTML5، CSS3، JavaScript و React.js کار می‌کند.",
+      projects: "پروژه‌های حسن مسیر توسعه وب او را نشان می‌دهند.",
+      education: "حسن در دانشگاه لاهور گاریشون تحصیل می‌کند.",
+      contact: "می‌توانید از طریق بخش تماس با حسن ارتباط برقرار کنید.",
+      help: "می‌توانید درباره پیشینه یا مهارت‌های حسن سوال کنید.",
+      thanks: "خواهش می‌کنم! 😊",
+      fallback: "من می‌توانم به سوالات مربوط به پورتفولیوی حسن پاسخ دهم.",
+    },
+  },
+
+  nl: {
+    placeholder: "Typ je bericht...",
+    welcome: "Hoe kan ik je vandaag helpen?",
+    listening: "Luisteren... Spreek nu",
+    thinking: "Aan het denken...",
+    micUnsupported: "Spraakinvoer wordt niet ondersteund.",
+    assistant: "Hassan AI Assistant",
+    you: "Jij",
+    reset: "Nieuwe gesprek starten",
+    close: "Sluiten",
+    changeLanguage: "Taal wijzigen",
+    send: "Versturen",
+    speak: "Inspreken",
+    stopMic: "Microfoon stoppen",
+    replies: {
+      greeting: "Hallo! 👋 Welkom bij het portfolio van Hassan Ali.",
+      about: "Hassan Ali studeert Informatica in Lahore, Pakistan.",
+      skills: "Hassan werkt met HTML5, CSS3, JavaScript en React.js.",
+      projects: "Hassan's projecten tonen zijn webontwikkelingsreis.",
+      education: "Hassan studeert aan Lahore Garrison University.",
+      contact: "Je kunt contact opnemen via het contactgedeelte.",
+      help: "Je kunt vragen stellen over Hassan's vaardigheden.",
+      thanks: "Graag gedaan! 😊",
+      fallback: "Ik kan vragen beantwoorden over Hassan's portfolio.",
+    },
+  },
+
+  id: {
+    placeholder: "Ketik pesan Anda...",
+    welcome: "Ada yang bisa saya bantu hari ini?",
+    listening: "Mendengarkan... Bicara sekarang",
+    thinking: "Berpikir...",
+    micUnsupported: "Input suara tidak didukung di browser ini.",
+    assistant: "Hassan AI Assistant",
+    you: "Anda",
+    reset: "Mulai percakapan baru",
+    close: "Tutup",
+    changeLanguage: "Ubah bahasa",
+    send: "Kirim",
+    speak: "Bicara",
+    stopMic: "Hentikan mikrofon",
+    replies: {
+      greeting: "Halo! 👋 Selamat datang di portofolio Hassan Ali.",
+      about: "Hassan Ali adalah mahasiswa Ilmu Komputer di Lahore, Pakistan.",
+      skills: "Hassan bekerja dengan HTML5, CSS3, JavaScript, dan React.js.",
+      projects: "Proyek Hassan menampilkan perjalanan pengembangan webnya.",
+      education: "Hassan belajar di Lahore Garrison University.",
+      contact: "Anda dapat menghubungi Hassan melalui bagian kontak.",
+      help: "Anda dapat bertanya tentang latar belakang Hassan.",
+      thanks: "Sama-sama! 😊",
+      fallback: "Saya bisa menjawab pertanyaan tentang portofolio Hassan.",
+    },
+  },
+
+  ms: {
+    placeholder: "Taip mesej anda...",
+    welcome: "Bagaimana saya boleh membantu anda hari ini?",
+    listening: "Mendengar... Bercakap sekarang",
+    thinking: "Sedang berfikir...",
+    micUnsupported: "Input suara tidak disokong dalam penyemak imbas ini.",
+    assistant: "Hassan AI Assistant",
+    you: "Anda",
+    reset: "Mula perbualan baharu",
+    close: "Tutup",
+    changeLanguage: "Tukar bahasa",
+    send: "Hantar",
+    speak: "Bercakap",
+    stopMic: "Hentikan mikrofon",
+    replies: {
+      greeting: "Helo! 👋 Selamat datang ke portfolio Hassan Ali.",
+      about: "Hassan Ali ialah pelajar Sains Komputer di Lahore, Pakistan.",
+      skills: "Hassan bekerja dengan HTML5, CSS3, JavaScript dan React.js.",
+      projects: "Projek Hassan menunjukkan perjalanan pembangunan webnya.",
+      education: "Hassan belajar di Lahore Garrison University.",
+      contact: "Anda boleh menghubungi Hassan melalui bahagian hubungan.",
+      help: "Anda boleh bertanya tentang latar belakang Hassan.",
+      thanks: "Sama-sama! 😊",
+      fallback: "Saya boleh menjawab soalan mengenai portfolio Hassan.",
     },
   },
 };
@@ -582,7 +542,7 @@ function getReplyKey(message) {
   const text = message.toLowerCase().trim();
 
   if (
-    /^(hi|hello|hey|salam|assalam|aoa|hola|bonjour|hallo|ciao|olá|merhaba|안녕하세요)\b/.test(text) ||
+    /^(hi|hello|hey|salam|assalam|aoa)\b/.test(text) ||
     text.includes("السلام علیکم") ||
     text.includes("اسلام علیکم") ||
     text.includes("ہیلو")
@@ -593,18 +553,6 @@ function getReplyKey(message) {
   if (
     text.includes("thank") ||
     text.includes("shukriya") ||
-    text.includes("gracias") ||
-    text.includes("merci") ||
-    text.includes("danke") ||
-    text.includes("شكرا") ||
-    text.includes("谢谢") ||
-    text.includes("धन्यवाद") ||
-    text.includes("ありがとう") ||
-    text.includes("спасибо") ||
-    text.includes("obrigado") ||
-    text.includes("grazie") ||
-    text.includes("teşekkür") ||
-    text.includes("감사합니다") ||
     text.includes("شکریہ")
   ) {
     return "thanks";
@@ -616,18 +564,6 @@ function getReplyKey(message) {
     text.includes("introduce") ||
     text.includes("taaruf") ||
     text.includes("hassan kon") ||
-    text.includes("quien es") ||
-    text.includes("qui est") ||
-    text.includes("über hassan") ||
-    text.includes("من هو") ||
-    text.includes("关于哈桑") ||
-    text.includes("के बारे में") ||
-    text.includes("ハサンについて") ||
-    text.includes("о хасане") ||
-    text.includes("sobre hassan") ||
-    text.includes("su hassan") ||
-    text.includes("hakkında") ||
-    text.includes("하산 소개") ||
     text.includes("حسن کون") ||
     text.includes("تعارف")
   ) {
@@ -641,18 +577,6 @@ function getReplyKey(message) {
     text.includes("html") ||
     text.includes("react") ||
     text.includes("mongodb") ||
-    text.includes("habilidades") ||
-    text.includes("compétences") ||
-    text.includes("fähigkeiten") ||
-    text.includes("المهارات") ||
-    text.includes("技能") ||
-    text.includes("कौशल") ||
-    text.includes("スキル") ||
-    text.includes("навыки") ||
-    text.includes("competências") ||
-    text.includes("competenze") ||
-    text.includes("yetenekler") ||
-    text.includes("기술") ||
     text.includes("مہارت") ||
     text.includes("ہنر")
   ) {
@@ -663,18 +587,6 @@ function getReplyKey(message) {
     text.includes("project") ||
     text.includes("work") ||
     text.includes("portfolio") ||
-    text.includes("proyectos") ||
-    text.includes("projets") ||
-    text.includes("projekte") ||
-    text.includes("المشاريع") ||
-    text.includes("项目") ||
-    text.includes("प्रोजेक्ट्स") ||
-    text.includes("プロジェクト") ||
-    text.includes("проекты") ||
-    text.includes("projetos") ||
-    text.includes("progetti") ||
-    text.includes("projeler") ||
-    text.includes("프로젝트") ||
     text.includes("پروجیکٹ")
   ) {
     return "projects";
@@ -686,18 +598,6 @@ function getReplyKey(message) {
     text.includes("university") ||
     text.includes("degree") ||
     text.includes("taleem") ||
-    text.includes("educación") ||
-    text.includes("éducation") ||
-    text.includes("bildung") ||
-    text.includes("التعليم") ||
-    text.includes("教育") ||
-    text.includes("शिक्षा") ||
-    text.includes("学歴") ||
-    text.includes("образование") ||
-    text.includes("formação") ||
-    text.includes("formazione") ||
-    text.includes("eğitim") ||
-    text.includes("학력") ||
     text.includes("تعلیم")
   ) {
     return "education";
@@ -708,18 +608,6 @@ function getReplyKey(message) {
     text.includes("email") ||
     text.includes("hire") ||
     text.includes("rabta") ||
-    text.includes("contacto") ||
-    text.includes("contactez") ||
-    text.includes("kontakt") ||
-    text.includes("اتصال") ||
-    text.includes("联系") ||
-    text.includes("संपर्क") ||
-    text.includes("連絡先") ||
-    text.includes("контакты") ||
-    text.includes("contato") ||
-    text.includes("contatto") ||
-    text.includes("iletişim") ||
-    text.includes("연락처") ||
     text.includes("رابطہ")
   ) {
     return "contact";
@@ -728,11 +616,6 @@ function getReplyKey(message) {
   if (
     text.includes("help") ||
     text.includes("madad") ||
-    text.includes("ayuda") ||
-    text.includes("aide") ||
-    text.includes("hilfe") ||
-    text.includes("مساعدة") ||
-    text.includes("帮助") ||
     text.includes("مدد")
   ) {
     return "help";
@@ -768,8 +651,8 @@ export default function Chatbot() {
   const closeTimerRef = useRef(null);
   const mountedRef = useRef(false);
 
-  const current = CONTENT[language];
-  const isUrduOrArabic = language === "ur" || language === "ar";
+  const current = CONTENT[language] || CONTENT.en;
+  const isRtl = language === "ur" || language === "ar" || language === "fa";
 
   useEffect(() => {
     mountedRef.current = true;
@@ -812,7 +695,7 @@ export default function Chatbot() {
 
     if (messages.length === 0) {
       setMessages([
-        createMessage("bot", CONTENT[language].replies.greeting, "greeting"),
+        createMessage("bot", current.replies.greeting, "greeting"),
       ]);
     }
 
@@ -858,7 +741,7 @@ export default function Chatbot() {
     setMessage("");
 
     setMessages([
-      createMessage("bot", CONTENT[language].replies.greeting, "greeting"),
+      createMessage("bot", current.replies.greeting, "greeting"),
     ]);
   };
 
@@ -874,14 +757,16 @@ export default function Chatbot() {
 
     setIsListening(false);
 
+    const newContent = CONTENT[code] || CONTENT.en;
+
     setMessages((previous) =>
       previous.map((item) => {
         if (item.role === "bot" && item.replyKey) {
           return {
             ...item,
             text:
-              CONTENT[code].replies[item.replyKey] ||
-              CONTENT[code].replies.fallback,
+              newContent.replies[item.replyKey] ||
+              newContent.replies.fallback,
           };
         }
 
@@ -914,8 +799,7 @@ export default function Chatbot() {
         ...previous,
         createMessage(
           "bot",
-          CONTENT[language].replies[replyKey] ||
-            CONTENT[language].replies.fallback,
+          current.replies[replyKey] || current.replies.fallback,
           replyKey
         ),
       ]);
@@ -949,7 +833,17 @@ export default function Chatbot() {
 
     const recognition = new SpeechRecognition();
 
-    recognition.lang = language === "ur" ? "ur-PK" : `${language}-${language.toUpperCase()}`;
+    recognition.lang =
+      language === "ur"
+        ? "ur-PK"
+        : language === "ar"
+        ? "ar-SA"
+        : language === "es"
+        ? "es-ES"
+        : language === "fr"
+        ? "fr-FR"
+        : "en-US";
+
     recognition.continuous = false;
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
@@ -961,11 +855,7 @@ export default function Chatbot() {
     recognition.onresult = (event) => {
       let transcript = "";
 
-      for (
-        let i = event.resultIndex;
-        i < event.results.length;
-        i += 1
-      ) {
+      for (let i = event.resultIndex; i < event.results.length; i += 1) {
         transcript += event.results[i][0].transcript;
       }
 
@@ -1011,6 +901,7 @@ export default function Chatbot() {
           --hc-bot: #f1f4fb;
         }
 
+        /* Launcher Button */
         .hc-launcher {
           position: fixed;
           z-index: 9998;
@@ -1093,6 +984,7 @@ export default function Chatbot() {
           transform: scale(1) rotate(0deg);
         }
 
+        /* Chat Window */
         .hc-window {
           position: fixed;
           z-index: 9997;
@@ -1236,7 +1128,86 @@ export default function Chatbot() {
           position: relative;
           top: 0;
           transform: translateY(0) rotate(0deg);
-          transition: transform .3s ease, background .2s ease;
+          transition: transform .2s ease, background .2s ease;
+        }
+
+        .hc-close-button:hover,
+        .hc-close-button:active {
+          top: 0;
+          transform: translateY(0) rotate(90deg);
+        }
+
+        .hc-language-wrap {
+          position: relative;
+          flex-shrink: 0;
+        }
+
+        .hc-language-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          min-height: 32px;
+          padding: 0 7px;
+          color: white;
+          font-size: 11px;
+          white-space: nowrap;
+          border: 1px solid rgba(255,255,255,.25);
+          border-radius: 9px;
+          background: rgba(255,255,255,.13);
+          cursor: pointer;
+          transition: background .2s ease;
+        }
+
+        .hc-language-button:hover {
+          background: rgba(255,255,255,.23);
+        }
+
+        /* Modern Dropdown Menu Styling */
+        .hc-language-menu {
+          position: absolute;
+          z-index: 20;
+          top: 40px;
+          right: 0;
+          left: auto;
+          width: 150px;
+          max-height: 220px;
+          overflow-y: auto;
+          padding: 6px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 14px;
+          background: #12162b;
+          box-shadow: 0 16px 40px rgba(0,0,0,.45);
+          animation: hc-menu-in .15s ease both;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255,255,255,.2) transparent;
+        }
+
+        .hc-icon-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          width: 30px;
+          height: 32px;
+          padding: 0;
+          color: white;
+          border: 1px solid transparent;
+          border-radius: 10px;
+          background: transparent;
+          cursor: pointer;
+          transition: background .2s ease;
+        }
+
+        .hc-icon-button:hover {
+          background: rgba(255,255,255,.18);
+        }
+
+        .hc-close-button {
+          position: relative;
+          top: 0;
+          transform: translateY(0) rotate(0deg);
+          transition: transform .2s ease, background .2s ease;
         }
 
         .hc-close-button:hover,
@@ -1293,7 +1264,7 @@ export default function Chatbot() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 10px;
+          gap: 1px;
           padding: 9px 10px;
           color: var(--hc-text);
           font-size: 12px;
@@ -1308,6 +1279,16 @@ export default function Chatbot() {
         .hc-language-option.active {
           background: rgba(99,102,241,.15);
           color: #a5b4fc;
+        }
+
+        .hc-language-option:hover {
+          background: rgba(99, 102, 241, 0.15);
+          color: #a5b4fc;
+        }
+
+        .hc-language-option.active {
+          background: rgba(99, 102, 241, 0.28);
+          font-weight: 600;
         }
 
         .hc-feed {
@@ -1532,16 +1513,6 @@ export default function Chatbot() {
         @keyframes hc-spinner {
           to { transform: rotate(360deg); }
         }
-
-        @media (prefers-reduced-motion: reduce) {
-          .hc-root *,
-          .hc-root *::before,
-          .hc-root *::after {
-            animation-duration: .01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: .01ms !important;
-          }
-        }
       `}</style>
 
       <div className="hc-root" dir="ltr">
@@ -1629,11 +1600,11 @@ export default function Chatbot() {
               {messages.map((item) => {
                 const displayText =
                   item.role === "bot" && item.replyKey
-                    ? CONTENT[language].replies[item.replyKey] ||
-                      CONTENT[language].replies.fallback
+                    ? current.replies[item.replyKey] ||
+                      current.replies.fallback
                     : item.text;
 
-                const botTextIsRtl = item.role === "bot" && (language === "ur" || language === "ar");
+                const botTextIsRtl = item.role === "bot" && isRtl;
 
                 return (
                   <div
@@ -1649,8 +1620,8 @@ export default function Chatbot() {
                     <div className="hc-bubble-wrap">
                       <div
                         className="hc-message-name"
-                        dir={botTextIsRtl ? "rtl" : "ltr"}
-                        style={{ textAlign: botTextIsRtl ? "right" : "left" }}
+                        dir={isRtl ? "rtl" : "ltr"}
+                        style={{ textAlign: isRtl ? "right" : "left" }}
                       >
                         {item.role === "bot" ? current.assistant : current.you}
                       </div>
@@ -1685,8 +1656,8 @@ export default function Chatbot() {
                   <div className="hc-bubble-wrap">
                     <div
                       className="hc-message-name"
-                      dir={isUrduOrArabic ? "rtl" : "ltr"}
-                      style={{ textAlign: isUrduOrArabic ? "right" : "left" }}
+                      dir={isRtl ? "rtl" : "ltr"}
+                      style={{ textAlign: isRtl ? "right" : "left" }}
                     >
                       {current.assistant}
                     </div>
