@@ -49,7 +49,7 @@ const CONTENT = {
     stopMic: "Stop microphone",
     replies: {
       greeting:
-        "Hi! 👋 Welcome to Hassan Ali portfolio. I'm your virtual assistant. How can I help you?",
+        "Hi! 👋 Welcome to Hassan Ali Portfolio. I'm your virtual assistant. How can I help you?",
       about:
         "Hassan Ali is a BS Computer Science student at Lahore Garrison University in Lahore, Pakistan. He is learning full-stack web development and building modern, responsive websites.",
       skills:
