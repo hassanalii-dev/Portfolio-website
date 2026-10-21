@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 
 const stars = Array.from({ length: 34 }, (_, index) => ({
@@ -61,7 +62,7 @@ export default function LiveBackground() {
           isolation: isolate;
           pointer-events: none;
           background: #04040a;
-          transition: background-color .3s ease;
+          transition: background-color .35s ease;
         }
 
         /* DARK THEME */
@@ -121,7 +122,7 @@ export default function LiveBackground() {
           position: absolute;
           inset: 0;
           z-index: -4;
-          transition: background .3s ease;
+          transition: background .35s ease;
         }
 
         .site-portal-stars {
@@ -141,8 +142,7 @@ export default function LiveBackground() {
           animation: sitePortalStarFloat var(--star-time, 5s)
             ease-in-out infinite;
           animation-delay: var(--star-delay, 0s);
-          transition: background .3s ease, box-shadow .3s ease;
-          will-change: transform, opacity;
+          transition: background .35s ease, box-shadow .35s ease;
         }
 
         .site-portal-light .site-portal-star {
@@ -182,9 +182,8 @@ export default function LiveBackground() {
             black 22%,
             transparent 85%
           );
-          animation: sitePortalGridTravel 10s linear infinite;
-          transition: background-image .3s ease;
-          will-change: background-position;
+          animation: sitePortalGridTravel 12s linear infinite;
+          transition: background-image .35s ease;
         }
 
         .site-portal-light .site-portal-grid {
@@ -215,9 +214,8 @@ export default function LiveBackground() {
           );
           filter: blur(15px);
           transform: translate(-50%, -50%);
-          animation: sitePortalGlowBreath 6s ease-in-out infinite;
-          transition: background .3s ease;
-          will-change: transform, opacity;
+          animation: sitePortalGlowBreath 5s ease-in-out infinite;
+          transition: background .35s ease;
         }
 
         .site-portal-light .site-portal-glow {
@@ -232,12 +230,12 @@ export default function LiveBackground() {
         @keyframes sitePortalStarFloat {
           0%, 100% {
             opacity: .15;
-            transform: translate3d(0, 0, 0) scale(.8);
+            transform: translateY(0) scale(.8);
           }
 
           50% {
             opacity: .9;
-            transform: translate3d(0, -10px, 0) scale(1.3);
+            transform: translateY(-12px) scale(1.4);
           }
         }
 
@@ -259,7 +257,7 @@ export default function LiveBackground() {
 
           50% {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1.06);
+            transform: translate(-50%, -50%) scale(1.08);
           }
         }
 

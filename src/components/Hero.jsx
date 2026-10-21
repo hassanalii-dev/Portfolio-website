@@ -322,7 +322,9 @@ export default function Hero() {
             <a
   href="/Hassan-Ali-CV.pdf"
   download="Hassan-Ali-CV.pdf"
-  className={`group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 text-sm font-semibold backdrop-blur-md transition duration-200 hover:-translate-y-0.5 hover:border-indigo-400/50 hover:bg-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6 ${theme.secondaryButton}`}>
+  className={`group inline-flex min-h-[50px] items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 text-sm font-semibold backdrop-blur-md transition duration-200 hover:-translate-y-0.5 hover:border-indigo-400/50 hover:bg-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 motion-reduce:transform-none sm:px-6 ${theme.secondaryButton}`}
+>
+
               <Download
                 size={18}
               />
