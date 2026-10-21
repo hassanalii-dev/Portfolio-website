@@ -9,7 +9,7 @@ import {
 const words = [
   "Freelancer & Developer",
   "Full Stack Web Developer",
-  "Future BSCS Student",
+  "BSCS Student",
   "Web Developer",
 ];
 
