@@ -514,22 +514,34 @@ export default function Hero() {
         }
 
         .hero-card-float {
-          opacity: 0;
-          transform: translate3d(0, 20px, 0);
-          transition:
-            opacity 500ms ease-out,
-            transform 500ms ease-out;
-        }
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
 
-        .hero-card-float.hero-card-visible {
-          opacity: 1;
-          transform: translate3d(0, 0, 0);
-        }
+.hero-card-float.hero-card-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  animation: heroCardFloat 7s ease-in-out infinite;
+}
 
-        .hero-card-float.hero-card-hidden {
-          opacity: 0;
-          transform: translate3d(0, 20px, 0);
-        }
+.hero-card-float.hero-card-hidden {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  animation: none;
+}
+
+@keyframes heroCardFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
 
         @keyframes heroOrbFloat {
           from {
