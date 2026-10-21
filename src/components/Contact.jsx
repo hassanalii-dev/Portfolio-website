@@ -658,10 +658,7 @@ export default function Contact() {
                           className="contact-send-icon"
                         />
                         Send Message
-                        <ArrowUpRight
-                          size={17}
-                          className="contact-submit-arrow"
-                        />
+
                       </>
                     )}
                   </button>
