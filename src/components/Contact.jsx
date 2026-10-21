@@ -208,7 +208,7 @@ export default function Contact() {
 
     try {
       const response = await fetch(
-        "https://formsubmit.co/ajax/hassanali085870@gmail.com",
+        "https://formsubmit.co/ajax/ha8881875@gmail.com",
         {
           method: "POST",
           body: formData,
@@ -256,7 +256,7 @@ export default function Contact() {
   const contactDetails = [
     {
       title: "Email Address",
-      value: "hassanali085870@gmail.com",
+      value: "ha8881875@gmail.com",
       icon: Mail,
     },
     {
@@ -477,7 +477,7 @@ export default function Contact() {
                   </a>
 
                   <a
-                    href="mailto:hassanali085870@gmail.com"
+                    href="mailto:ha8881875@gmail.com"
                     aria-label="Email me"
                     title="Email me"
                     className={socialClass}
