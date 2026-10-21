@@ -524,7 +524,7 @@ export default function Hero() {
 .hero-card-float.hero-card-visible {
   opacity: 1;
   transform: translate3d(0, 0, 0);
-  animation: heroCardFloat 7s ease-in-out infinite;
+  animation: heroCardFloat 5s ease-in-out infinite;
 }
 
 .hero-card-float.hero-card-hidden {
