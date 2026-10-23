@@ -55,17 +55,17 @@ const CONTENT = {
       skills:
         "Hassan works with HTML5, CSS3, JavaScript and React.js. He is also learning Node.js, backend development and MongoDB.",
       projects:
-        "Hassan's portfolio showcases his web development journey. His projects include a modern portfolio, an e-commerce website concept and a full-stack web application and other many projects. You can see his all projects in his work section.",
+        "Hassan Ali portfolio showcases his web development journey. His projects include a modern portfolio, an e-commerce website concept and a full-stack web application and other many projects. You can see his all projects in his work section.",
       education:
         "Hassan is studying BS Computer Science at Lahore Garrison University. He completed Intermediate ICS with Physics at Government Islamia Graduate College, Civil Lines, Lahore. He is also learning full-stack development at NexSkill, Arfa Tower, Lahore.",
       contact:
         "You can contact Hassan through the Contact section of this portfolio. Use the available contact details and social links.",
       help:
-        "You can ask about Hassan's background, education, skills, projects or web development.",
+        "You can ask about Hassan Ali background, education, skills, projects or web development.",
       thanks:
-        "You're welcome! 😊 Feel free to ask anything else about Hassan's portfolio.",
+        "You're welcome! 😊 Feel free to ask anything else about Hassan Ali portfolio.",
       fallback:
-        "I can answer questions about Hassan's portfolio, skills, education and projects. So kindly ask me about these questions.",
+        "I can answer questions about Hassan Ali portfolio, skills, education and projects. So kindly ask me about these questions.",
     },
   },
 
@@ -474,12 +474,12 @@ const CONTENT = {
       greeting: "Hallo! 👋 Welkom bij het portfolio van Hassan Ali.",
       about: "Hassan Ali studeert Informatica in Lahore, Pakistan.",
       skills: "Hassan werkt met HTML5, CSS3, JavaScript en React.js.",
-      projects: "Hassan's projecten tonen zijn webontwikkelingsreis.",
+      projects: "Hassan Ali projecten tonen zijn webontwikkelingsreis.",
       education: "Hassan studeert aan Lahore Garrison University.",
       contact: "Je kunt contact opnemen via het contactgedeelte.",
-      help: "Je kunt vragen stellen over Hassan's vaardigheden.",
+      help: "Je kunt vragen stellen over Hassan Ali vaardigheden.",
       thanks: "Graag gedaan! 😊",
-      fallback: "Ik kan vragen beantwoorden over Hassan's portfolio.",
+      fallback: "Ik kan vragen beantwoorden over Hassan Ali portfolio.",
     },
   },
 
@@ -1524,7 +1524,7 @@ export default function Chatbot() {
               isClosing ? "hc-closing" : "",
             ].join(" ")}
             role="dialog"
-            aria-label="Hassan's AI Assistant"
+            aria-label="Hassan Ali AI Assistant"
             aria-hidden={!isOpen}
           >
             <header className="hc-header">
@@ -1534,7 +1534,7 @@ export default function Chatbot() {
                 </div>
 
                 <div className="hc-heading">
-                  <h3>Hassan's AI Assistant</h3>
+                  <h3>Hassan AI Assistant</h3>
                   <p>
                     <span className="hc-online" />
                     Online
@@ -1731,8 +1731,8 @@ export default function Chatbot() {
             isOpen && !isClosing ? "hc-launcher-open" : ""
           }`}
           onClick={isOpen ? closeChat : openChat}
-          aria-label={isOpen ? current.close : "Hassan's AI Assistant"}
-          title={isOpen ? current.close : "Hassan's AI Assistant"}
+          aria-label={isOpen ? current.close : "Hassan Ali AI Assistant"}
+          title={isOpen ? current.close : "Hassan Ali AI Assistant"}
         >
           <span className="hc-launcher-symbol">
             <Bot
